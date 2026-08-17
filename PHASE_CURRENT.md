@@ -12,8 +12,8 @@ pipeline de carga y transformaciones sincronizadas para ejecutarse con PyTorch e
 
 ### Tareas
 
-- [~] Verificar si existe un split oficial aplicable específicamente a Kvasir-SEG
-- [ ] Definir semilla, proporciones, estratos de tamaño y reglas contra leakage
+- [x] Verificar si existe un split oficial aplicable específicamente a Kvasir-SEG
+- [x] Definir semilla, proporciones, estratos de tamaño y reglas contra leakage
 - [ ] Implementar generación determinista de splits desde el manifest
 - [ ] Validar conteos, exclusividad, cobertura y distribución de los splits
 - [ ] Definir configuración versionada de datos y transformaciones
@@ -33,3 +33,9 @@ pipeline de carga y transformaciones sincronizadas para ejecutarse con PyTorch e
   permanecer completos dentro de un único split.
 - El split se generará localmente sin PyTorch; Dataset, DataLoader y augmentations se
   ejecutarán y validarán en CEDIA.
+- Los folds oficiales cubren los 10.662 ejemplos etiquetados de clasificación y no
+  constituyen un split train/validation/test específico para Kvasir-SEG.
+- Se adopta una partición 70/15/15 con semilla `20260817` y estratificación determinista
+  por tamaño relativo del pólipo.
+- La falta de identificadores de paciente o procedimiento impide garantizar separación
+  clínica y se documentará como limitación del estudio.
