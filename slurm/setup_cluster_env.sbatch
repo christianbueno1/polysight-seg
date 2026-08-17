@@ -18,9 +18,8 @@ cd "${SLURM_SUBMIT_DIR}"
 
 python -m venv --system-site-packages .venv-cluster
 source .venv-cluster/bin/activate
-# El módulo exporta un PYTHONPATH que precede al site-packages del virtualenv.
-# El entorno conserva acceso a PyTorch mediante --system-site-packages.
-unset PYTHONPATH
+# Priorizar paquetes fijados del virtualenv sin ocultar PyTorch provisto por el módulo.
+export PYTHONPATH="${VIRTUAL_ENV}/lib/python3.11/site-packages:${PYTHONPATH:-}"
 python -m pip install --upgrade pip
 python -m pip install -e .
 python -m pip check
@@ -33,6 +32,9 @@ echo "=== runtime ==="
 python --version
 python - <<'PY'
 import torch
+
+if "/pytorch/2.2/" not in torch.__file__:
+    raise SystemExit(f"PyTorch no proviene del módulo de CEDIA: {torch.__file__}")
 
 print(f"torch={torch.__version__}")
 print(f"torch_cuda={torch.version.cuda}")
