@@ -2,6 +2,39 @@
 
 ---
 
+## 2026-08-17 14:30 -0500 — Fase 4: smoke tests GPU y datos completados
+
+**Hecho:**
+- Añadido un job `cpu-dev` para reconstruir y validar dataset, manifest y splits desde
+  el ZIP original almacenado fuera de Git.
+- Corregidos los jobs smoke para priorizar las dependencias fijadas del virtualenv sin
+  ocultar el PyTorch suministrado por el módulo de CEDIA.
+- Ejecutado el smoke GPU `23294` con una A100-SXM4-40GB y forward/backward real.
+- Reproducidos los datos mediante el job `23295` y ejecutado el smoke del pipeline
+  `23296` para train, validation y test.
+
+**Decisiones:**
+- La combinación efectiva PyTorch 2.10.0+cu128, driver 535.161.08 y A100 se acepta porque
+  el smoke GPU verificó CUDA, cuDNN, asignación de dispositivo y cálculo real.
+- `pin_memory=true` se mantiene para entrenamiento GPU; su advertencia en el smoke CPU
+  es esperada y no representa un fallo del pipeline.
+- No se actualiza Albumentations desde 1.4.24: la versión directa permanece fijada para
+  conservar reproducibilidad aunque la librería anuncie una versión posterior.
+
+**Resultados:**
+- Job `23294`: `COMPLETED`, 9 s, A100-SXM4-40GB, `status=ok`, pérdida
+  0.2901759743690491, PyTorch 2.10.0+cu128 y cuDNN 91002.
+- Job `23295`: `COMPLETED`, 21 s, 1.000 pares y splits 700/150/150.
+- Job `23296`: `COMPLETED`, 9 s, batches `[8,3,256,256]` y máscaras
+  `[8,1,256,256]` para los tres splits.
+- SHA-256 reproducidos: manifest `35ddd003e5ec95817761c2e4de40c1c4274fc7ec43f7690d8b30aedee7019fd4`
+  y splits `85fe68a5b241f880a80d1476fdffcff88ae5b5e51c0adbe690cce023cbfe13f9`.
+
+**Pendiente / carry-over:**
+- Crear la configuración versionada del baseline U-Net/ResNet-34.
+
+---
+
 ## 2026-08-17 13:48 -0500 — Fase 4: entorno Python preparado mediante Slurm
 
 **Hecho:**

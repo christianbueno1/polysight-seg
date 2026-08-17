@@ -14,7 +14,7 @@ un pipeline de datos reproducible. PyTorch se ejecuta exclusivamente en CEDIA.
 
 - [x] Sincronizar repositorio y dataset en CEDIA
 - [x] Preparar `.venv-cluster` y registrar versiones efectivas de dependencias
-- [ ] Ejecutar los smoke tests GPU y del pipeline de datos en CEDIA
+- [x] Ejecutar los smoke tests GPU y del pipeline de datos en CEDIA
 - [ ] Crear configuración versionada del baseline U-Net/ResNet-34
 - [ ] Implementar la factoría del modelo con entrada RGB y salida de un canal
 - [ ] Implementar pérdida combinada BCEWithLogits + Dice
@@ -48,3 +48,11 @@ un pipeline de datos reproducible. PyTorch se ejecuta exclusivamente en CEDIA.
   nombre del módulo debe validarse contra el driver y la GPU mediante el smoke test.
 - El `PYTHONPATH` exportado por el módulo debe conservarse detrás del `site-packages`
   del virtualenv para usar PyTorch de CEDIA sin eclipsar las dependencias fijadas.
+- Smoke GPU `23294`: `COMPLETED` con A100-SXM4-40GB, CUDA disponible, forward/backward
+  correcto y pérdida 0.2901759743690491.
+- El driver NVIDIA 535.161.08 reporta CUDA 12.2, pero PyTorch 2.10.0+cu128 completó el
+  smoke GPU; la combinación efectiva funciona en el nodo asignado.
+- Preparación de datos `23295`: 1.000 pares y hashes de manifest/splits idénticos a
+  los locales; smoke del pipeline `23296`: `status=ok` para 700/150/150 muestras.
+- En jobs CPU, la advertencia de `pin_memory` sin acelerador es esperada y no afecta el
+  contrato del pipeline; en entrenamiento GPU sí podrá fijar memoria para transferencias.
