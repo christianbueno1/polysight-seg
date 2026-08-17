@@ -2,6 +2,31 @@
 
 ---
 
+## 2026-08-17 18:51 -0500 — Fase 5: referencia reutilizable de MLflow y matrices
+
+**Hecho:**
+- Ampliada `docs/mlflow-guide.md` como referencia general para futuros experimentos.
+- Documentados datos fuente, matrices crudas/normalizadas, métricas por muestra,
+  probabilidades, umbrales y formatos editables de figuras.
+- Añadida una tabla de problemas frecuentes y medidas preventivas basada en incidentes
+  experimentales ya observados.
+
+**Decisiones:**
+- Los conteos y archivos tabulares son la fuente canónica; las figuras son derivados
+  regenerables y nunca la única evidencia.
+- Ante desbalance, la vista principal de la matriz se normaliza por clase real y se
+  acompaña siempre por conteos absolutos y métricas apropiadas al problema.
+- SVG/PDF editables y PNG de alta resolución se generan desde una configuración visual
+  versionada con contraste y layout adaptativos.
+- Para cambiar umbrales sin repetir inferencia deben conservarse probabilidades o logits
+  del checkpoint seleccionado, además del umbral aplicado.
+
+**Pendiente / carry-over:**
+- Incorporar TP, FP, FN y TN al contrato de tracking del entrenamiento actual.
+- Fijar la dependencia de MLflow y validar `.venv-cluster` en CEDIA.
+
+---
+
 ## 2026-08-17 18:16 -0500 — Fase 5: diseño de tracking con MLflow
 
 **Hecho:**
