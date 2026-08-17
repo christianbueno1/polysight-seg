@@ -2,6 +2,36 @@
 
 ---
 
+## 2026-08-17 11:58 -0500 — Fase 2: Kvasir-SEG preparado y validado
+
+**Hecho:**
+- Registrados tamaño, SHA-256, procedencia oficial y condiciones de uso del ZIP.
+- Implementada y ejecutada una extracción segura, atómica e idempotente.
+- Validados los 1.000 pares, bounding boxes, UUID, JPEG y dimensiones.
+- Definida la binarización reproducible de máscaras JPEG con umbral 128.
+- Generado un manifest determinista con hashes, dimensiones y fracción de pólipo.
+- Confirmada la ausencia de duplicados binarios exactos dentro del subconjunto.
+- Añadidas pruebas ligeras y documentación para reproducir los datos en CEDIA.
+- Creado material explicativo de binarización en `docs/presentacion.md`.
+
+**Decisiones:**
+- Los archivos originales permanecen inmutables y excluidos de Git.
+- La binarización usa `valor >= 128` como pólipo y no materializa nuevas máscaras.
+- Los bounding boxes usan límites máximos exclusivos.
+- Los splits se construirán desde el manifest durante la Fase 3.
+
+**Resultados:**
+- Fuente SHA-256: `4463011f991dcdc74ec56399788b1a93822593f17ed18a662bdeb7392ffcdd9a`.
+- Manifest SHA-256: `35ddd003e5ec95817761c2e4de40c1c4274fc7ec43f7690d8b30aedee7019fd4`.
+- 1.000 pares válidos, 0 corruptos y 0 grupos duplicados exactos.
+- Las siete pruebas locales finalizaron correctamente sin PyTorch.
+
+**Pendiente / carry-over:**
+- Transferir el ZIP a CEDIA y comprobar allí los hashes reproducibles.
+- Crear splits deterministas y el pipeline de datos en la Fase 3.
+
+---
+
 ## 2026-08-17 11:19 -0500 — Fase 1: Base reproducible completada
 
 **Hecho:**

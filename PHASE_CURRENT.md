@@ -1,47 +1,56 @@
 # PHASE_CURRENT
 
-## Fase 1 — Base reproducible del repositorio y entorno Python
+## Fase 2 — Adquisición, validación y manifest de Kvasir-SEG
 
-**Objetivo:** Establecer una estructura reproducible para desarrollar localmente y
-ejecutar PyTorch exclusivamente en el clúster HPC de CEDIA.
+**Objetivo:** Incorporar Kvasir-SEG mediante un proceso seguro, idempotente y trazable,
+validar cada par imagen–máscara y generar un manifest reproducible sin versionar los
+datos binarios.
 
-**Contexto:** Ver `docs/execution-environments.md`,
-`docs/cedia-cluster-guide.md` y `docs/segmentation-project-guide.md`.
+**Contexto:** El archivo fuente está disponible en
+`/home/chris/Downloads/hyper-kvasir-segmented-images.zip`. Ver
+`docs/segmentation-project-guide.md` para las reglas del dataset.
 
 ---
 
 ### Tareas
 
-- [x] Documentar la separación entre el entorno local y CEDIA HPC
-- [x] Fijar la versión compatible de Python en la configuración del proyecto
-- [x] Definir dependencias reproducibles sin instalarlas en el equipo local
-- [x] Crear la estructura inicial de código, configuración, scripts Slurm y pruebas
-- [x] Preparar un smoke test de PyTorch y CUDA para un nodo GPU de CEDIA
-- [x] Añadir comandos de validación local que no dependan de PyTorch
-- [x] Documentar la preparación y verificación del entorno en CEDIA
-- [x] Validar la estructura y los archivos de configuración de la fase
+- [x] Registrar tamaño y SHA-256 del archivo fuente sin modificarlo
+- [x] Confirmar estructura interna, procedencia, licencia y citas aplicables
+- [x] Implementar extracción segura e idempotente bajo `data/raw/`
+- [x] Validar archivos corruptos, nombres y correspondencia de los 1.000 pares
+- [x] Validar dimensiones y binarización explícita de máscaras JPEG
+- [x] Calcular hashes, duplicados exactos y porcentaje de píxeles de pólipo
+- [x] Generar manifest y resumen reproducibles bajo `data/processed/`
+- [x] Añadir pruebas ligeras para la lógica de validación de datos
+- [x] Documentar transferencia y reproducción del dataset en CEDIA
+- [x] Ejecutar la validación completa y registrar resultados
 
 ---
 
 ### Notas y decisiones
 
-- El equipo local se reserva para Git, edición, documentación y validaciones ligeras.
-- PyTorch no se instalará ni ejecutará localmente.
-- Entrenamiento, evaluación acelerada y smoke tests de PyTorch se ejecutarán mediante
-  Slurm en CEDIA HPC.
-- Se mantiene Python 3.11 por compatibilidad con los módulos observados en CEDIA.
-- PyTorch 2.2 será provisto por el módulo de CEDIA y no se declara para descarga desde
-  PyPI.
-- Las dependencias directas quedan fijadas; sus versiones transitivas se registrarán
-  después de validar la instalación dentro de CEDIA.
-- El archivo `hyper-kvasir-segmented-images.zip` ya está disponible localmente en
-  `/home/chris/Downloads/`; su incorporación y validación corresponden a la Fase 2.
-- Los directorios de datos y artefactos generados se excluyen de Git.
-- El smoke test comprueba CUDA con un forward/backward real y falla explícitamente si
-  el trabajo no recibe una GPU; su ejecución queda pendiente en CEDIA.
-- `scripts/validate_local.sh` centraliza comprobaciones ligeras y rechaza imports de
-  PyTorch dentro del código destinado a validación local.
-- El intérprete local puede ser posterior a 3.11 para comprobaciones estáticas; la
-  restricción `>=3.11,<3.12` se verifica como metadato y se aplica al entorno de CEDIA.
-- La preparación en CEDIA exige verificar módulos antes de instalar, conservar evidencia
-  del entorno y ejecutar el smoke test mediante Slurm.
+- El ZIP fuente y los datos extraídos permanecen fuera de Git.
+- No se crearán splits durante esta fase; pertenecen a la Fase 3.
+- El archivo descargado se tratará como inmutable y toda transformación se escribirá en
+  rutas separadas.
+- El ZIP contiene 1.000 imágenes, 1.000 máscaras, un JSON, ninguna ruta insegura y pasa
+  la prueba de integridad.
+- El usuario confirmó que descargó la copia desde el portal oficial de Simula:
+  `https://datasets.simula.no/hyper-kvasir/`.
+- La extracción valida rutas, enlaces, duplicados y tamaño antes de publicar los datos
+  atómicamente; un marcador con SHA-256 permite repetir el comando sin cambios.
+- La validación decodifica los JPEG completos y exige 1.000 UUID compartidos entre
+  imágenes, máscaras y bounding boxes con coordenadas válidas.
+- Los límites `xmax` y `ymax` del JSON se interpretan como exclusivos porque el dataset
+  contiene valores iguales al ancho o alto de la imagen.
+- Las máscaras se convierten a escala de grises y se binarizan con `valor >= 128`; cada
+  máscara debe conservar al menos un píxel de fondo y uno de pólipo.
+- El manifest se ordena por UUID, usa rutas relativas y no incluye timestamps para que
+  su contenido sea reproducible a partir del mismo archivo fuente.
+- Los grupos de duplicados exactos se definen usando el SHA-256 del JPEG original.
+- Las pruebas locales cubren el límite exacto de binarización, la idempotencia de la
+  extracción y el rechazo de rutas ZIP con traversal.
+- En CEDIA se transfiere el ZIP original y se reconstruyen los datos; los hashes del
+  archivo fuente, manifest y resumen permiten comprobar que el resultado sea idéntico.
+- La validación final local terminó con estado `ok`; sus métricas y hashes quedaron en
+  `docs/dataset-validation-report.md`.
