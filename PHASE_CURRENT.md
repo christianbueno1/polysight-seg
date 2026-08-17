@@ -21,7 +21,7 @@ un pipeline de datos reproducible. PyTorch se ejecuta exclusivamente en CEDIA.
 - [x] Implementar métricas Dice, IoU, precisión y recall por píxel
 - [x] Añadir pruebas de contratos que puedan ejecutarse sin GPU
 - [x] Preparar y ejecutar smoke test forward/backward del baseline en CEDIA
-- [ ] Documentar arquitectura, parámetros, resultados y preguntas para la presentación
+- [x] Documentar arquitectura, parámetros, resultados y preguntas para la presentación
 
 ---
 

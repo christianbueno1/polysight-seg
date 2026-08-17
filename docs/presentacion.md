@@ -225,3 +225,65 @@ En el contexto de las redes neuronales y la segmentación de imágenes, el mejor
 ¿Qué significan los valores?
 Valor cercano a 0: Es el valor ideal. Significa que la predicción del modelo y la etiqueta real se superponen casi por completo (hay un acierto perfecto).
 Valor cercano a 1: Es un mal resultado. Indica que no hay coincidencia ni superposición entre el objeto predicho y el real.
+
+---
+
+## Baseline U-Net con encoder ResNet-34
+
+### Cómo explicarlo durante la exposición
+
+El baseline recibe una imagen RGB de `256 × 256` y produce un mapa de logits de un
+canal con la misma resolución. U-Net combina dos recorridos:
+
+1. **Encoder ResNet-34:** extrae características desde bordes y texturas hasta patrones
+   de mayor nivel. Comienza con pesos aprendidos en ImageNet.
+2. **Decoder U-Net:** recupera progresivamente la resolución y combina información del
+   encoder mediante conexiones de salto para localizar mejor los bordes del pólipo.
+
+La salida no incluye sigmoid. Durante la pérdida usamos los logits directamente y,
+para calcular métricas o generar una máscara, aplicamos sigmoid y umbral inicial `0.5`.
+
+### Parámetros principales
+
+- Arquitectura: U-Net.
+- Encoder: ResNet-34 preentrenado en ImageNet.
+- Entrada: `[B, 3, 256, 256]`.
+- Salida: `[B, 1, 256, 256]`.
+- Parámetros entrenables: `24.436.369`.
+- Pérdida: `BCEWithLogitsLoss + Dice loss`, con pesos `1.0 + 1.0`.
+- Métricas: Dice, IoU, precisión y recall por píxel.
+
+### Resultado de validación técnica
+
+En una A100 de 40 GB se ejecutó un batch real de ocho imágenes con pesos ImageNet:
+
+- forward y backward completados sin errores;
+- logits y gradientes finitos;
+- forma de salida correcta;
+- pérdida inicial `1,3424`;
+- memoria GPU pico aproximada: `908 MiB`.
+
+Este resultado demuestra que el baseline puede entrenarse en CEDIA. La pérdida y las
+métricas de este batch pertenecen a un modelo sin entrenar y no miden su calidad final.
+
+### Preguntas de la audiencia y respuestas
+
+#### ¿Por qué usar U-Net?
+
+Porque fue diseñada para segmentación y combina contexto con localización precisa. Es
+un baseline conocido, comprensible y adecuado para un dataset pequeño.
+
+#### ¿Por qué usar ResNet-34?
+
+Ofrece un equilibrio razonable entre capacidad y coste. Es suficientemente profunda
+para extraer características útiles sin comenzar con un encoder excesivamente grande.
+
+#### ¿Por qué comenzar con pesos ImageNet?
+
+Porque transfieren características visuales generales y reducen la necesidad de
+aprender todo desde cero con solo 700 imágenes de entrenamiento.
+
+#### ¿Las métricas del smoke test son el resultado del modelo?
+
+No. Solo verifican que datos, arquitectura, pérdida, métricas y gradientes funcionan
+juntos. El rendimiento se medirá después del entrenamiento y la selección por validation.

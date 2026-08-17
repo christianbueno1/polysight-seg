@@ -2,6 +2,26 @@
 
 ---
 
+## 2026-08-17 18:09 -0500 — Fase 4: baseline documentado para exposición
+
+**Hecho:**
+- Añadida a `docs/presentacion.md` la explicación del encoder, decoder, conexiones de
+  salto, logits y flujo de postprocesamiento.
+- Documentados parámetros, pérdida, métricas y evidencia del smoke GPU real.
+- Añadidas respuestas breves sobre U-Net, ResNet-34, pesos ImageNet y la interpretación
+  correcta de las métricas previas al entrenamiento.
+
+**Decisiones:**
+- La presentación distingue explícitamente preparación técnica de rendimiento
+  experimental para no presentar el smoke como resultado de entrenamiento.
+- Se informa el pico observado de aproximadamente 908 MiB solo como referencia del
+  batch diagnóstico, no como estimación definitiva del entrenamiento completo.
+
+**Pendiente / carry-over:**
+- Cerrar la Fase 4 e iniciar la Fase 5 de entrenamiento reproducible con MLflow.
+
+---
+
 ## 2026-08-17 18:03 -0500 — Fase 4: smoke GPU del baseline real
 
 **Hecho:**
