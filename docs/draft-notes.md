@@ -61,3 +61,12 @@ Y una diferencia importante: `A100-SXM4-40GB` **no significa que CUDA tenga 40 G
 ### Clases
 ❯ cat configs/models/unet-resnet34.yaml
 ¿Qué probabilidad hay de que este píxel pertenezca al pólipo?
+
+### BCE
+agrragar formula en linea $\text{BCE} = -[y \log(\hat{y}) + (1 - y) \log(1 - \hat{y})]$, formula en linea.
+
+The Binary Cross-Entropy (BCE) formula, also known as log loss, measures the performance of a machine learning model whose output is a probability value between 0 and 1. For a single data point, the formula is 
+$$
+\text{BCE} = -[y \log(\hat{y}) + (1 - y) \log(1 - \hat{y})]
+$$
+where y is the true label (0 or 1) and ŷ is the predicted probability.
