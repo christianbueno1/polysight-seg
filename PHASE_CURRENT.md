@@ -17,7 +17,7 @@ un pipeline de datos reproducible. PyTorch se ejecuta exclusivamente en CEDIA.
 - [x] Ejecutar los smoke tests GPU y del pipeline de datos en CEDIA
 - [x] Crear configuración versionada del baseline U-Net/ResNet-34
 - [x] Implementar la factoría del modelo con entrada RGB y salida de un canal
-- [ ] Implementar pérdida combinada BCEWithLogits + Dice
+- [x] Implementar pérdida combinada BCEWithLogits + Dice
 - [ ] Implementar métricas Dice, IoU, precisión y recall por píxel
 - [ ] Añadir pruebas de contratos que puedan ejecutarse sin GPU
 - [ ] Preparar y ejecutar smoke test forward/backward del baseline en CEDIA
@@ -60,3 +60,5 @@ un pipeline de datos reproducible. PyTorch se ejecuta exclusivamente en CEDIA.
   hiperparámetros de entrenamiento y mantiene la activación fuera de la red.
 - La factoría valida el contrato antes de construir y realiza el import pesado de
   `segmentation_models_pytorch` de forma diferida para no requerir PyTorch localmente.
+- La pérdida suma BCEWithLogits y Dice con pesos 1.0/1.0; Dice se calcula por muestra
+  desde sigmoid y usa suavizado `1e-7` para estabilidad numérica.

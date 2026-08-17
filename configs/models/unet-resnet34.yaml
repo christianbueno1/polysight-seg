@@ -19,3 +19,9 @@ output:
   shape: [1, 256, 256]
   postprocessing: sigmoid_then_threshold
   initial_threshold: 0.5
+
+loss:
+  name: bce_dice
+  bce_weight: 1.0
+  dice_weight: 1.0
+  smooth: 1.0e-7

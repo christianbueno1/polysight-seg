@@ -2,6 +2,28 @@
 
 ---
 
+## 2026-08-17 17:03 -0500 — Fase 4: pérdida BCE + Dice implementada
+
+**Hecho:**
+- Implementadas `DiceLoss`, `BCEDiceLoss` y la factoría `build_loss`.
+- Añadidos al YAML los pesos de BCE/Dice y el suavizado numérico.
+- Validados sintaxis, configuración y las nueve comprobaciones locales sin PyTorch.
+
+**Decisiones:**
+- BCE y Dice se suman con pesos iniciales 1.0 y 1.0 para conservar una referencia
+  simple y explícita antes de cualquier ajuste experimental.
+- Dice aplica sigmoid a los logits, reduce por muestra sobre canal y espacio y luego
+  promedia el batch.
+- Se usa `smooth=1e-7` para evitar división por cero sin alterar materialmente el valor.
+- Las formas de logits y targets deben coincidir; los targets se convierten al dtype de
+  los logits antes del cálculo.
+
+**Pendiente / carry-over:**
+- Implementar Dice, IoU, precision y recall por píxel.
+- Validar numéricamente pérdida y gradientes en las pruebas de contratos sin GPU.
+
+---
+
 ## 2026-08-17 16:49 -0500 — Fase 4: pérdidas explicadas para la presentación
 
 **Hecho:**
