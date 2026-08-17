@@ -14,7 +14,18 @@ for job_file in slurm/*.sbatch; do
     bash -n "${job_file}"
 done
 
-if rg -n '^\s*(from|import) torch' src main.py tests; then
+local_safe_paths=(
+    main.py
+    tests
+    src/polysight_seg/__init__.py
+    src/polysight_seg/cli.py
+    src/polysight_seg/data/archive.py
+    src/polysight_seg/data/manifest.py
+    src/polysight_seg/data/masks.py
+    src/polysight_seg/data/splits.py
+    src/polysight_seg/data/validate.py
+)
+if rg -n '^\s*(from|import) torch' "${local_safe_paths[@]}"; then
     echo "El código validado localmente no debe importar PyTorch" >&2
     exit 1
 fi

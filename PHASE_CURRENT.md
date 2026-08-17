@@ -19,7 +19,7 @@ pipeline de carga y transformaciones sincronizadas para ejecutarse con PyTorch e
 - [x] Definir configuración versionada de datos y transformaciones
 - [x] Implementar Dataset y DataLoader de segmentación para CEDIA
 - [x] Implementar transformaciones sincronizadas de imagen y máscara
-- [ ] Añadir pruebas locales para la lógica independiente de PyTorch
+- [x] Añadir pruebas locales para la lógica independiente de PyTorch
 - [ ] Preparar un smoke test del pipeline de datos para Slurm
 - [ ] Documentar y registrar los resultados reproducibles de la fase
 
@@ -51,3 +51,5 @@ pipeline de carga y transformaciones sincronizadas para ejecutarse con PyTorch e
 - El Dataset selecciona UUID exclusivamente desde `splits.csv`, devuelve tensores
   `image [3,H,W]` y `mask [1,H,W]` y comprueba que la máscara siga siendo binaria.
 - El DataLoader inicializa semillas por worker y solo mezcla el split de train.
+- Las pruebas locales confirman que reordenar el manifest no altera las asignaciones y
+  que los miembros de un grupo duplicado permanecen en el mismo split.
