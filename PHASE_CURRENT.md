@@ -22,7 +22,7 @@ datos binarios.
 - [x] Calcular hashes, duplicados exactos y porcentaje de píxeles de pólipo
 - [x] Generar manifest y resumen reproducibles bajo `data/processed/`
 - [x] Añadir pruebas ligeras para la lógica de validación de datos
-- [ ] Documentar transferencia y reproducción del dataset en CEDIA
+- [x] Documentar transferencia y reproducción del dataset en CEDIA
 - [ ] Ejecutar la validación completa y registrar resultados
 
 ---
@@ -50,3 +50,5 @@ datos binarios.
 - Los grupos de duplicados exactos se definen usando el SHA-256 del JPEG original.
 - Las pruebas locales cubren el límite exacto de binarización, la idempotencia de la
   extracción y el rechazo de rutas ZIP con traversal.
+- En CEDIA se transfiere el ZIP original y se reconstruyen los datos; los hashes del
+  archivo fuente, manifest y resumen permiten comprobar que el resultado sea idéntico.

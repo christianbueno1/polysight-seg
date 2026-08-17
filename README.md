@@ -14,5 +14,7 @@ scripts/validate_local.sh
 
 - [Entornos de ejecución](docs/execution-environments.md)
 - [Preparación del proyecto en CEDIA](docs/cedia-project-setup.md)
+- [Preparación y transferencia de Kvasir-SEG](docs/dataset-preparation.md)
+- [Material para la presentación](docs/presentacion.md)
 - [Guía general del clúster CEDIA](docs/cedia-cluster-guide.md)
 - [Guía del proyecto de segmentación](docs/segmentation-project-guide.md)
