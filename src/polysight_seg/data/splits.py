@@ -18,6 +18,7 @@ SPLIT_RATIOS = {"train": Decimal("0.70"), "validation": Decimal("0.15"), "test":
 SPLIT_ORDER = tuple(SPLIT_RATIOS)
 SIZE_STRATA = ("small", "medium", "large")
 DEFAULT_SEED = 20260817
+EXPECTED_SPLIT_COUNTS = {"train": 700, "validation": 150, "test": 150}
 
 
 def _read_manifest(path: Path) -> list[dict[str, str]]:
@@ -189,3 +190,69 @@ def generate_splits(manifest: Path, output: Path, seed: int = DEFAULT_SEED) -> d
     temporary_splits.replace(output / "splits.csv")
     temporary_summary.replace(output / "splits-summary.json")
     return summary
+
+
+def validate_splits(manifest: Path, splits: Path) -> dict[str, Any]:
+    """Comprueba cobertura, exclusividad, conteos, estratos y grupos."""
+    manifest_rows = _read_manifest(manifest.resolve(strict=True))
+    with splits.resolve(strict=True).open(newline="", encoding="utf-8") as file:
+        split_rows = list(csv.DictReader(file))
+    required = {"sample_id", "split", "size_stratum", "duplicate_group"}
+    if not split_rows or not required.issubset(split_rows[0]):
+        raise ValueError(f"Splits vacíos o sin columnas requeridas: {sorted(required)}")
+
+    manifest_by_id = {row["sample_id"]: row for row in manifest_rows}
+    split_ids = [row["sample_id"] for row in split_rows]
+    if len(split_ids) != len(set(split_ids)):
+        raise ValueError("Un sample_id aparece más de una vez en splits.csv")
+    if set(split_ids) != set(manifest_by_id):
+        missing = set(manifest_by_id) - set(split_ids)
+        unexpected = set(split_ids) - set(manifest_by_id)
+        raise ValueError(
+            f"Cobertura inválida: {len(missing)} faltantes y {len(unexpected)} inesperados"
+        )
+
+    invalid_splits = {row["split"] for row in split_rows} - set(SPLIT_ORDER)
+    invalid_strata = {row["size_stratum"] for row in split_rows} - set(SIZE_STRATA)
+    if invalid_splits:
+        raise ValueError(f"Nombres de split inválidos: {sorted(invalid_splits)}")
+    if invalid_strata:
+        raise ValueError(f"Estratos inválidos: {sorted(invalid_strata)}")
+
+    grouped_splits: dict[str, set[str]] = defaultdict(set)
+    for row in split_rows:
+        manifest_group = manifest_by_id[row["sample_id"]]["duplicate_group"]
+        if row["duplicate_group"] != manifest_group:
+            raise ValueError(f"Grupo alterado para {row['sample_id']}")
+        if manifest_group:
+            grouped_splits[manifest_group].add(row["split"])
+    leaked_groups = [group for group, values in grouped_splits.items() if len(values) > 1]
+    if leaked_groups:
+        raise ValueError(f"Grupos presentes en varios splits: {len(leaked_groups)}")
+
+    counts = {
+        split: sum(row["split"] == split for row in split_rows)
+        for split in SPLIT_ORDER
+    }
+    if counts != EXPECTED_SPLIT_COUNTS:
+        raise ValueError(f"Conteos inesperados: {counts}")
+    stratum_counts = {
+        split: {
+            size: sum(
+                row["split"] == split and row["size_stratum"] == size
+                for row in split_rows
+            )
+            for size in SIZE_STRATA
+        }
+        for split in SPLIT_ORDER
+    }
+    if any(count == 0 for values in stratum_counts.values() for count in values.values()):
+        raise ValueError("Al menos un split no contiene todos los estratos")
+
+    return {
+        "status": "ok",
+        "samples": len(split_rows),
+        "counts": counts,
+        "stratum_counts": stratum_counts,
+        "duplicate_groups_checked": len(grouped_splits),
+    }
