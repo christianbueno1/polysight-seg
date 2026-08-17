@@ -4,7 +4,7 @@
 
 - [x] Fase 1 — Base reproducible del repositorio y entorno Python
 - [x] Fase 2 — Adquisición, validación y manifest de Kvasir-SEG
-- [~] Fase 3 — Splits reproducibles y pipeline de datos
+- [x] Fase 3 — Splits reproducibles y pipeline de datos
 - [ ] Fase 4 — Baseline U-Net con encoder ResNet-34
 - [ ] Fase 5 — Entrenamiento reproducible y seguimiento de experimentos
 - [ ] Fase 6 — Evaluación, inferencia y análisis de errores del baseline
