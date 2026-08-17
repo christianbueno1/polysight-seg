@@ -2,6 +2,27 @@
 
 ---
 
+## 2026-08-17 17:26 -0500 — Fase 4: métricas binarias por píxel
+
+**Hecho:**
+- Implementado `BinarySegmentationMetrics` con acumulación de TP, FP, FN y TN.
+- Implementados Dice, IoU, precisión y recall a partir de la matriz de confusión.
+- Conectado el umbral inicial 0.5 desde la configuración versionada del baseline.
+- Ejecutadas correctamente las nueve comprobaciones locales sin PyTorch.
+
+**Decisiones:**
+- Las métricas se calculan como agregación micro sobre todos los píxeles del split,
+  evitando promediar batches con distinto número de muestras.
+- Una unión vacía produce Dice/IoU 1.0; precision o recall sin denominador producen
+  0.0. Kvasir-SEG no contiene máscaras reales vacías, pero el caso queda definido.
+- Se conservan los conteos crudos para auditoría y para una matriz de confusión por
+  píxel; Dice de validation continúa como criterio principal de selección.
+
+**Pendiente / carry-over:**
+- Añadir pruebas numéricas de contratos para modelo, pérdida y métricas sin GPU.
+
+---
+
 ## 2026-08-17 17:03 -0500 — Fase 4: pérdida BCE + Dice implementada
 
 **Hecho:**

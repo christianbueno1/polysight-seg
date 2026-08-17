@@ -18,7 +18,7 @@ un pipeline de datos reproducible. PyTorch se ejecuta exclusivamente en CEDIA.
 - [x] Crear configuración versionada del baseline U-Net/ResNet-34
 - [x] Implementar la factoría del modelo con entrada RGB y salida de un canal
 - [x] Implementar pérdida combinada BCEWithLogits + Dice
-- [ ] Implementar métricas Dice, IoU, precisión y recall por píxel
+- [x] Implementar métricas Dice, IoU, precisión y recall por píxel
 - [ ] Añadir pruebas de contratos que puedan ejecutarse sin GPU
 - [ ] Preparar y ejecutar smoke test forward/backward del baseline en CEDIA
 - [ ] Documentar arquitectura, parámetros, resultados y preguntas para la presentación
@@ -62,3 +62,5 @@ un pipeline de datos reproducible. PyTorch se ejecuta exclusivamente en CEDIA.
   `segmentation_models_pytorch` de forma diferida para no requerir PyTorch localmente.
 - La pérdida suma BCEWithLogits y Dice con pesos 1.0/1.0; Dice se calcula por muestra
   desde sigmoid y usa suavizado `1e-7` para estabilidad numérica.
+- Las métricas acumulan TP, FP, FN y TN de todo el split y calculan Dice, IoU,
+  precisión y recall micro por píxel con umbral inicial 0.5.
