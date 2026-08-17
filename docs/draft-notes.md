@@ -57,3 +57,7 @@ batch_size 8
 debería ser una carga bastante razonable para una A100 de 40 GB. Más adelante incluso podrías medir el consumo real y decidir si aumentar el `batch_size`.
 
 Y una diferencia importante: `A100-SXM4-40GB` **no significa que CUDA tenga 40 GB**. CUDA es la plataforma/software; los 40 GB corresponden a la memoria física de esa GPU.
+
+### Clases
+❯ cat configs/models/unet-resnet34.yaml
+¿Qué probabilidad hay de que este píxel pertenezca al pólipo?
