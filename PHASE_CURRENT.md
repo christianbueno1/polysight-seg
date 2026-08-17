@@ -17,7 +17,7 @@ ejecutar PyTorch exclusivamente en el clúster HPC de CEDIA.
 - [x] Definir dependencias reproducibles sin instalarlas en el equipo local
 - [x] Crear la estructura inicial de código, configuración, scripts Slurm y pruebas
 - [x] Preparar un smoke test de PyTorch y CUDA para un nodo GPU de CEDIA
-- [ ] Añadir comandos de validación local que no dependan de PyTorch
+- [x] Añadir comandos de validación local que no dependan de PyTorch
 - [ ] Documentar la preparación y verificación del entorno en CEDIA
 - [ ] Validar la estructura y los archivos de configuración de la fase
 
@@ -39,3 +39,7 @@ ejecutar PyTorch exclusivamente en el clúster HPC de CEDIA.
 - Los directorios de datos y artefactos generados se excluyen de Git.
 - El smoke test comprueba CUDA con un forward/backward real y falla explícitamente si
   el trabajo no recibe una GPU; su ejecución queda pendiente en CEDIA.
+- `scripts/validate_local.sh` centraliza comprobaciones ligeras y rechaza imports de
+  PyTorch dentro del código destinado a validación local.
+- El intérprete local puede ser posterior a 3.11 para comprobaciones estáticas; la
+  restricción `>=3.11,<3.12` se verifica como metadato y se aplica al entorno de CEDIA.
