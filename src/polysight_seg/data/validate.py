@@ -9,6 +9,8 @@ from typing import Any
 
 from PIL import Image, UnidentifiedImageError
 
+from polysight_seg.data.masks import MASK_THRESHOLD
+
 
 class DatasetValidationError(ValueError):
     """Indica que el dataset no cumple el contrato esperado."""
@@ -98,6 +100,9 @@ def validate_dataset(root: Path, expected_pairs: int = 1_000) -> dict[str, Any]:
 
     image_modes: dict[str, int] = {}
     mask_modes: dict[str, int] = {}
+    total_mask_pixels = 0
+    total_foreground_pixels = 0
+    masks_with_intermediate_values = 0
     for sample_id in sorted(image_ids & mask_ids):
         image_path = images_dir / f"{sample_id}.jpg"
         mask_path = masks_dir / f"{sample_id}.jpg"
@@ -114,6 +119,17 @@ def validate_dataset(root: Path, expected_pairs: int = 1_000) -> dict[str, Any]:
         if sample_id in bounding_boxes:
             errors.extend(_validate_bbox(sample_id, bounding_boxes[sample_id], image_size))
 
+        with Image.open(mask_path) as mask:
+            histogram = mask.convert("L").histogram()
+        pixel_count = sum(histogram)
+        foreground_pixels = sum(histogram[MASK_THRESHOLD:])
+        total_mask_pixels += pixel_count
+        total_foreground_pixels += foreground_pixels
+        if sum(histogram[1:255]) > 0:
+            masks_with_intermediate_values += 1
+        if foreground_pixels == 0 or foreground_pixels == pixel_count:
+            errors.append(f"Máscara vacía tras binarizar con umbral 128: {sample_id}")
+
     if errors:
         preview = "\n".join(f"- {error}" for error in errors[:20])
         suffix = f"\n- ... y {len(errors) - 20} errores más" if len(errors) > 20 else ""
@@ -125,4 +141,7 @@ def validate_dataset(root: Path, expected_pairs: int = 1_000) -> dict[str, Any]:
         "bounding_box_records": len(bounding_boxes),
         "image_modes": image_modes,
         "mask_modes": mask_modes,
+        "mask_threshold": MASK_THRESHOLD,
+        "masks_with_intermediate_values": masks_with_intermediate_values,
+        "foreground_fraction": total_foreground_pixels / total_mask_pixels,
     }

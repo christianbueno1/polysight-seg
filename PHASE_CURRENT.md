@@ -18,7 +18,7 @@ datos binarios.
 - [x] Confirmar estructura interna, procedencia, licencia y citas aplicables
 - [x] Implementar extracción segura e idempotente bajo `data/raw/`
 - [x] Validar archivos corruptos, nombres y correspondencia de los 1.000 pares
-- [ ] Validar dimensiones y binarización explícita de máscaras JPEG
+- [x] Validar dimensiones y binarización explícita de máscaras JPEG
 - [ ] Calcular hashes, duplicados exactos y porcentaje de píxeles de pólipo
 - [ ] Generar manifest y resumen reproducibles bajo `data/processed/`
 - [ ] Añadir pruebas ligeras para la lógica de validación de datos
@@ -43,3 +43,5 @@ datos binarios.
   imágenes, máscaras y bounding boxes con coordenadas válidas.
 - Los límites `xmax` y `ymax` del JSON se interpretan como exclusivos porque el dataset
   contiene valores iguales al ancho o alto de la imagen.
+- Las máscaras se convierten a escala de grises y se binarizan con `valor >= 128`; cada
+  máscara debe conservar al menos un píxel de fondo y uno de pólipo.

@@ -53,3 +53,18 @@ Referencia principal:
 
 Estas condiciones deben revisarse nuevamente antes de redistribuir datos, publicar
 modelos o cambiar el uso previsto del proyecto.
+
+## Regla de binarización
+
+Las máscaras están comprimidas como JPEG y contienen valores intermedios introducidos
+por la compresión. El pipeline debe convertirlas a escala de grises y aplicar esta regla
+determinista:
+
+```text
+valor < 128  -> fondo (0)
+valor >= 128 -> pólipo (255)
+```
+
+No se deben interpretar los valores JPEG originales como clases adicionales. Cualquier
+ajuste posterior de esta regla requiere una decisión documentada y una nueva versión
+del manifest.
