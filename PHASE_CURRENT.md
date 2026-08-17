@@ -17,8 +17,8 @@ pipeline de carga y transformaciones sincronizadas para ejecutarse con PyTorch e
 - [x] Implementar generación determinista de splits desde el manifest
 - [x] Validar conteos, exclusividad, cobertura y distribución de los splits
 - [x] Definir configuración versionada de datos y transformaciones
-- [ ] Implementar Dataset y DataLoader de segmentación para CEDIA
-- [ ] Implementar transformaciones sincronizadas de imagen y máscara
+- [x] Implementar Dataset y DataLoader de segmentación para CEDIA
+- [x] Implementar transformaciones sincronizadas de imagen y máscara
 - [ ] Añadir pruebas locales para la lógica independiente de PyTorch
 - [ ] Preparar un smoke test del pipeline de datos para Slurm
 - [ ] Documentar y registrar los resultados reproducibles de la fase
@@ -48,3 +48,6 @@ pipeline de carga y transformaciones sincronizadas para ejecutarse con PyTorch e
 - La configuración canónica usa entradas `256 × 256`, normalización de ImageNet,
   interpolación bilinear para imágenes y nearest-neighbor para máscaras.
 - Solo train aplica transformaciones aleatorias; validation y test son deterministas.
+- El Dataset selecciona UUID exclusivamente desde `splits.csv`, devuelve tensores
+  `image [3,H,W]` y `mask [1,H,W]` y comprueba que la máscara siga siendo binaria.
+- El DataLoader inicializa semillas por worker y solo mezcla el split de train.
