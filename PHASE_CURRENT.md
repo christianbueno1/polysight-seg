@@ -19,7 +19,7 @@ ejecutar PyTorch exclusivamente en el clúster HPC de CEDIA.
 - [x] Preparar un smoke test de PyTorch y CUDA para un nodo GPU de CEDIA
 - [x] Añadir comandos de validación local que no dependan de PyTorch
 - [x] Documentar la preparación y verificación del entorno en CEDIA
-- [ ] Validar la estructura y los archivos de configuración de la fase
+- [x] Validar la estructura y los archivos de configuración de la fase
 
 ---
 
