@@ -2,6 +2,39 @@
 
 ---
 
+## 2026-08-17 18:03 -0500 — Fase 4: smoke GPU del baseline real
+
+**Hecho:**
+- Añadidos `scripts/smoke_baseline.py` y `slurm/smoke_baseline.sbatch`.
+- Ejecutado un batch real de train con U-Net/ResNet-34, pesos ImageNet, pérdida,
+  métricas y backward en una A100-SXM4-40GB.
+- Verificados forma de logits, valores finitos, gradientes, parámetros y memoria GPU.
+- Registrados tamaño y SHA-256 del checkpoint ResNet-34 descargado.
+
+**Decisiones:**
+- El smoke usa el batch configurado de ocho muestras y no realiza un paso de optimizador;
+  valida el grafo completo sin constituir entrenamiento.
+- Las métricas del batch no entrenado se conservan como evidencia técnica, no como
+  estimación de calidad ni resultado experimental.
+- La instrumentación de memoria usa el dispositivo CUDA actual sin argumento para ser
+  compatible con la versión efectiva de PyTorch instalada por CEDIA.
+
+**Resultados:**
+- Job `23304`: `COMPLETED`, código `0:0`, 27 segundos y `status=ok`.
+- 24.436.369 parámetros entrenables; pico GPU 951.611.392 bytes; pérdida 1.3424215.
+- Salida `[8,1,256,256]` para entrada `[8,3,256,256]`.
+- Pesos ImageNet: 87.306.240 bytes, SHA-256
+  `333f7ec4c6338da2cbed37f1fc0445f9624f1355633fa1d7eab79a91084c6cef`.
+
+**Incidencia resuelta:**
+- El job `23302` falló antes de construir el modelo porque PyTorch rechazó un objeto
+  `torch.device` en `reset_peak_memory_stats`; se corrigió sin cambiar el cálculo.
+
+**Pendiente / carry-over:**
+- Documentar arquitectura, parámetros, resultados y preguntas para la presentación.
+
+---
+
 ## 2026-08-17 17:44 -0500 — Fase 4: contratos CPU del baseline validados
 
 **Hecho:**

@@ -20,7 +20,7 @@ un pipeline de datos reproducible. PyTorch se ejecuta exclusivamente en CEDIA.
 - [x] Implementar pérdida combinada BCEWithLogits + Dice
 - [x] Implementar métricas Dice, IoU, precisión y recall por píxel
 - [x] Añadir pruebas de contratos que puedan ejecutarse sin GPU
-- [ ] Preparar y ejecutar smoke test forward/backward del baseline en CEDIA
+- [x] Preparar y ejecutar smoke test forward/backward del baseline en CEDIA
 - [ ] Documentar arquitectura, parámetros, resultados y preguntas para la presentación
 
 ---
@@ -66,3 +66,9 @@ un pipeline de datos reproducible. PyTorch se ejecuta exclusivamente en CEDIA.
   precisión y recall micro por píxel con umbral inicial 0.5.
 - El job CPU `23300` ejecutó cinco contratos de modelo, pérdida y métricas sin GPU;
   finalizó `COMPLETED`, código `0:0`, con PyTorch 2.10.0+cu128.
+- Smoke GPU real `23304`: U-Net/ResNet-34 con pesos ImageNet, batch 8, salida
+  `[8,1,256,256]`, pérdida 1.3424215, backward finito y `status=ok`.
+- El baseline tiene 24.436.369 parámetros entrenables y usó 951.611.392 bytes de
+  memoria GPU pico en el smoke; las métricas previas al entrenamiento no miden calidad.
+- Pesos `resnet34-333f7ec4.pth`: 87.306.240 bytes y SHA-256
+  `333f7ec4c6338da2cbed37f1fc0445f9624f1355633fa1d7eab79a91084c6cef`.
