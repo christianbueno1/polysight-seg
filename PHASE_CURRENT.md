@@ -17,7 +17,7 @@ datos binarios.
 - [x] Registrar tamaño y SHA-256 del archivo fuente sin modificarlo
 - [x] Confirmar estructura interna, procedencia, licencia y citas aplicables
 - [x] Implementar extracción segura e idempotente bajo `data/raw/`
-- [ ] Validar archivos corruptos, nombres y correspondencia de los 1.000 pares
+- [x] Validar archivos corruptos, nombres y correspondencia de los 1.000 pares
 - [ ] Validar dimensiones y binarización explícita de máscaras JPEG
 - [ ] Calcular hashes, duplicados exactos y porcentaje de píxeles de pólipo
 - [ ] Generar manifest y resumen reproducibles bajo `data/processed/`
@@ -39,3 +39,7 @@ datos binarios.
   `https://datasets.simula.no/hyper-kvasir/`.
 - La extracción valida rutas, enlaces, duplicados y tamaño antes de publicar los datos
   atómicamente; un marcador con SHA-256 permite repetir el comando sin cambios.
+- La validación decodifica los JPEG completos y exige 1.000 UUID compartidos entre
+  imágenes, máscaras y bounding boxes con coordenadas válidas.
+- Los límites `xmax` y `ymax` del JSON se interpretan como exclusivos porque el dataset
+  contiene valores iguales al ancho o alto de la imagen.
