@@ -15,6 +15,6 @@ module load pytorch/2.2
 
 cd "${SLURM_SUBMIT_DIR}"
 source .venv-cluster/bin/activate
-export PYTHONPATH=src
+export PYTHONPATH="${VIRTUAL_ENV}/lib/python3.11/site-packages:${PYTHONPATH:-}:src"
 
 srun python scripts/smoke_data_pipeline.py
