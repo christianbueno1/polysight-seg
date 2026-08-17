@@ -15,7 +15,7 @@ datos binarios.
 ### Tareas
 
 - [x] Registrar tamaño y SHA-256 del archivo fuente sin modificarlo
-- [~] Confirmar estructura interna, procedencia, licencia y citas aplicables
+- [x] Confirmar estructura interna, procedencia, licencia y citas aplicables
 - [ ] Implementar extracción segura e idempotente bajo `data/raw/`
 - [ ] Validar archivos corruptos, nombres y correspondencia de los 1.000 pares
 - [ ] Validar dimensiones y binarización explícita de máscaras JPEG
@@ -35,4 +35,5 @@ datos binarios.
   rutas separadas.
 - El ZIP contiene 1.000 imágenes, 1.000 máscaras, un JSON, ninguna ruta insegura y pasa
   la prueba de integridad.
-- Falta confirmar la URL exacta desde la cual se descargó la copia local.
+- El usuario confirmó que descargó la copia desde el portal oficial de Simula:
+  `https://datasets.simula.no/hyper-kvasir/`.

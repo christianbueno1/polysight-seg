@@ -14,8 +14,8 @@ Registro realizado el 17 de agosto de 2026 sin modificar ni extraer el archivo:
 | Prueba de integridad ZIP | Sin errores |
 
 El hash identifica exactamente esta copia local; no se encontró un checksum oficial
-publicado con el cual compararlo. La URL exacta usada para descargarla debe confirmarse
-antes de cerrar la trazabilidad de procedencia.
+publicado con el cual compararlo. El usuario confirmó que la copia se descargó desde
+<https://datasets.simula.no/hyper-kvasir/>.
 
 ## Estructura observada
 
@@ -36,6 +36,9 @@ Fuentes oficiales:
 - <https://datasets.simula.no/hyper-kvasir/>;
 - <https://github.com/simula/hyper-kvasir>;
 - <https://doi.org/10.1038/s41597-020-00622-y>.
+
+Procedencia confirmada de la copia local:
+<https://datasets.simula.no/hyper-kvasir/>.
 
 El repositorio oficial identifica su licencia como CC BY 4.0 y permite el uso abierto
 para investigación y educación. Competiciones y usos comerciales requieren permiso
