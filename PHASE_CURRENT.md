@@ -16,7 +16,7 @@ datos binarios.
 
 - [x] Registrar tamaño y SHA-256 del archivo fuente sin modificarlo
 - [x] Confirmar estructura interna, procedencia, licencia y citas aplicables
-- [ ] Implementar extracción segura e idempotente bajo `data/raw/`
+- [x] Implementar extracción segura e idempotente bajo `data/raw/`
 - [ ] Validar archivos corruptos, nombres y correspondencia de los 1.000 pares
 - [ ] Validar dimensiones y binarización explícita de máscaras JPEG
 - [ ] Calcular hashes, duplicados exactos y porcentaje de píxeles de pólipo
@@ -37,3 +37,5 @@ datos binarios.
   la prueba de integridad.
 - El usuario confirmó que descargó la copia desde el portal oficial de Simula:
   `https://datasets.simula.no/hyper-kvasir/`.
+- La extracción valida rutas, enlaces, duplicados y tamaño antes de publicar los datos
+  atómicamente; un marcador con SHA-256 permite repetir el comando sin cambios.

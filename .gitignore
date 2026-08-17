@@ -10,7 +10,7 @@ wheels/
 .venv
 
 # Datasets and generated artifacts
-data/
+/data/
 artifacts/
 checkpoints/
 mlruns/
