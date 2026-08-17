@@ -2,6 +2,23 @@
 
 ---
 
+## 2026-08-17 16:49 -0500 — Fase 4: pérdidas explicadas para la presentación
+
+**Hecho:**
+- Añadida a `docs/presentacion.md` una explicación breve de BCEWithLogitsLoss,
+  Dice loss y el motivo de combinarlas.
+
+**Decisiones:**
+- La explicación diferencia clasificación por píxel y superposición global, vinculando
+  Dice con el desbalance observado entre fondo y pólipo.
+- No se documentan todavía pesos ni detalles numéricos: se fijarán al implementar y
+  validar la pérdida.
+
+**Pendiente / carry-over:**
+- Implementar la pérdida combinada BCEWithLogits + Dice.
+
+---
+
 ## 2026-08-17 15:37 -0500 — Fase 4: factoría del modelo
 
 **Hecho:**

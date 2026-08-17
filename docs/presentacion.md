@@ -194,3 +194,34 @@ calidad del modelo.
 Porque el nodo de acceso solo administra archivos y trabajos. Slurm asigna de forma
 explícita CPU, memoria y GPU en los nodos de cómputo y deja evidencia reproducible de
 cada ejecución.
+
+---
+
+## Funciones de pérdida: BCEWithLogits y Dice
+
+### Cómo explicarlo durante la exposición
+
+Usaremos dos funciones complementarias para enseñar al modelo a separar pólipo y fondo:
+
+- **BCEWithLogitsLoss** evalúa cada píxel de forma individual. Penaliza si un píxel de
+  pólipo se predice como fondo o viceversa. Recibe directamente los logits y combina la
+  sigmoid internamente para mejorar la estabilidad numérica.
+- **Dice loss** evalúa la superposición global entre la máscara predicha y la real. Da
+  mayor importancia a la región del pólipo y ayuda cuando el fondo ocupa la mayor parte
+  de la imagen.
+
+### Por qué se combinan
+
+BCE aporta aprendizaje preciso por píxel y Dice optimiza la forma y cobertura de la
+lesión. Juntas equilibran clasificación local y calidad global de la segmentación.
+
+#### ¿Por qué no usar solamente BCE?
+
+Porque el desbalance favorece al fondo. Un modelo podría acertar muchos píxeles de
+fondo y aun representar mal el pólipo; Dice compensa ese problema al medir solapamiento.
+
+---
+En el contexto de las redes neuronales y la segmentación de imágenes, el mejor valor para el Dice Loss es 0.
+¿Qué significan los valores?
+Valor cercano a 0: Es el valor ideal. Significa que la predicción del modelo y la etiqueta real se superponen casi por completo (hay un acierto perfecto).
+Valor cercano a 1: Es un mal resultado. Indica que no hay coincidencia ni superposición entre el objeto predicho y el real.
