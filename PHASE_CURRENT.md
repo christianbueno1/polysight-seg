@@ -21,7 +21,7 @@ datos binarios.
 - [x] Validar dimensiones y binarización explícita de máscaras JPEG
 - [x] Calcular hashes, duplicados exactos y porcentaje de píxeles de pólipo
 - [x] Generar manifest y resumen reproducibles bajo `data/processed/`
-- [ ] Añadir pruebas ligeras para la lógica de validación de datos
+- [x] Añadir pruebas ligeras para la lógica de validación de datos
 - [ ] Documentar transferencia y reproducción del dataset en CEDIA
 - [ ] Ejecutar la validación completa y registrar resultados
 
@@ -48,3 +48,5 @@ datos binarios.
 - El manifest se ordena por UUID, usa rutas relativas y no incluye timestamps para que
   su contenido sea reproducible a partir del mismo archivo fuente.
 - Los grupos de duplicados exactos se definen usando el SHA-256 del JPEG original.
+- Las pruebas locales cubren el límite exacto de binarización, la idempotencia de la
+  extracción y el rechazo de rutas ZIP con traversal.
