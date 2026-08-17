@@ -14,8 +14,8 @@ datos binarios.
 
 ### Tareas
 
-- [~] Registrar tamaño y SHA-256 del archivo fuente sin modificarlo
-- [ ] Confirmar estructura interna, procedencia, licencia y citas aplicables
+- [x] Registrar tamaño y SHA-256 del archivo fuente sin modificarlo
+- [~] Confirmar estructura interna, procedencia, licencia y citas aplicables
 - [ ] Implementar extracción segura e idempotente bajo `data/raw/`
 - [ ] Validar archivos corruptos, nombres y correspondencia de los 1.000 pares
 - [ ] Validar dimensiones y binarización explícita de máscaras JPEG
@@ -33,3 +33,6 @@ datos binarios.
 - No se crearán splits durante esta fase; pertenecen a la Fase 3.
 - El archivo descargado se tratará como inmutable y toda transformación se escribirá en
   rutas separadas.
+- El ZIP contiene 1.000 imágenes, 1.000 máscaras, un JSON, ninguna ruta insegura y pasa
+  la prueba de integridad.
+- Falta confirmar la URL exacta desde la cual se descargó la copia local.
