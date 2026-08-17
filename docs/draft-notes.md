@@ -134,3 +134,29 @@ target: [B, 1, 256, 256]   ← máscara binaria (0/1), ya limpia por mask_thresh
 Ambas losses reciben el mismo `target`; solo la rama de Dice necesita el `sigmoid(logits)` intermedio.
 
 ¿Armamos ahora el esqueleto de `losses.py` con la clase `CombinedLoss`, siguiendo el mismo patrón de validación estricta que ya tienes en `factory.py` (con pesos `alpha`/`beta` configurables por YAML)?
+
+---
+  IoU significa Intersection over Union, o intersección sobre unión. Mide qué parte del área total cubierta por ambas máscaras coincide:
+---
+ Como orientación general:
+
+   Calidad aproximada         Dice          IoU
+  ━━━━━━━━━━━━━━━━━━━━  ━━━━━━━━━━━  ━━━━━━━━━━━
+   Deficiente               < 0,50       < 0,33
+  ────────────────────  ───────────  ───────────
+   Moderada              0,50–0,75    0,33–0,60
+  ────────────────────  ───────────  ───────────
+   Buena                 0,75–0,90    0,60–0,82
+  ────────────────────  ───────────  ───────────
+   Muy alta                 > 0,90       > 0,82
+
+  Estos rangos son orientativos, no reglas universales. La evaluación real debe considerar:
+
+  - Comparación con otros modelos bajo el mismo split.
+  - Resultados por imagen y por tamaño del pólipo.
+  - Falsos positivos y falsos negativos.
+  - Calidad visual de los bordes.
+  - Rendimiento en datos externos.
+
+  Por tanto, en el ejemplo diríamos: “El modelo consigue una segmentación razonable, pero aún pierde parte del pólipo y añade regiones incorrectas; es un punto de partida
+  mejorable”.
