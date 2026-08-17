@@ -2,6 +2,30 @@
 
 ---
 
+## 2026-08-17 18:16 -0500 — Fase 5: diseño de tracking con MLflow
+
+**Hecho:**
+- Creada `configs/tracking/mlflow.yaml` con servidor, experimento, métricas, artefactos
+  y archivos que deben sincronizarse.
+- Adaptada `docs/mlflow-guide.md` al flujo real entre Slurm, CEDIA y el equipo local.
+- Excluidos `mlflow.db` y sus archivos auxiliares de Git.
+- Añadidos enlaces y referencias a la configuración y guía de tracking.
+
+**Decisiones:**
+- Cada job de entrenamiento usará un servidor MLflow en `127.0.0.1:5000` con backend
+  SQLite y proxy hacia `./artifacts`.
+- El proxy conserva URIs `mlflow-artifacts:/` que pueden resolverse después de copiar
+  `mlflow.db` y `artifacts/` al equipo local.
+- SQLite tendrá un solo escritor; no se ejecutarán entrenamientos concurrentes contra
+  la misma base ni se copiará la base mientras el servidor esté activo.
+- Test permanece fuera del tracking de esta fase para no contaminar la selección del
+  mejor checkpoint por Dice de validation.
+
+**Pendiente / carry-over:**
+- Fijar una versión compatible de MLflow y validar `.venv-cluster` en CEDIA.
+
+---
+
 ## 2026-08-17 18:10 -0500 — Cierre de Fase 4 e inicio de Fase 5
 
 **Hecho:**

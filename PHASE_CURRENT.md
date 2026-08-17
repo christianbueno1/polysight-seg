@@ -13,7 +13,7 @@ usando exclusivamente Dice de validation; test permanece aislado para la Fase 6.
 
 ### Tareas
 
-- [ ] Adaptar y versionar la configuración de MLflow para este proyecto
+- [x] Adaptar y versionar la configuración de MLflow para este proyecto
 - [ ] Fijar la dependencia de MLflow y validar `.venv-cluster` en CEDIA
 - [ ] Crear configuración versionada de entrenamiento
 - [ ] Implementar loops de train y validation con métricas por época
@@ -39,3 +39,6 @@ usando exclusivamente Dice de validation; test permanece aislado para la Fase 6.
 - `mlflow.db`, artefactos, checkpoints y logs permanecen fuera de Git.
 - Los hiperparámetros concretos se decidirán y documentarán al crear la configuración
   de entrenamiento, antes de ejecutar el primer run.
+- El tracking usa un servidor limitado a `127.0.0.1`, SQLite como backend y proxy de
+  artefactos local para conservar URIs `mlflow-artifacts:/` portables.
+- `mlflow.db` tendrá un solo escritor y se sincronizará solo después de terminar el job.

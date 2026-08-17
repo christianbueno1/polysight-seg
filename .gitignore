@@ -15,4 +15,6 @@ wheels/
 artifacts/
 checkpoints/
 mlruns/
+mlflow.db
+mlflow.db-*
 slurm-*.out

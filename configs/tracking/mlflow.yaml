@@ -1,0 +1,44 @@
+schema_version: 1
+
+server:
+  host: 127.0.0.1
+  port: 5000
+  tracking_uri: http://127.0.0.1:5000
+  backend_store_uri: sqlite:///mlflow.db
+  artifacts_destination: ./artifacts
+  startup_timeout_seconds: 30
+
+experiment:
+  name: polysight-seg-baseline
+  run_name_prefix: unet-resnet34
+
+logging:
+  metrics_per_epoch:
+    - train_loss
+    - train_dice
+    - train_iou
+    - train_precision
+    - train_recall
+    - val_loss
+    - val_dice
+    - val_iou
+    - val_precision
+    - val_recall
+    - learning_rate
+  tags:
+    - code_commit
+    - slurm_job_id
+    - model_name
+    - dataset_name
+  artifacts:
+    - configs
+    - best_checkpoint
+    - last_checkpoint
+    - environment
+    - dataset_hashes
+
+sync:
+  database: mlflow.db
+  artifacts: artifacts
+  exclude:
+    - "*.log"
