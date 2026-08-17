@@ -17,9 +17,8 @@ module load cuda/12.4
 
 cd "${SLURM_SUBMIT_DIR}"
 
-if [[ -f .venv-cluster/bin/activate ]]; then
-    source .venv-cluster/bin/activate
-fi
+source .venv-cluster/bin/activate
+export PYTHONPATH="${VIRTUAL_ENV}/lib/python3.11/site-packages:${PYTHONPATH:-}:src"
 
 nvidia-smi
 srun python scripts/smoke_gpu.py

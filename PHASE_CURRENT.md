@@ -1,60 +1,41 @@
 # PHASE_CURRENT
 
-## Fase 3 — Splits reproducibles y pipeline de datos
+## Fase 5 — Entrenamiento reproducible y seguimiento de experimentos
 
-**Objetivo:** Crear particiones deterministas de train, validation y test, y preparar un
-pipeline de carga y transformaciones sincronizadas para ejecutarse con PyTorch en CEDIA.
+**Objetivo:** Entrenar el baseline U-Net/ResNet-34 en CEDIA con un protocolo versionado,
+checkpoints auditables y seguimiento completo mediante MLflow.
 
-**Contexto:** La Fase 2 produjo un manifest validado de 1.000 pares bajo
-`data/processed/kvasir-seg/manifest.csv`. Ver `docs/dataset-validation-report.md`.
+**Contexto:** La Fase 4 validó datos, arquitectura, pérdida, métricas, contratos CPU y
+un forward/backward real en una A100. El entrenamiento seleccionará el mejor checkpoint
+usando exclusivamente Dice de validation; test permanece aislado para la Fase 6.
 
 ---
 
 ### Tareas
 
-- [x] Verificar si existe un split oficial aplicable específicamente a Kvasir-SEG
-- [x] Definir semilla, proporciones, estratos de tamaño y reglas contra leakage
-- [x] Implementar generación determinista de splits desde el manifest
-- [x] Validar conteos, exclusividad, cobertura y distribución de los splits
-- [x] Definir configuración versionada de datos y transformaciones
-- [x] Implementar Dataset y DataLoader de segmentación para CEDIA
-- [x] Implementar transformaciones sincronizadas de imagen y máscara
-- [x] Añadir pruebas locales para la lógica independiente de PyTorch
-- [x] Preparar un smoke test del pipeline de datos para Slurm
-- [x] Documentar y registrar los resultados reproducibles de la fase
+- [ ] Adaptar y versionar la configuración de MLflow para este proyecto
+- [ ] Fijar la dependencia de MLflow y validar `.venv-cluster` en CEDIA
+- [ ] Crear configuración versionada de entrenamiento
+- [ ] Implementar loops de train y validation con métricas por época
+- [ ] Implementar checkpoints `last.pt` y `best.pt` con metadatos de trazabilidad
+- [ ] Integrar parámetros, métricas y artefactos del entrenamiento en MLflow
+- [ ] Añadir pruebas CPU del entrenamiento, checkpoints y tracking
+- [ ] Ejecutar un smoke de entrenamiento de pocos batches en GPU
+- [ ] Ejecutar el entrenamiento completo del baseline en CEDIA
+- [ ] Sincronizar `mlflow.db` y `artifacts/` y verificar la interfaz local
+- [ ] Documentar configuración, curvas y resultados de validation para la presentación
 
 ---
 
 ### Notas y decisiones
 
-- Test permanecerá aislado y no se usará para elegir umbral, transformaciones ni
-  hiperparámetros.
-- Los grupos de duplicados, si aparecen en futuras versiones del manifest, deberán
-  permanecer completos dentro de un único split.
-- El split se generará localmente sin PyTorch; Dataset, DataLoader y augmentations se
-  ejecutarán y validarán en CEDIA.
-- Los folds oficiales cubren los 10.662 ejemplos etiquetados de clasificación y no
-  constituyen un split train/validation/test específico para Kvasir-SEG.
-- Se adopta una partición 70/15/15 con semilla `20260817` y estratificación determinista
-  por tamaño relativo del pólipo.
-- La falta de identificadores de paciente o procedimiento impide garantizar separación
-  clínica y se documentará como limitación del estudio.
-- La creación y publicación del repositorio en GitHub mediante `gh` CLI se realizará en
-  una fase posterior; no forma parte del pipeline de datos actual.
-- La asignación ordena los grupos mediante SHA-256 de semilla e identificador, por lo
-  que no depende del orden de las filas del manifest.
-- La validación exige cobertura de los 1.000 UUID, conteos 700/150/150, los tres estratos
-  en cada split y ausencia de grupos duplicados repartidos entre particiones.
-- La configuración canónica usa entradas `256 × 256`, normalización de ImageNet,
-  interpolación bilinear para imágenes y nearest-neighbor para máscaras.
-- Solo train aplica transformaciones aleatorias; validation y test son deterministas.
-- El Dataset selecciona UUID exclusivamente desde `splits.csv`, devuelve tensores
-  `image [3,H,W]` y `mask [1,H,W]` y comprueba que la máscara siga siendo binaria.
-- El DataLoader inicializa semillas por worker y solo mezcla el split de train.
-- Las pruebas locales confirman que reordenar el manifest no altera las asignaciones y
-  que los miembros de un grupo duplicado permanecen en el mismo split.
-- El smoke test usa `cpu-dev`, carga un batch de cada split y valida formas, finitud,
-  máscaras binarias y determinismo de validation/test; su ejecución queda pendiente en
-  CEDIA.
-- Los conteos, límites de estratos, limitaciones y hashes reproducibles quedaron
-  registrados en `docs/split-validation-report.md` y `docs/presentacion.md`.
+- MLflow se incorpora antes del primer entrenamiento completo; no existen ejecuciones
+  históricas que migrar.
+- Registrar por época: loss, Dice, IoU, precisión, recall y learning rate para train y
+  validation cuando corresponda.
+- Registrar también commit, configuraciones, versiones efectivas y hashes del dataset.
+- `best.pt` se selecciona por Dice de validation; test no participa en selección ni
+  ajuste de hiperparámetros.
+- `mlflow.db`, artefactos, checkpoints y logs permanecen fuera de Git.
+- Los hiperparámetros concretos se decidirán y documentarán al crear la configuración
+  de entrenamiento, antes de ejecutar el primer run.

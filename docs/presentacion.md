@@ -162,3 +162,128 @@ separación por archivo y duplicado exacto, no independencia clínica.
 
 Porque adaptar la partición después de observar métricas introduce sesgo y dificulta una
 comparación justa. La semilla, asignaciones y hashes quedan fijados antes de entrenar.
+
+---
+
+## Validación del entorno en CEDIA
+
+### Mensaje principal
+
+Antes de entrenar verificamos el entorno, la GPU y el pipeline con trabajos cortos de
+Slurm. Esto reduce el riesgo de descubrir errores durante un entrenamiento costoso.
+
+### Evidencia obtenida
+
+- Entorno: Python 3.11.14 y PyTorch 2.10.0+cu128 suministrado por CEDIA.
+- Hardware: una NVIDIA A100-SXM4-40GB detectada correctamente.
+- Smoke GPU: CUDA disponible y ciclo forward/backward completado.
+- Datos: 1.000 pares reconstruidos con los mismos hashes que en local.
+- Pipeline: batches de imágenes `[8, 3, 256, 256]` y máscaras `[8, 1, 256, 256]`.
+- Splits verificados: 700 train, 150 validation y 150 test.
+
+### Cómo interpretarlo
+
+Estos resultados demuestran que la infraestructura y los datos están listos para
+implementar el baseline. Todavía no son resultados de entrenamiento ni métricas de
+calidad del modelo.
+
+### Pregunta probable
+
+#### ¿Por qué usar Slurm incluso para pruebas cortas?
+
+Porque el nodo de acceso solo administra archivos y trabajos. Slurm asigna de forma
+explícita CPU, memoria y GPU en los nodos de cómputo y deja evidencia reproducible de
+cada ejecución.
+
+---
+
+## Funciones de pérdida: BCEWithLogits y Dice
+
+### Cómo explicarlo durante la exposición
+
+Usaremos dos funciones complementarias para enseñar al modelo a separar pólipo y fondo:
+
+- **BCEWithLogitsLoss** evalúa cada píxel de forma individual. Penaliza si un píxel de
+  pólipo se predice como fondo o viceversa. Recibe directamente los logits y combina la
+  sigmoid internamente para mejorar la estabilidad numérica.
+- **Dice loss** evalúa la superposición global entre la máscara predicha y la real. Da
+  mayor importancia a la región del pólipo y ayuda cuando el fondo ocupa la mayor parte
+  de la imagen.
+
+### Por qué se combinan
+
+BCE aporta aprendizaje preciso por píxel y Dice optimiza la forma y cobertura de la
+lesión. Juntas equilibran clasificación local y calidad global de la segmentación.
+
+#### ¿Por qué no usar solamente BCE?
+
+Porque el desbalance favorece al fondo. Un modelo podría acertar muchos píxeles de
+fondo y aun representar mal el pólipo; Dice compensa ese problema al medir solapamiento.
+
+---
+En el contexto de las redes neuronales y la segmentación de imágenes, el mejor valor para el Dice Loss es 0.
+¿Qué significan los valores?
+Valor cercano a 0: Es el valor ideal. Significa que la predicción del modelo y la etiqueta real se superponen casi por completo (hay un acierto perfecto).
+Valor cercano a 1: Es un mal resultado. Indica que no hay coincidencia ni superposición entre el objeto predicho y el real.
+
+---
+
+## Baseline U-Net con encoder ResNet-34
+
+### Cómo explicarlo durante la exposición
+
+El baseline recibe una imagen RGB de `256 × 256` y produce un mapa de logits de un
+canal con la misma resolución. U-Net combina dos recorridos:
+
+1. **Encoder ResNet-34:** extrae características desde bordes y texturas hasta patrones
+   de mayor nivel. Comienza con pesos aprendidos en ImageNet.
+2. **Decoder U-Net:** recupera progresivamente la resolución y combina información del
+   encoder mediante conexiones de salto para localizar mejor los bordes del pólipo.
+
+La salida no incluye sigmoid. Durante la pérdida usamos los logits directamente y,
+para calcular métricas o generar una máscara, aplicamos sigmoid y umbral inicial `0.5`.
+
+### Parámetros principales
+
+- Arquitectura: U-Net.
+- Encoder: ResNet-34 preentrenado en ImageNet.
+- Entrada: `[B, 3, 256, 256]`.
+- Salida: `[B, 1, 256, 256]`.
+- Parámetros entrenables: `24.436.369`.
+- Pérdida: `BCEWithLogitsLoss + Dice loss`, con pesos `1.0 + 1.0`.
+- Métricas: Dice, IoU, precisión y recall por píxel.
+
+### Resultado de validación técnica
+
+En una A100 de 40 GB se ejecutó un batch real de ocho imágenes con pesos ImageNet:
+
+- forward y backward completados sin errores;
+- logits y gradientes finitos;
+- forma de salida correcta;
+- pérdida inicial `1,3424`;
+- memoria GPU pico aproximada: `908 MiB`.
+
+Este resultado demuestra que el baseline puede entrenarse en CEDIA. La pérdida y las
+métricas de este batch pertenecen a un modelo sin entrenar y no miden su calidad final.
+
+### Preguntas de la audiencia y respuestas
+
+#### ¿Por qué usar U-Net?
+
+Porque fue diseñada para segmentación y combina contexto con localización precisa. Es
+un baseline conocido, comprensible y adecuado para un dataset pequeño.
+
+#### ¿Por qué usar ResNet-34?
+
+Ofrece un equilibrio razonable entre capacidad y coste. Es suficientemente profunda
+para extraer características útiles sin comenzar con un encoder excesivamente grande.
+
+#### ¿Por qué comenzar con pesos ImageNet?
+
+Porque transfieren características visuales generales y reducen la necesidad de
+aprender todo desde cero con solo 700 imágenes de entrenamiento.
+
+#### ¿Las métricas del smoke test son el resultado del modelo?
+
+No. Solo verifican que datos, arquitectura, pérdida, métricas y gradientes funcionan
+juntos. El rendimiento se medirá después del entrenamiento y la selección por validation.

@@ -3,6 +3,8 @@
 Proyecto reproducible para entrenar y evaluar modelos de segmentación de pólipos sobre
 Kvasir-SEG.
 
+**Modelo:** U-Net CNN con encoder ResNet34 (pre-entrenado en ImageNet). Entrada RGB 256×256 → salida binaria.
+
 PyTorch, CUDA, entrenamiento y evaluación acelerada se ejecutan en el clúster HPC de
 CEDIA. El equipo local se usa únicamente para desarrollo y validaciones ligeras:
 
