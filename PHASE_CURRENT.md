@@ -23,7 +23,7 @@ datos binarios.
 - [x] Generar manifest y resumen reproducibles bajo `data/processed/`
 - [x] Añadir pruebas ligeras para la lógica de validación de datos
 - [x] Documentar transferencia y reproducción del dataset en CEDIA
-- [ ] Ejecutar la validación completa y registrar resultados
+- [x] Ejecutar la validación completa y registrar resultados
 
 ---
 
@@ -52,3 +52,5 @@ datos binarios.
   extracción y el rechazo de rutas ZIP con traversal.
 - En CEDIA se transfiere el ZIP original y se reconstruyen los datos; los hashes del
   archivo fuente, manifest y resumen permiten comprobar que el resultado sea idéntico.
+- La validación final local terminó con estado `ok`; sus métricas y hashes quedaron en
+  `docs/dataset-validation-report.md`.
