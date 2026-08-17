@@ -14,7 +14,7 @@ pipeline de carga y transformaciones sincronizadas para ejecutarse con PyTorch e
 
 - [x] Verificar si existe un split oficial aplicable específicamente a Kvasir-SEG
 - [x] Definir semilla, proporciones, estratos de tamaño y reglas contra leakage
-- [ ] Implementar generación determinista de splits desde el manifest
+- [x] Implementar generación determinista de splits desde el manifest
 - [ ] Validar conteos, exclusividad, cobertura y distribución de los splits
 - [ ] Definir configuración versionada de datos y transformaciones
 - [ ] Implementar Dataset y DataLoader de segmentación para CEDIA
@@ -41,3 +41,5 @@ pipeline de carga y transformaciones sincronizadas para ejecutarse con PyTorch e
   clínica y se documentará como limitación del estudio.
 - La creación y publicación del repositorio en GitHub mediante `gh` CLI se realizará en
   una fase posterior; no forma parte del pipeline de datos actual.
+- La asignación ordena los grupos mediante SHA-256 de semilla e identificador, por lo
+  que no depende del orden de las filas del manifest.
