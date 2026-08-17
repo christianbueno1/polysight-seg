@@ -16,7 +16,7 @@ pipeline de carga y transformaciones sincronizadas para ejecutarse con PyTorch e
 - [x] Definir semilla, proporciones, estratos de tamaño y reglas contra leakage
 - [x] Implementar generación determinista de splits desde el manifest
 - [x] Validar conteos, exclusividad, cobertura y distribución de los splits
-- [ ] Definir configuración versionada de datos y transformaciones
+- [x] Definir configuración versionada de datos y transformaciones
 - [ ] Implementar Dataset y DataLoader de segmentación para CEDIA
 - [ ] Implementar transformaciones sincronizadas de imagen y máscara
 - [ ] Añadir pruebas locales para la lógica independiente de PyTorch
@@ -45,3 +45,6 @@ pipeline de carga y transformaciones sincronizadas para ejecutarse con PyTorch e
   que no depende del orden de las filas del manifest.
 - La validación exige cobertura de los 1.000 UUID, conteos 700/150/150, los tres estratos
   en cada split y ausencia de grupos duplicados repartidos entre particiones.
+- La configuración canónica usa entradas `256 × 256`, normalización de ImageNet,
+  interpolación bilinear para imágenes y nearest-neighbor para máscaras.
+- Solo train aplica transformaciones aleatorias; validation y test son deterministas.
