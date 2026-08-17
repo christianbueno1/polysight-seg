@@ -70,3 +70,67 @@ $$
 \text{BCE} = -[y \log(\hat{y}) + (1 - y) \log(1 - \hat{y})]
 $$
 where y is the true label (0 or 1) and ŷ is the predicted probability.
+
+# Loss functions
+## Funciones de pérdida: BCEWithLogits + Dice
+
+Para tu tarea siguiente (rama `chore/baseline-unet-resnet34`), vas a combinar dos losses que se complementan.
+
+---
+
+### 1. BCEWithLogitsLoss — error píxel por píxel
+
+```
+BCE = -[ y·log(σ(x)) + (1-y)·log(1-σ(x)) ]
+```
+donde `x` = logit crudo del modelo, `y` = etiqueta real (0 o 1), `σ` = sigmoid.
+
+- Compara cada píxel de forma **independiente**: ¿este píxel es pólipo o fondo?
+- Ya la discutimos: numéricamente estable porque nunca calcula `sigmoid()` y `log()` por separado (evita el `log(0)` que vimos antes).
+- **Problema:** en tus imágenes, el pólipo suele ocupar una fracción pequeña del frame (recuerda `foreground_fraction` en `validate.py`). Con desbalance de clases, el modelo puede lograr BCE bajo simplemente prediciendo "todo fondo" y aun así fallar en capturar la forma real del pólipo.
+
+---
+
+### 2. Dice Loss — error de superposición global
+
+```
+Dice = 2·|A∩B| / (|A|+|B|)
+DiceLoss = 1 - Dice
+```
+donde `A` = máscara predicha (tras sigmoid), `B` = máscara real.
+
+- No mira píxeles aislados, mira **qué tan bien coincide la forma completa** de la región predicha contra la real.
+- Es robusta al desbalance de clases — no le "premia" con score alto por acertar el fondo abrumador, mide directamente la calidad del solapamiento en la región de interés.
+- **Requiere probabilidades (0 a 1)**, no logits crudos, así que hay que aplicarle `sigmoid()` explícitamente antes de calcular Dice.
+
+---
+
+### 3. La combinación
+
+```
+loss_total = α · BCEWithLogitsLoss(logits, target) + β · DiceLoss(sigmoid(logits), target)
+```
+
+Típicamente `α = β = 0.5` o ambos en `1.0` (pesos configurables vía YAML, siguiendo tu mismo patrón declarativo).
+
+| | BCE | Dice |
+|---|---|---|
+| Qué mide | error por píxel | superposición de región |
+| Sensible a desbalance | sí (débil) | no |
+| Gradientes al inicio del training | estables | pueden ser ruidosos si la predicción inicial no solapa nada |
+| Necesita | logits | probabilidades (sigmoid aplicado) |
+
+Se combinan porque **BCE da estabilidad temprana** en el entrenamiento, y **Dice empuja la forma final** a parecerse a la máscara real — juntas compensan las debilidades de cada una.
+
+---
+
+### Contrato de formas (según tus YAMLs)
+
+```
+logits: [B, 1, 256, 256]   ← salida cruda del modelo
+target: [B, 1, 256, 256]   ← máscara binaria (0/1), ya limpia por mask_threshold=128 + nearest interpolation
+```
+
+Ambas losses reciben el mismo `target`; solo la rama de Dice necesita el `sigmoid(logits)` intermedio.
+
+¿Armamos ahora el esqueleto de `losses.py` con la clase `CombinedLoss`, siguiendo el mismo patrón de validación estricta que ya tienes en `factory.py` (con pesos `alpha`/`beta` configurables por YAML)?
