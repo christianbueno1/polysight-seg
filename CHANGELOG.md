@@ -2,6 +2,39 @@
 
 ---
 
+## 2026-08-17 12:39 -0500 — Fase 3: Splits y pipeline de datos completados
+
+**Hecho:**
+- Confirmado que los folds oficiales corresponden al conjunto de clasificación y no a
+  un protocolo train/validation/test específico de Kvasir-SEG.
+- Generados splits deterministas 700/150/150 con semilla `20260817`.
+- Estratificadas las muestras por tamaño pequeño, mediano y grande del pólipo.
+- Validadas cobertura total, exclusividad, conteos y protección de grupos duplicados.
+- Implementados configuración, Dataset, DataLoader y transformaciones sincronizadas.
+- Preparado un smoke test Slurm del pipeline para `cpu-dev` en CEDIA.
+- Añadidas pruebas locales y documentación técnica y de presentación.
+
+**Decisiones:**
+- Validation y test permanecen deterministas; solo train recibe augmentations aleatorias.
+- Las entradas se redimensionan a 256 × 256 con bilinear para imágenes y nearest-neighbor
+  para máscaras.
+- Test queda aislado de toda selección de umbral, modelo e hiperparámetros.
+- No puede garantizarse separación por paciente por falta de identificadores clínicos.
+
+**Resultados:**
+- Asignaciones SHA-256:
+  `2d0f1f88380314f7d633b1d84b8f6d0e662eb98ff803b25140e8b48c305f7e34`.
+- Splits CSV SHA-256:
+  `85fe68a5b241f880a80d1476fdffcff88ae5b5e51c0adbe690cce023cbfe13f9`.
+- Nueve pruebas locales finalizaron correctamente sin PyTorch.
+
+**Pendiente / carry-over:**
+- Ejecutar el smoke test del pipeline en CEDIA.
+- Implementar el baseline U-Net con encoder ResNet-34 en la Fase 4.
+- Crear el repositorio remoto cuando `gh` tenga una sesión autenticada válida.
+
+---
+
 ## 2026-08-17 11:58 -0500 — Fase 2: Kvasir-SEG preparado y validado
 
 **Hecho:**
