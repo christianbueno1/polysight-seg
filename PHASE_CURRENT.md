@@ -14,7 +14,7 @@ ejecutar PyTorch exclusivamente en el clúster HPC de CEDIA.
 
 - [x] Documentar la separación entre el entorno local y CEDIA HPC
 - [x] Fijar la versión compatible de Python en la configuración del proyecto
-- [ ] Definir dependencias reproducibles sin instalarlas en el equipo local
+- [x] Definir dependencias reproducibles sin instalarlas en el equipo local
 - [ ] Crear la estructura inicial de código, configuración, scripts Slurm y pruebas
 - [ ] Preparar un smoke test de PyTorch y CUDA para un nodo GPU de CEDIA
 - [ ] Añadir comandos de validación local que no dependan de PyTorch
@@ -30,3 +30,7 @@ ejecutar PyTorch exclusivamente en el clúster HPC de CEDIA.
 - Entrenamiento, evaluación acelerada y smoke tests de PyTorch se ejecutarán mediante
   Slurm en CEDIA HPC.
 - Se mantiene Python 3.11 por compatibilidad con los módulos observados en CEDIA.
+- PyTorch 2.2 será provisto por el módulo de CEDIA y no se declara para descarga desde
+  PyPI.
+- Las dependencias directas quedan fijadas; sus versiones transitivas se registrarán
+  después de validar la instalación dentro de CEDIA.
