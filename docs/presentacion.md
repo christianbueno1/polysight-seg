@@ -104,3 +104,61 @@ reservado para entrenamiento y evaluación en el clúster HPC de CEDIA.
 Se procesaron las 1.000 máscaras. También se comprobó que cada una coincide en nombre y
 dimensiones con su imagen, que los JPEG pueden decodificarse y que el resultado binario
 no queda vacío.
+
+---
+
+## División del dataset: train, validation y test
+
+### Cómo explicarlo durante la exposición
+
+Después de validar los 1.000 pares, los dividimos una sola vez en 700 muestras para
+train, 150 para validation y 150 para test. La asignación usa la semilla fija `20260817`
+y queda guardada por UUID, por lo que todos los modelos se compararán sobre exactamente
+las mismas imágenes.
+
+No usamos los folds oficiales de HyperKvasir porque fueron publicados para los 10.662
+ejemplos del problema de clasificación, no como un protocolo train/validation/test
+específico para segmentación.
+
+### Estratificación por tamaño
+
+Una lesión pequeña y una grande plantean dificultades distintas. Ordenamos las muestras
+por la fracción de píxeles ocupada por el pólipo y formamos tres estratos:
+
+- pequeño: hasta aproximadamente `7,70 %`;
+- mediano: entre `7,70 %` y `16,69 %`;
+- grande: más de `16,69 %`.
+
+Validation y test contienen 50 muestras de cada estrato. Train contiene 234 pequeñas,
+233 medianas y 233 grandes. Así evitamos que una partición resulte accidentalmente mucho
+más fácil o difícil por el tamaño de sus pólipos.
+
+### Preguntas de la audiencia y respuestas
+
+#### ¿Por qué usar 70/15/15?
+
+Con solo 1.000 pares necesitamos conservar suficientes ejemplos para aprender, pero
+también reservar conjuntos independientes con tamaño útil. La proporción deja 700 para
+entrenamiento y 150 para cada etapa de selección y evaluación final.
+
+#### ¿Qué diferencia existe entre validation y test?
+
+Validation permite elegir checkpoints, arquitectura e hiperparámetros. Test permanece
+aislado y se evalúa una sola vez después de cerrar todas esas decisiones.
+
+#### ¿Cómo se evita el data leakage?
+
+Cada UUID aparece exactamente una vez y los duplicados exactos se asignan como grupo a
+un solo split. Además, el pipeline recibe la partición ya creada y no puede reorganizarla
+durante el entrenamiento.
+
+#### ¿Existe separación por paciente?
+
+No podemos garantizarla porque los datos publicados no incluyen identificadores
+suficientes de paciente o procedimiento. Esta es una limitación explícita: garantizamos
+separación por archivo y duplicado exacto, no independencia clínica.
+
+#### ¿Por qué no cambiar el split si un resultado es malo?
+
+Porque adaptar la partición después de observar métricas introduce sesgo y dificulta una
+comparación justa. La semilla, asignaciones y hashes quedan fijados antes de entrenar.

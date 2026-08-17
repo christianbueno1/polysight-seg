@@ -21,7 +21,7 @@ pipeline de carga y transformaciones sincronizadas para ejecutarse con PyTorch e
 - [x] Implementar transformaciones sincronizadas de imagen y máscara
 - [x] Añadir pruebas locales para la lógica independiente de PyTorch
 - [x] Preparar un smoke test del pipeline de datos para Slurm
-- [ ] Documentar y registrar los resultados reproducibles de la fase
+- [x] Documentar y registrar los resultados reproducibles de la fase
 
 ---
 
@@ -56,3 +56,5 @@ pipeline de carga y transformaciones sincronizadas para ejecutarse con PyTorch e
 - El smoke test usa `cpu-dev`, carga un batch de cada split y valida formas, finitud,
   máscaras binarias y determinismo de validation/test; su ejecución queda pendiente en
   CEDIA.
+- Los conteos, límites de estratos, limitaciones y hashes reproducibles quedaron
+  registrados en `docs/split-validation-report.md` y `docs/presentacion.md`.

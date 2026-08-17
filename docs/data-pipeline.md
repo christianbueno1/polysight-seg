@@ -51,3 +51,14 @@ quedar registrado con el checkpoint y las métricas.
 El pipeline recibe el nombre del split y selecciona únicamente los UUID asignados en
 `splits.csv`. No calcula ni modifica particiones durante el entrenamiento. Test no puede
 usarse para ajustar augmentations, umbral, arquitectura o hiperparámetros.
+
+## Smoke test en CEDIA
+
+Después de reproducir el dataset y preparar `.venv-cluster`, enviar:
+
+```bash
+sbatch slurm/smoke_data_pipeline.sbatch
+```
+
+El trabajo usa `cpu-dev` y comprueba un batch de cada split, formas `[B,3,256,256]` y
+`[B,1,256,256]`, valores finitos, máscaras binarias y determinismo de validation/test.
