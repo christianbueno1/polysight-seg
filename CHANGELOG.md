@@ -2,6 +2,35 @@
 
 ---
 
+## 2026-08-17 13:48 -0500 — Fase 4: entorno Python preparado mediante Slurm
+
+**Hecho:**
+- Añadido `slurm/setup_cluster_env.sbatch` para crear y auditar `.venv-cluster` desde
+  un nodo `cpu-dev`, sin ejecutar cargas de cómputo en `login1`.
+- Corregida la precedencia de paquetes entre el virtualenv y el `PYTHONPATH` del módulo.
+- Ejecutado el job `23287` desde el commit `956b3583f093978d81a8b1a66e14dae7b4de2009`.
+- Confirmados `pip check` sin errores, estado `COMPLETED`, salida `0:0` y working tree
+  limpio en CEDIA.
+
+**Decisiones:**
+- Python se mantiene en 3.11; no fue la causa de los intentos fallidos de preparación.
+- PyTorch debe proceder del módulo de CEDIA y no descargarse dentro del virtualenv.
+- El `site-packages` del virtualenv precede al `PYTHONPATH` del módulo para respetar
+  NumPy 1.26.4, Pillow 10.4.0 y las demás versiones directas fijadas.
+- La compatibilidad de Torch 2.10.0+cu128 con el driver y la A100 se validará mediante
+  Slurm; el nombre `pytorch/2.2` del módulo no coincide con su contenido efectivo.
+
+**Resultados:**
+- Python 3.11.14, PyTorch 2.10.0+cu128, CUDA build 12.8, cuDNN 91002,
+  torchvision 0.25.0 y pip 26.2.1.
+- Job `23287`: 47 segundos, `cpu-dev`, 4 CPU, 8 GB solicitados y 128868K MaxRSS.
+
+**Pendiente / carry-over:**
+- Ejecutar los smoke tests GPU y del pipeline de datos en CEDIA.
+- Confirmar con el smoke GPU la compatibilidad efectiva entre Torch, driver y A100.
+
+---
+
 ## 2026-08-17 12:51 -0500 — Fase 4: sincronización inicial en CEDIA
 
 **Hecho:**

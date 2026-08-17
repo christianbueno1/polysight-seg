@@ -13,7 +13,7 @@ un pipeline de datos reproducible. PyTorch se ejecuta exclusivamente en CEDIA.
 ### Tareas
 
 - [x] Sincronizar repositorio y dataset en CEDIA
-- [ ] Preparar `.venv-cluster` y registrar versiones efectivas de dependencias
+- [x] Preparar `.venv-cluster` y registrar versiones efectivas de dependencias
 - [ ] Ejecutar los smoke tests GPU y del pipeline de datos en CEDIA
 - [ ] Crear configuración versionada del baseline U-Net/ResNet-34
 - [ ] Implementar la factoría del modelo con entrada RGB y salida de un canal
@@ -40,3 +40,11 @@ un pipeline de datos reproducible. PyTorch se ejecuta exclusivamente en CEDIA.
   `chore/baseline-unet-resnet34`, commit `136d0310ee9faf43f95485f1f274881cade8e874`.
 - ZIP fuente en CEDIA: `$HOME/datasets/hyper-kvasir-segmented-images.zip`, verificado
   con 46.179.365 bytes y SHA-256 `4463011f991dcdc74ec56399788b1a93822593f17ed18a662bdeb7392ffcdd9a`.
+- `.venv-cluster` fue preparado por Slurm en `cpu-dev` con el job `23287`; `pip check`
+  finalizó sin dependencias rotas y el job terminó `COMPLETED` con código `0:0`.
+- Versiones efectivas observadas: Python 3.11.14, PyTorch 2.10.0+cu128, CUDA build
+  12.8, cuDNN 91002, torchvision 0.25.0 y pip 26.2.1.
+- El módulo etiquetado `pytorch/2.2` contiene PyTorch 2.10.0; esta discrepancia con el
+  nombre del módulo debe validarse contra el driver y la GPU mediante el smoke test.
+- El `PYTHONPATH` exportado por el módulo debe conservarse detrás del `site-packages`
+  del virtualenv para usar PyTorch de CEDIA sin eclipsar las dependencias fijadas.
