@@ -2,6 +2,32 @@
 
 ---
 
+## 2026-08-17 17:44 -0500 — Fase 4: contratos CPU del baseline validados
+
+**Hecho:**
+- Añadidas cinco pruebas numéricas para modelo, pérdida y métricas.
+- Separado el descubrimiento de pruebas locales ligeras de las pruebas que importan
+  PyTorch en CEDIA.
+- Añadido y ejecutado `slurm/test_baseline_cpu.sbatch` en `cpu-dev` como job `23300`.
+
+**Decisiones:**
+- La prueba de forma construye U-Net sin descargar pesos ImageNet; conserva y comprueba
+  que la configuración real declara `imagenet`.
+- Los contratos PyTorch se ejecutan en CPU y verifican que el job no reciba GPU.
+- Se prueban backward finito, preferencia de pérdida, matriz de confusión conocida,
+  métricas perfectas, reset y rechazo de formas incompatibles.
+
+**Resultados:**
+- Job `23300`: `COMPLETED`, código `0:0`, 15 segundos y cinco pruebas correctas.
+- Dispositivo contractual: CPU; versión efectiva PyTorch 2.10.0+cu128.
+- Las advertencias de deprecación de `torch.jit.script` proceden de dependencias de
+  `segmentation_models_pytorch` y no afectaron los contratos.
+
+**Pendiente / carry-over:**
+- Preparar y ejecutar el smoke forward/backward del baseline con pesos ImageNet en GPU.
+
+---
+
 ## 2026-08-17 17:26 -0500 — Fase 4: métricas binarias por píxel
 
 **Hecho:**

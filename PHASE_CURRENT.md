@@ -19,7 +19,7 @@ un pipeline de datos reproducible. PyTorch se ejecuta exclusivamente en CEDIA.
 - [x] Implementar la factoría del modelo con entrada RGB y salida de un canal
 - [x] Implementar pérdida combinada BCEWithLogits + Dice
 - [x] Implementar métricas Dice, IoU, precisión y recall por píxel
-- [ ] Añadir pruebas de contratos que puedan ejecutarse sin GPU
+- [x] Añadir pruebas de contratos que puedan ejecutarse sin GPU
 - [ ] Preparar y ejecutar smoke test forward/backward del baseline en CEDIA
 - [ ] Documentar arquitectura, parámetros, resultados y preguntas para la presentación
 
@@ -64,3 +64,5 @@ un pipeline de datos reproducible. PyTorch se ejecuta exclusivamente en CEDIA.
   desde sigmoid y usa suavizado `1e-7` para estabilidad numérica.
 - Las métricas acumulan TP, FP, FN y TN de todo el split y calculan Dice, IoU,
   precisión y recall micro por píxel con umbral inicial 0.5.
+- El job CPU `23300` ejecutó cinco contratos de modelo, pérdida y métricas sin GPU;
+  finalizó `COMPLETED`, código `0:0`, con PyTorch 2.10.0+cu128.
