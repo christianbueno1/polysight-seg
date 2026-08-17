@@ -2,6 +2,30 @@
 
 ---
 
+## 2026-08-17 18:10 -0500 — Cierre de Fase 4 e inicio de Fase 5
+
+**Hecho:**
+- Completadas todas las tareas del baseline U-Net/ResNet-34.
+- Marcada la Fase 4 como completada y activada la Fase 5 en el backlog.
+- Preparada la Fase 5 con tareas de entrenamiento, checkpoints, MLflow, pruebas y
+  ejecución completa en CEDIA.
+
+**Decisiones:**
+- MLflow se integrará antes del primer entrenamiento real para evitar migraciones o
+  historiales parciales.
+- Dice de validation seleccionará `best.pt`; test continuará aislado hasta la Fase 6.
+- Los hiperparámetros de entrenamiento se fijarán de forma declarativa antes del run.
+
+**Resultados de cierre:**
+- Dataset y splits reproducibles, entorno CEDIA validado y contratos CPU correctos.
+- Baseline de 24.436.369 parámetros con forward/backward real exitoso en A100.
+- Pérdida, métricas, documentación y material de presentación completados.
+
+**Pendiente / carry-over:**
+- Iniciar el branch de Fase 5 y adaptar MLflow al repositorio antes de entrenar.
+
+---
+
 ## 2026-08-17 18:09 -0500 — Fase 4: baseline documentado para exposición
 
 **Hecho:**

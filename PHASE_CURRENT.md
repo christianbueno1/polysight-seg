@@ -1,74 +1,41 @@
 # PHASE_CURRENT
 
-## Fase 4 — Baseline U-Net con encoder ResNet-34
+## Fase 5 — Entrenamiento reproducible y seguimiento de experimentos
 
-**Objetivo:** Implementar y validar en CEDIA un baseline de segmentación binaria U-Net
-con encoder ResNet-34 preentrenado en ImageNet, junto con su pérdida y métricas.
+**Objetivo:** Entrenar el baseline U-Net/ResNet-34 en CEDIA con un protocolo versionado,
+checkpoints auditables y seguimiento completo mediante MLflow.
 
-**Contexto:** La Fase 3 dejó splits 700/150/150, configuración de entradas 256 × 256 y
-un pipeline de datos reproducible. PyTorch se ejecuta exclusivamente en CEDIA.
+**Contexto:** La Fase 4 validó datos, arquitectura, pérdida, métricas, contratos CPU y
+un forward/backward real en una A100. El entrenamiento seleccionará el mejor checkpoint
+usando exclusivamente Dice de validation; test permanece aislado para la Fase 6.
 
 ---
 
 ### Tareas
 
-- [x] Sincronizar repositorio y dataset en CEDIA
-- [x] Preparar `.venv-cluster` y registrar versiones efectivas de dependencias
-- [x] Ejecutar los smoke tests GPU y del pipeline de datos en CEDIA
-- [x] Crear configuración versionada del baseline U-Net/ResNet-34
-- [x] Implementar la factoría del modelo con entrada RGB y salida de un canal
-- [x] Implementar pérdida combinada BCEWithLogits + Dice
-- [x] Implementar métricas Dice, IoU, precisión y recall por píxel
-- [x] Añadir pruebas de contratos que puedan ejecutarse sin GPU
-- [x] Preparar y ejecutar smoke test forward/backward del baseline en CEDIA
-- [x] Documentar arquitectura, parámetros, resultados y preguntas para la presentación
+- [ ] Adaptar y versionar la configuración de MLflow para este proyecto
+- [ ] Fijar la dependencia de MLflow y validar `.venv-cluster` en CEDIA
+- [ ] Crear configuración versionada de entrenamiento
+- [ ] Implementar loops de train y validation con métricas por época
+- [ ] Implementar checkpoints `last.pt` y `best.pt` con metadatos de trazabilidad
+- [ ] Integrar parámetros, métricas y artefactos del entrenamiento en MLflow
+- [ ] Añadir pruebas CPU del entrenamiento, checkpoints y tracking
+- [ ] Ejecutar un smoke de entrenamiento de pocos batches en GPU
+- [ ] Ejecutar el entrenamiento completo del baseline en CEDIA
+- [ ] Sincronizar `mlflow.db` y `artifacts/` y verificar la interfaz local
+- [ ] Documentar configuración, curvas y resultados de validation para la presentación
 
 ---
 
 ### Notas y decisiones
 
-- Arquitectura baseline: U-Net con encoder ResNet-34 preentrenado en ImageNet.
-- Entrada: tensor RGB `[B, 3, 256, 256]`.
-- Salida: logits `[B, 1, 256, 256]`; sigmoid y umbral se aplican fuera del modelo.
-- Pérdida inicial: BCEWithLogitsLoss + Dice loss.
-- PyTorch, CUDA y pruebas del modelo no se ejecutarán en el equipo local.
-- Acceso temporal a CEDIA: `ssh -F ~/.ssh/config cedia`, porque un archivo de la
-  configuración SSH global local tiene permisos inseguros.
-- Repositorio público: `https://github.com/christianbueno1/polysight-seg`, con `dev`
-  como rama de integración predeterminada.
-- Copia de trabajo en CEDIA: `$HOME/projects/polysight-seg`, rama
-  `chore/baseline-unet-resnet34`, commit `136d0310ee9faf43f95485f1f274881cade8e874`.
-- ZIP fuente en CEDIA: `$HOME/datasets/hyper-kvasir-segmented-images.zip`, verificado
-  con 46.179.365 bytes y SHA-256 `4463011f991dcdc74ec56399788b1a93822593f17ed18a662bdeb7392ffcdd9a`.
-- `.venv-cluster` fue preparado por Slurm en `cpu-dev` con el job `23287`; `pip check`
-  finalizó sin dependencias rotas y el job terminó `COMPLETED` con código `0:0`.
-- Versiones efectivas observadas: Python 3.11.14, PyTorch 2.10.0+cu128, CUDA build
-  12.8, cuDNN 91002, torchvision 0.25.0 y pip 26.2.1.
-- El módulo etiquetado `pytorch/2.2` contiene PyTorch 2.10.0; esta discrepancia con el
-  nombre del módulo debe validarse contra el driver y la GPU mediante el smoke test.
-- El `PYTHONPATH` exportado por el módulo debe conservarse detrás del `site-packages`
-  del virtualenv para usar PyTorch de CEDIA sin eclipsar las dependencias fijadas.
-- Smoke GPU `23294`: `COMPLETED` con A100-SXM4-40GB, CUDA disponible, forward/backward
-  correcto y pérdida 0.2901759743690491.
-- El driver NVIDIA 535.161.08 reporta CUDA 12.2, pero PyTorch 2.10.0+cu128 completó el
-  smoke GPU; la combinación efectiva funciona en el nodo asignado.
-- Preparación de datos `23295`: 1.000 pares y hashes de manifest/splits idénticos a
-  los locales; smoke del pipeline `23296`: `status=ok` para 700/150/150 muestras.
-- En jobs CPU, la advertencia de `pin_memory` sin acelerador es esperada y no afecta el
-  contrato del pipeline; en entrenamiento GPU sí podrá fijar memoria para transferencias.
-- Configuración canónica del modelo: `configs/models/unet-resnet34.yaml`; no incluye
-  hiperparámetros de entrenamiento y mantiene la activación fuera de la red.
-- La factoría valida el contrato antes de construir y realiza el import pesado de
-  `segmentation_models_pytorch` de forma diferida para no requerir PyTorch localmente.
-- La pérdida suma BCEWithLogits y Dice con pesos 1.0/1.0; Dice se calcula por muestra
-  desde sigmoid y usa suavizado `1e-7` para estabilidad numérica.
-- Las métricas acumulan TP, FP, FN y TN de todo el split y calculan Dice, IoU,
-  precisión y recall micro por píxel con umbral inicial 0.5.
-- El job CPU `23300` ejecutó cinco contratos de modelo, pérdida y métricas sin GPU;
-  finalizó `COMPLETED`, código `0:0`, con PyTorch 2.10.0+cu128.
-- Smoke GPU real `23304`: U-Net/ResNet-34 con pesos ImageNet, batch 8, salida
-  `[8,1,256,256]`, pérdida 1.3424215, backward finito y `status=ok`.
-- El baseline tiene 24.436.369 parámetros entrenables y usó 951.611.392 bytes de
-  memoria GPU pico en el smoke; las métricas previas al entrenamiento no miden calidad.
-- Pesos `resnet34-333f7ec4.pth`: 87.306.240 bytes y SHA-256
-  `333f7ec4c6338da2cbed37f1fc0445f9624f1355633fa1d7eab79a91084c6cef`.
+- MLflow se incorpora antes del primer entrenamiento completo; no existen ejecuciones
+  históricas que migrar.
+- Registrar por época: loss, Dice, IoU, precisión, recall y learning rate para train y
+  validation cuando corresponda.
+- Registrar también commit, configuraciones, versiones efectivas y hashes del dataset.
+- `best.pt` se selecciona por Dice de validation; test no participa en selección ni
+  ajuste de hiperparámetros.
+- `mlflow.db`, artefactos, checkpoints y logs permanecen fuera de Git.
+- Los hiperparámetros concretos se decidirán y documentarán al crear la configuración
+  de entrenamiento, antes de ejecutar el primer run.
