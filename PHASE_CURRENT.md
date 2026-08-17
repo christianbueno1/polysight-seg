@@ -16,7 +16,7 @@ un pipeline de datos reproducible. PyTorch se ejecuta exclusivamente en CEDIA.
 - [x] Preparar `.venv-cluster` y registrar versiones efectivas de dependencias
 - [x] Ejecutar los smoke tests GPU y del pipeline de datos en CEDIA
 - [x] Crear configuración versionada del baseline U-Net/ResNet-34
-- [ ] Implementar la factoría del modelo con entrada RGB y salida de un canal
+- [x] Implementar la factoría del modelo con entrada RGB y salida de un canal
 - [ ] Implementar pérdida combinada BCEWithLogits + Dice
 - [ ] Implementar métricas Dice, IoU, precisión y recall por píxel
 - [ ] Añadir pruebas de contratos que puedan ejecutarse sin GPU
@@ -58,3 +58,5 @@ un pipeline de datos reproducible. PyTorch se ejecuta exclusivamente en CEDIA.
   contrato del pipeline; en entrenamiento GPU sí podrá fijar memoria para transferencias.
 - Configuración canónica del modelo: `configs/models/unet-resnet34.yaml`; no incluye
   hiperparámetros de entrenamiento y mantiene la activación fuera de la red.
+- La factoría valida el contrato antes de construir y realiza el import pesado de
+  `segmentation_models_pytorch` de forma diferida para no requerir PyTorch localmente.

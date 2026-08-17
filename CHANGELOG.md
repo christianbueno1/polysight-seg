@@ -2,6 +2,27 @@
 
 ---
 
+## 2026-08-17 15:37 -0500 — Fase 4: factoría del modelo
+
+**Hecho:**
+- Creado el paquete `polysight_seg.models` con carga de configuración y factoría.
+- Implementada la construcción de `segmentation_models_pytorch.Unet` desde el YAML.
+- Verificado localmente que cargar la configuración no importa PyTorch.
+- Ejecutadas correctamente las nueve comprobaciones locales sin PyTorch.
+
+**Decisiones:**
+- La factoría solo acepta el contrato aprobado: U-Net, entrada RGB, una clase de salida
+  y ausencia de activación interna.
+- El import de `segmentation_models_pytorch` es diferido para mantener separadas las
+  validaciones locales ligeras de la ejecución PyTorch en CEDIA.
+- La descarga y construcción efectiva de los pesos ImageNet se comprobarán en el smoke
+  forward/backward del baseline, no en el equipo local.
+
+**Pendiente / carry-over:**
+- Implementar la pérdida combinada BCEWithLogits + Dice.
+
+---
+
 ## 2026-08-17 14:44 -0500 — Fase 4: configuración del baseline
 
 **Hecho:**
