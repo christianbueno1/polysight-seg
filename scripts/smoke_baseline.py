@@ -34,8 +34,9 @@ def main() -> None:
 
     torch.manual_seed(args.seed)
     device = torch.device("cuda:0")
+    torch.cuda.set_device(device)
     torch.cuda.manual_seed_all(args.seed)
-    torch.cuda.reset_peak_memory_stats(device)
+    torch.cuda.reset_peak_memory_stats()
 
     model_config = load_model_config(args.model_config)
     data_config = load_data_config(args.data_config)
@@ -82,7 +83,7 @@ def main() -> None:
         "trainable_parameters": sum(
             parameter.numel() for parameter in model.parameters() if parameter.requires_grad
         ),
-        "peak_gpu_memory_bytes": torch.cuda.max_memory_allocated(device),
+        "peak_gpu_memory_bytes": torch.cuda.max_memory_allocated(),
     }
     print(json.dumps(report, indent=2, sort_keys=True))
 
