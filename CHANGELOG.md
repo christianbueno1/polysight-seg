@@ -2,6 +2,26 @@
 
 ---
 
+## 2026-08-17 12:51 -0500 — Fase 4: sincronización inicial en CEDIA
+
+**Hecho:**
+- Clonada la rama `chore/baseline-unet-resnet34` en
+  `$HOME/projects/polysight-seg` en CEDIA.
+- Transferido el ZIP original de Kvasir-SEG a `$HOME/datasets` mediante `rsync`.
+- Verificados en CEDIA el commit, el working tree limpio, el tamaño y el SHA-256 del ZIP.
+
+**Decisiones:**
+- Se conserva el ZIP original fuera de Git y se reconstruirán los datos derivados con
+  los scripts versionados después de preparar `.venv-cluster`.
+- Se ejecuta la fase desde su branch dedicado y el commit aprobado
+  `136d0310ee9faf43f95485f1f274881cade8e874`.
+
+**Pendiente / carry-over:**
+- Preparar `.venv-cluster` y registrar las versiones efectivas de dependencias.
+- Reproducir los artefactos del dataset y ejecutar los smoke tests en CEDIA.
+
+---
+
 ## 2026-08-17 12:46 -0500 — Cierre de sesión: publicación y preparación de Fase 4
 
 **Hecho:**

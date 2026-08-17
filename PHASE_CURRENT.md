@@ -12,7 +12,7 @@ un pipeline de datos reproducible. PyTorch se ejecuta exclusivamente en CEDIA.
 
 ### Tareas
 
-- [ ] Sincronizar repositorio y dataset en CEDIA
+- [x] Sincronizar repositorio y dataset en CEDIA
 - [ ] Preparar `.venv-cluster` y registrar versiones efectivas de dependencias
 - [ ] Ejecutar los smoke tests GPU y del pipeline de datos en CEDIA
 - [ ] Crear configuración versionada del baseline U-Net/ResNet-34
@@ -36,3 +36,7 @@ un pipeline de datos reproducible. PyTorch se ejecuta exclusivamente en CEDIA.
   configuración SSH global local tiene permisos inseguros.
 - Repositorio público: `https://github.com/christianbueno1/polysight-seg`, con `dev`
   como rama de integración predeterminada.
+- Copia de trabajo en CEDIA: `$HOME/projects/polysight-seg`, rama
+  `chore/baseline-unet-resnet34`, commit `136d0310ee9faf43f95485f1f274881cade8e874`.
+- ZIP fuente en CEDIA: `$HOME/datasets/hyper-kvasir-segmented-images.zip`, verificado
+  con 46.179.365 bytes y SHA-256 `4463011f991dcdc74ec56399788b1a93822593f17ed18a662bdeb7392ffcdd9a`.
