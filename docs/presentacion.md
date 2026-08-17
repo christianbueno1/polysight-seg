@@ -162,3 +162,35 @@ separación por archivo y duplicado exacto, no independencia clínica.
 
 Porque adaptar la partición después de observar métricas introduce sesgo y dificulta una
 comparación justa. La semilla, asignaciones y hashes quedan fijados antes de entrenar.
+
+---
+
+## Validación del entorno en CEDIA
+
+### Mensaje principal
+
+Antes de entrenar verificamos el entorno, la GPU y el pipeline con trabajos cortos de
+Slurm. Esto reduce el riesgo de descubrir errores durante un entrenamiento costoso.
+
+### Evidencia obtenida
+
+- Entorno: Python 3.11.14 y PyTorch 2.10.0+cu128 suministrado por CEDIA.
+- Hardware: una NVIDIA A100-SXM4-40GB detectada correctamente.
+- Smoke GPU: CUDA disponible y ciclo forward/backward completado.
+- Datos: 1.000 pares reconstruidos con los mismos hashes que en local.
+- Pipeline: batches de imágenes `[8, 3, 256, 256]` y máscaras `[8, 1, 256, 256]`.
+- Splits verificados: 700 train, 150 validation y 150 test.
+
+### Cómo interpretarlo
+
+Estos resultados demuestran que la infraestructura y los datos están listos para
+implementar el baseline. Todavía no son resultados de entrenamiento ni métricas de
+calidad del modelo.
+
+### Pregunta probable
+
+#### ¿Por qué usar Slurm incluso para pruebas cortas?
+
+Porque el nodo de acceso solo administra archivos y trabajos. Slurm asigna de forma
+explícita CPU, memoria y GPU en los nodos de cómputo y deja evidencia reproducible de
+cada ejecución.

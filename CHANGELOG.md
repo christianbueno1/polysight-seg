@@ -2,6 +2,23 @@
 
 ---
 
+## 2026-08-17 14:41 -0500 — Fase 4: evidencia CEDIA para la presentación
+
+**Hecho:**
+- Añadida a `docs/presentacion.md` una síntesis de entorno, GPU, datos y pipeline
+  verificados mediante Slurm.
+- Aclarado que los smoke tests validan preparación técnica, no calidad del modelo ni
+  resultados de entrenamiento.
+
+**Decisiones:**
+- Se priorizan cifras breves y defendibles durante la exposición, junto con una respuesta
+  directa sobre el uso obligatorio de Slurm para acceder a nodos de cómputo.
+
+**Pendiente / carry-over:**
+- Crear la configuración versionada del baseline U-Net/ResNet-34.
+
+---
+
 ## 2026-08-17 14:30 -0500 — Fase 4: smoke tests GPU y datos completados
 
 **Hecho:**
