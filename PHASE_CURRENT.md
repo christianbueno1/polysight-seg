@@ -19,8 +19,8 @@ datos binarios.
 - [x] Implementar extracción segura e idempotente bajo `data/raw/`
 - [x] Validar archivos corruptos, nombres y correspondencia de los 1.000 pares
 - [x] Validar dimensiones y binarización explícita de máscaras JPEG
-- [ ] Calcular hashes, duplicados exactos y porcentaje de píxeles de pólipo
-- [ ] Generar manifest y resumen reproducibles bajo `data/processed/`
+- [x] Calcular hashes, duplicados exactos y porcentaje de píxeles de pólipo
+- [x] Generar manifest y resumen reproducibles bajo `data/processed/`
 - [ ] Añadir pruebas ligeras para la lógica de validación de datos
 - [ ] Documentar transferencia y reproducción del dataset en CEDIA
 - [ ] Ejecutar la validación completa y registrar resultados
@@ -45,3 +45,6 @@ datos binarios.
   contiene valores iguales al ancho o alto de la imagen.
 - Las máscaras se convierten a escala de grises y se binarizan con `valor >= 128`; cada
   máscara debe conservar al menos un píxel de fondo y uno de pólipo.
+- El manifest se ordena por UUID, usa rutas relativas y no incluye timestamps para que
+  su contenido sea reproducible a partir del mismo archivo fuente.
+- Los grupos de duplicados exactos se definen usando el SHA-256 del JPEG original.
