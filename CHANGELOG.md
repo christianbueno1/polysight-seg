@@ -2,6 +2,26 @@
 
 ---
 
+## 2026-08-17 14:44 -0500 — Fase 4: configuración del baseline
+
+**Hecho:**
+- Creada `configs/models/unet-resnet34.yaml` como configuración canónica del modelo.
+- Documentada la relación entre la configuración del modelo y la de Kvasir-SEG.
+- Validado el YAML y ejecutadas las nueve comprobaciones locales sin PyTorch.
+
+**Decisiones:**
+- El baseline usa `segmentation_models_pytorch.Unet`, encoder ResNet-34 y pesos ImageNet.
+- La red recibe tres canales y devuelve un canal de logits; no incorpora sigmoid para
+  mantener compatibilidad numérica con BCEWithLogitsLoss.
+- El umbral inicial 0.5 se aplica fuera del modelo y solo podrá ajustarse con validation.
+- Los hiperparámetros de entrenamiento se mantienen fuera de esta configuración hasta
+  la fase correspondiente.
+
+**Pendiente / carry-over:**
+- Implementar la factoría del modelo desde la configuración versionada.
+
+---
+
 ## 2026-08-17 14:41 -0500 — Fase 4: evidencia CEDIA para la presentación
 
 **Hecho:**

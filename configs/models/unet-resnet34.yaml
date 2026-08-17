@@ -1,0 +1,21 @@
+schema_version: 1
+
+model:
+  name: unet-resnet34
+  library: segmentation_models_pytorch
+  architecture: Unet
+  encoder_name: resnet34
+  encoder_weights: imagenet
+  in_channels: 3
+  classes: 1
+  activation: null
+
+input:
+  data_config: configs/data/kvasir-seg.yaml
+  shape: [3, 256, 256]
+
+output:
+  type: logits
+  shape: [1, 256, 256]
+  postprocessing: sigmoid_then_threshold
+  initial_threshold: 0.5
