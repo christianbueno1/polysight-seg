@@ -1,0 +1,106 @@
+# Presentación de PolySight Seg
+
+Este documento reúne material explicativo para presentar el proyecto y responder
+preguntas de la audiencia. Se ampliará conforme avancen las fases.
+
+---
+
+## Preparación de máscaras: binarización de Kvasir-SEG
+
+### Cómo explicarlo durante la exposición
+
+Kvasir-SEG contiene 1.000 imágenes endoscópicas y sus respectivas máscaras de
+segmentación. En una máscara ideal, el fondo tendría valor `0` y el pólipo valor `255`.
+Sin embargo, las máscaras del dataset están almacenadas como JPEG, un formato con
+compresión con pérdida. Esa compresión introduce valores intermedios alrededor de los
+bordes y evita que podamos tratar los píxeles originales como categorías exactas.
+
+Por esta razón definimos una regla única y reproducible antes de entrenar:
+
+```text
+valor en escala de grises < 128  -> fondo (0)
+valor en escala de grises >= 128 -> pólipo (255)
+```
+
+Primero convertimos cada máscara RGB a escala de grises y luego aplicamos el umbral. El
+resultado contiene únicamente dos valores y representa una tarea de segmentación
+binaria: fondo frente a pólipo.
+
+### Por qué esta decisión es importante
+
+Sin una regla explícita, distintas librerías o implementaciones podrían interpretar las
+mismas máscaras de manera diferente. Eso afectaría la pérdida, las métricas Dice e IoU,
+el tamaño aparente del pólipo y la comparación entre experimentos.
+
+El umbral queda centralizado como parte del código y registrado en el manifest. De este
+modo, entrenamiento, validación, test e inferencia usan exactamente la misma definición
+de máscara.
+
+### Resultados observados
+
+- Se analizaron las 1.000 máscaras.
+- Las 1.000 contienen valores intermedios causados por la compresión JPEG.
+- Después del umbral, todas conservan al menos un píxel de fondo y uno de pólipo.
+- La proporción global de píxeles de pólipo es aproximadamente `15,64 %`.
+- Por imagen, la proporción promedio es `15,39 %` y la mediana es `11,40 %`.
+- La máscara más pequeña ocupa aproximadamente `0,47 %` de su imagen.
+- La máscara más grande ocupa aproximadamente `81,18 %` de su imagen.
+
+Estos valores muestran un desbalance claro entre fondo y pólipo y también una variación
+considerable en el tamaño de las lesiones. Esto justifica usar Dice e IoU como métricas
+principales y considerar el tamaño del pólipo al construir los splits.
+
+### Qué no hicimos
+
+- No sobrescribimos las máscaras originales.
+- No modificamos el ZIP descargado.
+- No elegimos el umbral usando validation o test.
+- No tratamos los valores intermedios de JPEG como clases adicionales.
+- No ejecutamos PyTorch localmente; esta preparación usa únicamente Pillow.
+
+Las máscaras originales permanecen como fuente inmutable. La binarización se aplica de
+forma determinista cuando el pipeline la necesita.
+
+### Preguntas de la audiencia y respuestas
+
+#### ¿Por qué no usar directamente los valores 0 y 255?
+
+Porque JPEG altera los valores durante la compresión. Aunque visualmente la máscara
+parezca binaria, sus píxeles contienen muchos niveles intermedios. Exigir solamente `0`
+y `255` descartaría información válida o produciría máscaras inconsistentes.
+
+#### ¿Por qué se eligió el umbral 128?
+
+Es el punto medio reproducible del rango de 8 bits entre fondo y primer plano. Se adoptó
+como regla de preparación, no como hiperparámetro ajustado con resultados del modelo.
+Cambiarlo requeriría versionar nuevamente el manifest y repetir los experimentos.
+
+#### ¿El umbral 128 puede alterar el borde del pólipo?
+
+Sí, cualquier binarización decide cómo clasificar los píxeles ambiguos del borde. Por
+eso la regla se documenta y se mantiene idéntica en todos los experimentos. Así la
+comparación entre modelos sigue siendo justa.
+
+#### ¿Por qué no guardar nuevas máscaras PNG ya binarizadas?
+
+No es necesario en esta etapa. Conservar la fuente original y aplicar una transformación
+determinista evita duplicar datos y mantiene trazabilidad. Si más adelante se materializa
+una versión PNG por rendimiento, deberá guardarse como artefacto derivado con su propia
+versión y hashes.
+
+#### ¿Por qué pixel accuracy no sería suficiente?
+
+El fondo domina gran parte de las imágenes. Un modelo podría obtener accuracy alta
+prediciendo principalmente fondo y aun así segmentar mal el pólipo. Dice e IoU miden
+mejor la superposición de la región relevante.
+
+#### ¿La binarización usa PyTorch?
+
+No. Se realiza con Pillow y puede validarse localmente con bajo consumo. PyTorch queda
+reservado para entrenamiento y evaluación en el clúster HPC de CEDIA.
+
+#### ¿Se revisaron todas las máscaras o solo una muestra?
+
+Se procesaron las 1.000 máscaras. También se comprobó que cada una coincide en nombre y
+dimensiones con su imagen, que los JPEG pueden decodificarse y que el resultado binario
+no queda vacío.
