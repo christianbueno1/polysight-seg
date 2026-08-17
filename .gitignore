@@ -8,3 +8,10 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Datasets and generated artifacts
+data/
+artifacts/
+checkpoints/
+mlruns/
+slurm-*.out

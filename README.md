@@ -1,0 +1,18 @@
+# PolySight Seg
+
+Proyecto reproducible para entrenar y evaluar modelos de segmentación de pólipos sobre
+Kvasir-SEG.
+
+PyTorch, CUDA, entrenamiento y evaluación acelerada se ejecutan en el clúster HPC de
+CEDIA. El equipo local se usa únicamente para desarrollo y validaciones ligeras:
+
+```bash
+scripts/validate_local.sh
+```
+
+## Documentación
+
+- [Entornos de ejecución](docs/execution-environments.md)
+- [Preparación del proyecto en CEDIA](docs/cedia-project-setup.md)
+- [Guía general del clúster CEDIA](docs/cedia-cluster-guide.md)
+- [Guía del proyecto de segmentación](docs/segmentation-project-guide.md)
