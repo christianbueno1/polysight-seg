@@ -16,3 +16,4 @@
 - [ ] Validación cruzada para medir estabilidad con un dataset pequeño
 - [ ] Pipeline CI/CD para validaciones automáticas
 - [ ] Despliegue del modelo de segmentación
+- [ ] Crear y publicar el repositorio en GitHub mediante `gh` CLI

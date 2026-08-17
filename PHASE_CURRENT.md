@@ -39,3 +39,5 @@ pipeline de carga y transformaciones sincronizadas para ejecutarse con PyTorch e
   por tamaño relativo del pólipo.
 - La falta de identificadores de paciente o procedimiento impide garantizar separación
   clínica y se documentará como limitación del estudio.
+- La creación y publicación del repositorio en GitHub mediante `gh` CLI se realizará en
+  una fase posterior; no forma parte del pipeline de datos actual.
