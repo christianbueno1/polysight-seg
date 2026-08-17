@@ -7,3 +7,5 @@ trabajos reproducibles en CEDIA HPC.
   dependencias efectivas desde un nodo de cómputo CPU.
 - `prepare_dataset.sbatch`: reconstruye y valida dataset, manifest y splits desde el ZIP
   original almacenado fuera de Git.
+- `test_baseline_cpu.sbatch`: ejecuta contratos numéricos del modelo, pérdida y métricas
+  en `cpu-dev`, sin solicitar GPU.
