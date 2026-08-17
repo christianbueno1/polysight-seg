@@ -18,6 +18,9 @@ cd "${SLURM_SUBMIT_DIR}"
 
 python -m venv --system-site-packages .venv-cluster
 source .venv-cluster/bin/activate
+# El módulo exporta un PYTHONPATH que precede al site-packages del virtualenv.
+# El entorno conserva acceso a PyTorch mediante --system-site-packages.
+unset PYTHONPATH
 python -m pip install --upgrade pip
 python -m pip install -e .
 python -m pip check
