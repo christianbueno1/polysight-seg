@@ -2,6 +2,30 @@
 
 ---
 
+## 2026-08-17 12:46 -0500 — Cierre de sesión: publicación y preparación de Fase 4
+
+**Hecho:**
+- Cerrada la Fase 3 e integrada en `dev` con working tree limpio.
+- Creado el repositorio público `christianbueno1/polysight-seg` mediante `gh` CLI.
+- Publicadas las ramas `dev` y `chore/baseline-unet-resnet34`.
+- Verificado acceso al nodo `login1` de CEDIA y disponibilidad de Python 3.11,
+  PyTorch 2.2, CUDA 12.4, particiones CPU/GPU y GPUs A100.
+- Preparada la Fase 4 con tareas para el baseline U-Net/ResNet-34.
+
+**Decisiones:**
+- `dev` es la rama predeterminada remota hasta que exista una release estable en `main`.
+- El repositorio es público; datasets y artefactos continúan excluidos mediante
+  `.gitignore`.
+- Se usará `ssh -F ~/.ssh/config cedia` hasta corregir los permisos de la configuración
+  SSH global local.
+
+**Pendiente / carry-over:**
+- Transferir el ZIP y reproducir dataset/manifests/splits en CEDIA.
+- Ejecutar los smoke tests GPU y del pipeline de datos.
+- Implementar y validar el baseline U-Net/ResNet-34.
+
+---
+
 ## 2026-08-17 12:39 -0500 — Fase 3: Splits y pipeline de datos completados
 
 **Hecho:**

@@ -1,60 +1,38 @@
 # PHASE_CURRENT
 
-## Fase 3 — Splits reproducibles y pipeline de datos
+## Fase 4 — Baseline U-Net con encoder ResNet-34
 
-**Objetivo:** Crear particiones deterministas de train, validation y test, y preparar un
-pipeline de carga y transformaciones sincronizadas para ejecutarse con PyTorch en CEDIA.
+**Objetivo:** Implementar y validar en CEDIA un baseline de segmentación binaria U-Net
+con encoder ResNet-34 preentrenado en ImageNet, junto con su pérdida y métricas.
 
-**Contexto:** La Fase 2 produjo un manifest validado de 1.000 pares bajo
-`data/processed/kvasir-seg/manifest.csv`. Ver `docs/dataset-validation-report.md`.
+**Contexto:** La Fase 3 dejó splits 700/150/150, configuración de entradas 256 × 256 y
+un pipeline de datos reproducible. PyTorch se ejecuta exclusivamente en CEDIA.
 
 ---
 
 ### Tareas
 
-- [x] Verificar si existe un split oficial aplicable específicamente a Kvasir-SEG
-- [x] Definir semilla, proporciones, estratos de tamaño y reglas contra leakage
-- [x] Implementar generación determinista de splits desde el manifest
-- [x] Validar conteos, exclusividad, cobertura y distribución de los splits
-- [x] Definir configuración versionada de datos y transformaciones
-- [x] Implementar Dataset y DataLoader de segmentación para CEDIA
-- [x] Implementar transformaciones sincronizadas de imagen y máscara
-- [x] Añadir pruebas locales para la lógica independiente de PyTorch
-- [x] Preparar un smoke test del pipeline de datos para Slurm
-- [x] Documentar y registrar los resultados reproducibles de la fase
+- [ ] Sincronizar repositorio y dataset en CEDIA
+- [ ] Preparar `.venv-cluster` y registrar versiones efectivas de dependencias
+- [ ] Ejecutar los smoke tests GPU y del pipeline de datos en CEDIA
+- [ ] Crear configuración versionada del baseline U-Net/ResNet-34
+- [ ] Implementar la factoría del modelo con entrada RGB y salida de un canal
+- [ ] Implementar pérdida combinada BCEWithLogits + Dice
+- [ ] Implementar métricas Dice, IoU, precisión y recall por píxel
+- [ ] Añadir pruebas de contratos que puedan ejecutarse sin GPU
+- [ ] Preparar y ejecutar smoke test forward/backward del baseline en CEDIA
+- [ ] Documentar arquitectura, parámetros, resultados y preguntas para la presentación
 
 ---
 
 ### Notas y decisiones
 
-- Test permanecerá aislado y no se usará para elegir umbral, transformaciones ni
-  hiperparámetros.
-- Los grupos de duplicados, si aparecen en futuras versiones del manifest, deberán
-  permanecer completos dentro de un único split.
-- El split se generará localmente sin PyTorch; Dataset, DataLoader y augmentations se
-  ejecutarán y validarán en CEDIA.
-- Los folds oficiales cubren los 10.662 ejemplos etiquetados de clasificación y no
-  constituyen un split train/validation/test específico para Kvasir-SEG.
-- Se adopta una partición 70/15/15 con semilla `20260817` y estratificación determinista
-  por tamaño relativo del pólipo.
-- La falta de identificadores de paciente o procedimiento impide garantizar separación
-  clínica y se documentará como limitación del estudio.
-- La creación y publicación del repositorio en GitHub mediante `gh` CLI se realizará en
-  una fase posterior; no forma parte del pipeline de datos actual.
-- La asignación ordena los grupos mediante SHA-256 de semilla e identificador, por lo
-  que no depende del orden de las filas del manifest.
-- La validación exige cobertura de los 1.000 UUID, conteos 700/150/150, los tres estratos
-  en cada split y ausencia de grupos duplicados repartidos entre particiones.
-- La configuración canónica usa entradas `256 × 256`, normalización de ImageNet,
-  interpolación bilinear para imágenes y nearest-neighbor para máscaras.
-- Solo train aplica transformaciones aleatorias; validation y test son deterministas.
-- El Dataset selecciona UUID exclusivamente desde `splits.csv`, devuelve tensores
-  `image [3,H,W]` y `mask [1,H,W]` y comprueba que la máscara siga siendo binaria.
-- El DataLoader inicializa semillas por worker y solo mezcla el split de train.
-- Las pruebas locales confirman que reordenar el manifest no altera las asignaciones y
-  que los miembros de un grupo duplicado permanecen en el mismo split.
-- El smoke test usa `cpu-dev`, carga un batch de cada split y valida formas, finitud,
-  máscaras binarias y determinismo de validation/test; su ejecución queda pendiente en
-  CEDIA.
-- Los conteos, límites de estratos, limitaciones y hashes reproducibles quedaron
-  registrados en `docs/split-validation-report.md` y `docs/presentacion.md`.
+- Arquitectura baseline: U-Net con encoder ResNet-34 preentrenado en ImageNet.
+- Entrada: tensor RGB `[B, 3, 256, 256]`.
+- Salida: logits `[B, 1, 256, 256]`; sigmoid y umbral se aplican fuera del modelo.
+- Pérdida inicial: BCEWithLogitsLoss + Dice loss.
+- PyTorch, CUDA y pruebas del modelo no se ejecutarán en el equipo local.
+- Acceso temporal a CEDIA: `ssh -F ~/.ssh/config cedia`, porque un archivo de la
+  configuración SSH global local tiene permisos inseguros.
+- Repositorio público: `https://github.com/christianbueno1/polysight-seg`, con `dev`
+  como rama de integración predeterminada.
