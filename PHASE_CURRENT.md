@@ -16,7 +16,7 @@ ejecutar PyTorch exclusivamente en el clúster HPC de CEDIA.
 - [x] Fijar la versión compatible de Python en la configuración del proyecto
 - [x] Definir dependencias reproducibles sin instalarlas en el equipo local
 - [x] Crear la estructura inicial de código, configuración, scripts Slurm y pruebas
-- [ ] Preparar un smoke test de PyTorch y CUDA para un nodo GPU de CEDIA
+- [x] Preparar un smoke test de PyTorch y CUDA para un nodo GPU de CEDIA
 - [ ] Añadir comandos de validación local que no dependan de PyTorch
 - [ ] Documentar la preparación y verificación del entorno en CEDIA
 - [ ] Validar la estructura y los archivos de configuración de la fase
@@ -37,3 +37,5 @@ ejecutar PyTorch exclusivamente en el clúster HPC de CEDIA.
 - El archivo `hyper-kvasir-segmented-images.zip` ya está disponible localmente en
   `/home/chris/Downloads/`; su incorporación y validación corresponden a la Fase 2.
 - Los directorios de datos y artefactos generados se excluyen de Git.
+- El smoke test comprueba CUDA con un forward/backward real y falla explícitamente si
+  el trabajo no recibe una GPU; su ejecución queda pendiente en CEDIA.
