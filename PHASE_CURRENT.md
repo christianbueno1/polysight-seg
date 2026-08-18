@@ -16,7 +16,7 @@ queda diferida y no forma parte de la entrega actual.
 
 - [x] Consolidar en README el objetivo, arquitectura, datos y resultados principales
 - [x] Crear un reporte técnico final con protocolo, métricas y análisis de errores
-- [ ] Documentar cómo recuperar checkpoint, resultados y runs MLflow
+- [x] Documentar cómo recuperar checkpoint, resultados y runs MLflow
 - [ ] Crear una ficha del modelo con uso previsto, límites y riesgos
 - [ ] Revisar que presentación y documentación usen cifras consistentes
 - [ ] Añadir un índice de artefactos y fuentes canónicas
@@ -37,3 +37,5 @@ queda diferida y no forma parte de la entrega actual.
   con una advertencia explícita sobre alcance y variabilidad por imagen.
 - El reporte técnico separa protocolo, resultados agregados, variabilidad por imagen y
   límites; no presenta como comparación ningún experimento no ejecutado.
+- La recuperación parte de los runs canónicos y exige verificar el SHA-256 de `best.pt`;
+  no requiere repetir entrenamiento ni test.

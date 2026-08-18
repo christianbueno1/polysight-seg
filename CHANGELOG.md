@@ -2,6 +2,25 @@
 
 ---
 
+## 2026-08-18 00:57 -0500 — Fase 8: recuperación de artefactos
+
+**Hecho:**
+- Creada una guía para sincronizar `mlflow.db`, artefactos y resultados desde CEDIA.
+- Documentadas las rutas y los identificadores canónicos de entrenamiento y evaluación.
+- Verificados localmente el SHA-256 de `best.pt`, 150 métricas por imagen y 150 mapas de
+  probabilidad.
+
+**Decisiones:**
+- La recuperación valida explícitamente el checkpoint ganador y no requiere repetir
+  entrenamiento ni evaluación de test.
+- Se diferencia el pequeño backend SQLite del directorio de artefactos, que concentra
+  aproximadamente 1.2 GB en la copia actual.
+
+**Pendiente / carry-over:**
+- Crear la ficha del modelo con uso previsto, límites y riesgos.
+
+---
+
 ## 2026-08-18 00:55 -0500 — Fase 8: reporte técnico final
 
 **Hecho:**
