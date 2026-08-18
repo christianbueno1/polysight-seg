@@ -13,5 +13,7 @@ trabajos reproducibles en CEDIA HPC.
   en `cpu-dev`, sin solicitar GPU.
 - `smoke_training_engine.sbatch`: valida en `cpu-dev` agregación por época, actualización
   en train e inmutabilidad del modelo durante validation.
+- `test_training_cpu.sbatch`: ejecuta la suite CPU de loops, checkpoints, tracking y
+  runner, seguida por un servidor MLflow efímero real.
 - `smoke_baseline.sbatch`: ejecuta un batch real del baseline con pesos ImageNet,
   forward/backward y una A100 en `gpu-dev`.

@@ -19,7 +19,7 @@ usando exclusivamente Dice de validation; test permanece aislado para la Fase 6.
 - [x] Implementar loops de train y validation con métricas por época
 - [x] Implementar checkpoints `last.pt` y `best.pt` con metadatos de trazabilidad
 - [x] Integrar parámetros, métricas y artefactos del entrenamiento en MLflow
-- [ ] Añadir pruebas CPU del entrenamiento, checkpoints y tracking
+- [~] Añadir pruebas CPU del entrenamiento, checkpoints y tracking
 - [ ] Ejecutar un smoke de entrenamiento de pocos batches en GPU
 - [ ] Ejecutar el entrenamiento completo del baseline en CEDIA
 - [ ] Sincronizar `mlflow.db` y `artifacts/` y verificar la interfaz local
