@@ -1,54 +1,38 @@
 # PHASE_CURRENT
 
-## Fase 6 — Evaluación, inferencia y análisis de errores del baseline
+## Fase 7 — Comparación U-Net ResNet-34 frente a EfficientNet-B0
 
-**Objetivo:** Evaluar una sola vez el checkpoint seleccionado U-Net/ResNet-34 sobre test,
-conservar resultados reproducibles por imagen y analizar de forma cuantitativa y visual
-los aciertos y errores del baseline.
+**Objetivo:** Entrenar y evaluar una variante U-Net/EfficientNet-B0 bajo el mismo
+protocolo del baseline para comparar calidad, coste y estabilidad de forma justa.
 
-**Contexto:** La Fase 5 seleccionó `best.pt` exclusivamente mediante Dice de validation.
-El checkpoint ganador corresponde a la época 22 con Dice de validation `0.8977634135250631`
-y run MLflow `5fdf1b9929ec443da426c6442d9e20f1`. Test ha permanecido aislado.
+**Contexto:** El baseline U-Net/ResNet-34 quedó cerrado con Dice test `0.9183967352352693`
+e IoU `0.8491068445832013`. Sus splits, resolución, pérdida, semilla, umbral y protocolo
+de selección permanecen fijados y deben reutilizarse en la comparación.
 
 ---
 
 ### Tareas
 
-- [x] Crear una configuración versionada de evaluación e inferencia
-- [x] Implementar carga verificada del checkpoint ganador
-- [x] Implementar evaluación agregada y métricas por imagen sobre test
-- [x] Conservar conteos, probabilidades y curva de umbral como datos regenerables
-- [x] Generar matrices de confusión cruda y normalizada por clase real
-- [x] Implementar inferencia y visualizaciones cualitativas de mejores y peores casos
-- [x] Añadir pruebas CPU para contratos de evaluación y artefactos
-- [x] Ejecutar un smoke GPU de evaluación sin consumir test completo
-- [~] Ejecutar una sola evaluación completa del checkpoint sobre test en CEDIA
-- [~] Registrar métricas y artefactos de evaluación en MLflow
-- [ ] Sincronizar resultados y verificar integridad local
-- [ ] Documentar resultados finales y análisis de errores para la presentación
+- [ ] Definir y versionar la configuración U-Net/EfficientNet-B0
+- [ ] Añadir contratos de arquitectura y presupuesto de parámetros
+- [ ] Ejecutar smoke CPU/GPU de construcción y forward/backward
+- [ ] Crear configuración de entrenamiento comparable al baseline
+- [ ] Ejecutar entrenamiento reproducible con MLflow en CEDIA
+- [ ] Seleccionar `best.pt` exclusivamente mediante Dice de validation
+- [ ] Adaptar y validar la configuración de evaluación sin consumir test
+- [ ] Ejecutar una sola evaluación final sobre el mismo split test
+- [ ] Comparar métricas, parámetros, tiempo y artefactos cualitativos
+- [ ] Documentar conclusiones y limitaciones para la presentación
 
 ---
 
 ### Notas y decisiones
 
-- La evaluación usará `best.pt`, nunca `last.pt`.
-- Test se ejecutará una sola vez después de fijar código, configuración y umbral.
-- El umbral inicial permanece en `0.5`; cualquier análisis de sensibilidad se reportará
-  sin usar test para reajustar el modelo o seleccionar otro checkpoint.
-- Se conservarán TP, FP, FN y TN agregados y por imagen, además de Dice, IoU, precisión
-  y recall, para reconstruir métricas y matrices.
-- Las figuras serán derivados de CSV/JSON versionados o registrados en MLflow; los datos
-  tabulares seguirán siendo la evidencia canónica.
-- Las visualizaciones cualitativas distinguirán imagen, máscara real, probabilidad y
-  predicción binaria, con identificadores suficientes para auditoría.
-- La configuración enlaza el run de entrenamiento y fija `best.pt` por ruta y SHA-256;
-  una evaluación crea un run MLflow separado para no alterar el historial de training.
-- La carga valida sidecar, hash fijado, run MLflow, época, métrica y valor de selección
-  antes de restaurar pesos; el job CPU `23317` verificó los contratos con 12/12 pruebas.
-- El motor calcula métricas micro y por imagen en una sola pasada, conserva mapas
-  `float16` y deriva la curva de umbral y matrices desde conteos; el job `23319` pasó
-  4/4 contratos CPU sin consumir test.
-- El smoke GPU `23320` cargó el checkpoint real y procesó 16 imágenes de validation con
-  AMP; generó todos los artefactos esperados y no consumió ninguna muestra de test.
-- Los jobs `23321`–`23324` validaron paneles cualitativos legibles y tracking MLflow; el
-  run smoke `04ade91887f84f71a2b6004af1ca7f5c` cerró el último gate antes de test.
+- Solo cambia el encoder; datos, splits, resolución, augmentations, pérdida, optimizador,
+  semilla, máximo de épocas, early stopping y umbral se mantienen comparables.
+- Validation seleccionará el checkpoint de EfficientNet-B0; test se conservará aislado
+  hasta cerrar su entrenamiento y evaluador.
+- La comparación reportará Dice e IoU junto con parámetros, tiempo y memoria; una sola
+  métrica no determinará por sí misma la recomendación final.
+- Los resultados del baseline son inmutables y no se reajustarán después de observar la
+  segunda arquitectura.

@@ -2,6 +2,37 @@
 
 ---
 
+## 2026-08-18 00:45 -0500 — Cierre de Fase 6 e inicio de Fase 7
+
+**Hecho:**
+- Ejecutado `best.pt` una sola vez sobre las 150 imágenes de test mediante el job `23325`.
+- Auditados 150 registros por imagen, 150 mapas de probabilidad, nueve umbrales, ambas
+  matrices y 15 paneles cualitativos.
+- Registrada la evaluación final en MLflow y sincronizados base, artefactos y resultados
+  al equipo local.
+- Versionados métricas, conteos, métricas por imagen, curva descriptiva y ejemplos
+  cualitativos para la presentación.
+- Cerrada la Fase 6 y preparado el protocolo comparable de EfficientNet-B0 para Fase 7.
+
+**Decisiones:**
+- El resultado oficial usa umbral `0.5`; la curva de test no se utiliza para reajustarlo.
+- Se reportan métricas agregadas y distribución por imagen porque el promedio oculta
+  fallos severos como el caso mínimo de Dice `0.07747857191064318`.
+- La presentación limita las conclusiones a Kvasir-SEG y no interpreta el estudio como
+  validación clínica externa.
+
+**Resultados:**
+- Dice test `0.9183967352352693`, IoU `0.8491068445832013`, precisión
+  `0.9237401535043426` y recall `0.913114779938238`.
+- Mediana Dice por imagen `0.954879509971524`; máximo `0.9890401607948728`.
+- Run MLflow final: `73876309ec7c45e09023574a02a47475`, estado `FINISHED`.
+
+**Pendiente / carry-over:**
+- Iniciar la comparación U-Net/ResNet-34 frente a U-Net/EfficientNet-B0 sin modificar
+  el protocolo ni los resultados ya cerrados del baseline.
+
+---
+
 ## 2026-08-18 00:36 -0500 — Fase 6: gates cerrados para evaluación de test
 
 **Hecho:**

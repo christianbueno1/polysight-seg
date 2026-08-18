@@ -332,3 +332,49 @@ python scripts/plot_training_history.py \
 Este es un resultado de **validation**, utilizado para seleccionar el checkpoint. El
 conjunto de test permaneció aislado y se evaluará en la siguiente fase para obtener la
 medición final sin sesgo.
+
+---
+
+## Evaluación final sobre test
+
+### Cómo explicarlo durante la exposición
+
+Después de cerrar arquitectura, entrenamiento, checkpoint y umbral, evaluamos `best.pt`
+una sola vez sobre las 150 imágenes de test. El modelo alcanzó:
+
+- Dice: `0,9184`;
+- IoU: `0,8491`;
+- precisión: `0,9237`;
+- recall: `0,9131`.
+
+Esto significa que la predicción presenta una superposición alta con las máscaras reales
+y mantiene un equilibrio razonable entre regiones detectadas incorrectamente y regiones
+del pólipo omitidas. Son métricas micro calculadas sumando todos los píxeles de test.
+
+La matriz de confusión contiene `1.390.325` verdaderos positivos, `114.779` falsos
+positivos y `132.293` falsos negativos. Por clase real, el modelo reconoce correctamente
+el `98,62 %` del fondo y el `91,31 %` de los píxeles de pólipo.
+
+### El promedio no cuenta toda la historia
+
+El Dice por imagen tuvo mediana `0,9549`, máximo `0,9890` y mínimo `0,0775`. La mayoría
+de los casos obtiene una segmentación sólida, pero existen fallos severos que el valor
+agregado puede ocultar. En el peor ejemplo, el modelo detecta solo una pequeña zona de
+una lesión extensa; este caso debe analizarse y no descartarse como un simple outlier.
+
+**Mejor caso — Dice `0,9890`:**
+
+![Mejor caso de test](assets/test/best-case.png)
+
+**Caso cercano a la mediana — Dice `0,9548`:**
+
+![Caso mediano de test](assets/test/median-case.png)
+
+**Peor caso — Dice `0,0775`:**
+
+![Peor caso de test](assets/test/worst-case.png)
+
+Los datos fuente permanecen en [`results/test/`](results/test/) y el run MLflow final es
+`73876309ec7c45e09023574a02a47475`. Estos resultados describen el desempeño sobre
+Kvasir-SEG; no constituyen por sí solos una validación clínica ni garantizan el mismo
+rendimiento en otros equipos, hospitales o poblaciones.
