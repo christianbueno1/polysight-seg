@@ -312,6 +312,23 @@ por separado como `last.pt` y no se usa como el mejor modelo.
 - Trazabilidad: métricas por época, configuración y entorno registrados en MLflow.
 - Integridad: `best.pt` y `last.pt` verificados mediante SHA-256.
 
+![Curvas de pérdida y Dice del baseline](assets/unet-resnet34-training-curves.svg)
+
+La pérdida de train continúa bajando y su Dice sigue subiendo, mientras validation se
+estabiliza cerca de `0,89`. Esta separación indica que prolongar el entrenamiento ya no
+mejoraba la generalización. Por eso se conserva la época 22 y se detiene el proceso en
+la 32 después de diez épocas sin una mejora suficiente.
+
+La figura se genera desde
+[`results/unet-resnet34-baseline-history.csv`](results/unet-resnet34-baseline-history.csv)
+con:
+
+```bash
+python scripts/plot_training_history.py \
+  docs/results/unet-resnet34-baseline-history.csv \
+  docs/assets/unet-resnet34-training-curves.svg
+```
+
 Este es un resultado de **validation**, utilizado para seleccionar el checkpoint. El
 conjunto de test permaneció aislado y se evaluará en la siguiente fase para obtener la
 medición final sin sesgo.

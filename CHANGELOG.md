@@ -2,6 +2,36 @@
 
 ---
 
+## 2026-08-17 22:36 -0500 — Cierre de Fase 5 e inicio de Fase 6
+
+**Hecho:**
+- Sincronizados localmente `mlflow.db` y los artefactos de los runs smoke y full; los
+  cuatro checkpoints pasaron su verificación SHA-256.
+- Verificada la interfaz local MLflow y el acceso al run completo, métricas, historial,
+  configuraciones y checkpoint ganador.
+- Versionado el historial de 32 épocas y creado un generador de curvas SVG sin
+  dependencias externas, además de exportaciones SVG editable y PNG de alta resolución.
+- Incorporadas las curvas y su interpretación breve a la presentación.
+- Cerrada la Fase 5 y preparado el tablero de evaluación, inferencia y análisis de errores
+  de la Fase 6.
+
+**Decisiones:**
+- El CSV es la fuente canónica de las curvas; SVG y PNG son derivados regenerables.
+- La línea de selección identifica la época 22 y evita confundir el último valor con el
+  mejor Dice de validation.
+- La Fase 6 evaluará una sola vez `best.pt` sobre test y conservará métricas por imagen,
+  conteos, probabilidades y figuras auditables.
+
+**Resultados:**
+- Run completo accesible localmente: `5fdf1b9929ec443da426c6442d9e20f1`.
+- Mejor Dice de validation: `0.8977634135250631` en la época 22.
+- Curvas regeneradas de forma determinista desde el historial sincronizado.
+
+**Pendiente / carry-over:**
+- Iniciar la implementación de la evaluación sin consumir todavía el conjunto de test.
+
+---
+
 ## 2026-08-17 22:27 -0500 — Fase 5: modelo seleccionado visible en MLflow
 
 **Hecho:**

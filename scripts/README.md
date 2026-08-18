@@ -11,3 +11,19 @@ evaluar y ejecutar inferencia. Las cargas que importen PyTorch se ejecutarán en
   train y validation con un modelo diminuto.
 - `train.py`: ejecuta el runner versionado con MLflow; los límites de batches se usan
   solo para smokes y se omiten durante el entrenamiento completo.
+- `plot_training_history.py`: genera las curvas editables de pérdida y Dice desde el
+  historial CSV versionado.
+
+## Curvas del entrenamiento
+
+`plot_training_history.py` genera una figura SVG editable de pérdida y Dice para train
+y validation usando únicamente la biblioteca estándar de Python:
+
+```bash
+python scripts/plot_training_history.py \
+  docs/results/unet-resnet34-baseline-history.csv \
+  docs/assets/unet-resnet34-training-curves.svg
+```
+
+El script calcula la mejor época directamente desde `val_dice` y la marca en ambos
+paneles; el CSV continúa siendo la fuente canónica de la figura.
