@@ -2,6 +2,29 @@
 
 ---
 
+## 2026-08-18 01:28 -0500 — Cierre de Fase 8: entrega del baseline
+
+**Hecho:**
+- Creado el checklist final de alcance, resultados, trazabilidad, documentación y
+  validación técnica.
+- Cerradas todas las tareas de empaquetado y marcada la Fase 8 como completada.
+- Preparada la fusión del branch de fase en `dev` con el repositorio validado.
+
+**Decisiones:**
+- La entrega final se limita al U-Net/ResNet-34; la comparación EfficientNet-B0 sigue
+  pendiente y requiere una decisión futura antes de iniciar trabajo.
+- Se conserva `PHASE_CURRENT.md` como registro de la fase recién cerrada hasta que el
+  responsable confirme cuál será la siguiente fase activa.
+
+**Resultados:**
+- 24 contratos locales correctos, enlaces internos válidos y documentación consistente.
+- Dice test `0.9183967352352693` e IoU `0.8491068445832013` sobre 150 imágenes.
+
+**Pendiente / carry-over:**
+- Definir si el siguiente trabajo será la Fase 7 u otro pendiente del backlog.
+
+---
+
 ## 2026-08-18 01:26 -0500 — Fase 8: validación final del repositorio
 
 **Hecho:**

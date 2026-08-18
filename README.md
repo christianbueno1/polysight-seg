@@ -43,6 +43,7 @@ Runs principales:
 - [Ficha del modelo](docs/model-card.md)
 - [Recuperación de checkpoint, resultados y runs](docs/artifact-recovery.md)
 - [Índice de artefactos y fuentes canónicas](docs/artifact-index.md)
+- [Checklist de entrega](docs/delivery-checklist.md)
 - [Configuración de entrenamiento](configs/training/unet-resnet34-baseline.yaml)
 - [Configuración de evaluación](configs/evaluation/unet-resnet34-baseline.yaml)
 

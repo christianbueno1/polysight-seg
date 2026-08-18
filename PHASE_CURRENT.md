@@ -21,7 +21,7 @@ queda diferida y no forma parte de la entrega actual.
 - [x] Revisar que presentación y documentación usen cifras consistentes
 - [x] Añadir un índice de artefactos y fuentes canónicas
 - [x] Ejecutar validaciones finales del repositorio y enlaces documentales
-- [ ] Preparar checklist de entrega y cierre de la fase
+- [x] Preparar checklist de entrega y cierre de la fase
 
 ---
 
@@ -48,3 +48,5 @@ queda diferida y no forma parte de la entrega actual.
   experimental externo, con rutas y procedencia de cada elemento.
 - La validación local recorre todos los Markdown versionados y rechaza enlaces locales
   rotos; también conserva los contratos de configuración y consistencia de resultados.
+- El checklist confirma alcance, trazabilidad, documentación y gates técnicos; no se
+  activa la Fase 7 mientras la comparación permanezca diferida.
