@@ -2,6 +2,38 @@
 
 ---
 
+## 2026-08-17 19:26 -0500 — Fase 5: MLflow instalado y validado en CEDIA
+
+**Hecho:**
+- Fijado `mlflow==3.15.1`, compatible con Python 3.11, en las dependencias del proyecto.
+- Incorporados TP, FP, FN y TN de train y validation al contrato de métricas por época.
+- Añadidos un smoke servidor-cliente efímero y su job Slurm para `cpu-dev`.
+- Actualizado `.venv-cluster` mediante el job `23305` y ejecutado el smoke funcional
+  mediante el job `23306`.
+- Documentada en la guía general la estrategia reproducible de instalación en clústeres
+  con módulos, virtualenv y Slurm.
+
+**Decisiones:**
+- La versión de MLflow se fija exactamente y se instala desde el proyecto, no mediante
+  una modificación manual sin trazabilidad.
+- El nodo de login se limita a sincronización, envío y consulta; instalación, imports y
+  validación se ejecutan en nodos de cómputo CPU.
+- El virtualenv reutiliza PyTorch del módulo del clúster y prioriza sus propios paquetes
+  fijados mediante `PYTHONPATH`.
+- La validación usa almacenamiento temporal para no crear runs ni artefactos en el
+  experimento real.
+
+**Resultados:**
+- Job `23305`: `COMPLETED`, código `0:0`; Python 3.11.14, MLflow 3.15.1 y `pip check`
+  sin conflictos.
+- Job `23306`: `COMPLETED`, código `0:0`; servidor, SQLite, métrica y artefacto
+  persistidos y URI `mlflow-artifacts:/` confirmada.
+
+**Pendiente / carry-over:**
+- Crear la configuración versionada del entrenamiento baseline.
+
+---
+
 ## 2026-08-17 19:00 -0500 — Fase 5: separación de guías MLflow
 
 **Hecho:**

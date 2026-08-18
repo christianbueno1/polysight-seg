@@ -14,7 +14,7 @@ usando exclusivamente Dice de validation; test permanece aislado para la Fase 6.
 ### Tareas
 
 - [x] Adaptar y versionar la configuración de MLflow para este proyecto
-- [~] Fijar la dependencia de MLflow y validar `.venv-cluster` en CEDIA
+- [x] Fijar la dependencia de MLflow y validar `.venv-cluster` en CEDIA
 - [ ] Crear configuración versionada de entrenamiento
 - [ ] Implementar loops de train y validation con métricas por época
 - [ ] Implementar checkpoints `last.pt` y `best.pt` con metadatos de trazabilidad
