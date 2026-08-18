@@ -7,13 +7,16 @@ import csv
 import json
 import tempfile
 from pathlib import Path
+from types import SimpleNamespace
 
+import cv2
 import numpy as np
 import torch
 from torch import nn
 
 from polysight_seg.evaluation.engine import evaluate_segmentation
 from polysight_seg.evaluation.artifacts import write_evaluation_artifacts
+from polysight_seg.evaluation.qualitative import generate_qualitative_panels
 
 
 class IdentityModel(nn.Module):
@@ -121,6 +124,32 @@ class EvaluationEngineTest(unittest.TestCase):
             self.assertEqual(saved["probabilities"].dtype, np.float16)
             with paths.per_image_metrics.open(newline="", encoding="utf-8") as stream:
                 self.assertEqual(len(list(csv.DictReader(stream))), 2)
+
+    def test_qualitative_panels_select_best_median_and_worst(self) -> None:
+        result = evaluate_segmentation(
+            IdentityModel(), [_batch()], torch.device("cpu"),
+            threshold=0.5, threshold_values=[0.5]
+        )
+        with tempfile.TemporaryDirectory() as temporary_dir:
+            root = Path(temporary_dir)
+            samples = []
+            for sample_id in ("sample-a", "sample-b"):
+                image_name = f"{sample_id}-image.png"
+                mask_name = f"{sample_id}-mask.png"
+                cv2.imwrite(str(root / image_name), np.full((8, 8, 3), 120, np.uint8))
+                cv2.imwrite(str(root / mask_name), np.full((8, 8), 255, np.uint8))
+                samples.append(
+                    {"sample_id": sample_id, "image_path": image_name, "mask_path": mask_name}
+                )
+            dataset = SimpleNamespace(root=root, samples=samples)
+            selection = generate_qualitative_panels(
+                dataset, result, root / "qualitative", threshold=0.5,
+                best_cases=1, median_cases=1, worst_cases=1,
+            )
+            with selection.open(newline="", encoding="utf-8") as stream:
+                rows = list(csv.DictReader(stream))
+            self.assertEqual({row["category"] for row in rows}, {"best", "median", "worst"})
+            self.assertEqual(len(list((root / "qualitative").glob("*.png"))), 3)
 
 
 if __name__ == "__main__":

@@ -18,6 +18,7 @@ from polysight_seg.data.dataset import build_dataloader, load_data_config
 from polysight_seg.evaluation.artifacts import write_evaluation_artifacts
 from polysight_seg.evaluation.checkpoint import load_selected_checkpoint
 from polysight_seg.evaluation.engine import evaluate_segmentation
+from polysight_seg.evaluation.qualitative import generate_qualitative_panels
 from polysight_seg.models import build_model, load_model_config
 
 
@@ -115,6 +116,16 @@ def run_evaluation(
     if run_mode == "smoke_validation":
         output_root = output_root / "smoke" / os.environ.get("SLURM_JOB_ID", "local")
     paths = write_evaluation_artifacts(result, output_root, evaluation_config["outputs"])
+    qualitative = evaluation_config["qualitative_analysis"]
+    selection_path = generate_qualitative_panels(
+        dataloader.dataset,
+        result,
+        output_root / evaluation_config["outputs"]["qualitative_directory"],
+        threshold=float(prediction["threshold"]),
+        best_cases=int(qualitative["best_cases"]),
+        median_cases=int(qualitative["median_cases"]),
+        worst_cases=int(qualitative["worst_cases"]),
+    )
     summary = {
         "run_mode": run_mode,
         "split": split,
@@ -125,7 +136,7 @@ def run_evaluation(
         "source_training_run_id": checkpoint["source_run_id"],
         "output_directory": str(output_root),
         "metrics_path": str(paths.metrics),
+        "qualitative_selection_path": str(selection_path),
     }
     print(json.dumps(summary, indent=2, sort_keys=True))
     return summary
-
