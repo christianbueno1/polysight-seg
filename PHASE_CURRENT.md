@@ -14,7 +14,7 @@ y run MLflow `5fdf1b9929ec443da426c6442d9e20f1`. Test ha permanecido aislado.
 
 ### Tareas
 
-- [ ] Crear una configuración versionada de evaluación e inferencia
+- [x] Crear una configuración versionada de evaluación e inferencia
 - [ ] Implementar carga verificada del checkpoint ganador
 - [ ] Implementar evaluación agregada y métricas por imagen sobre test
 - [ ] Conservar conteos, probabilidades y curva de umbral como datos regenerables
@@ -41,3 +41,5 @@ y run MLflow `5fdf1b9929ec443da426c6442d9e20f1`. Test ha permanecido aislado.
   tabulares seguirán siendo la evidencia canónica.
 - Las visualizaciones cualitativas distinguirán imagen, máscara real, probabilidad y
   predicción binaria, con identificadores suficientes para auditoría.
+- La configuración enlaza el run de entrenamiento y fija `best.pt` por ruta y SHA-256;
+  una evaluación crea un run MLflow separado para no alterar el historial de training.

@@ -2,6 +2,28 @@
 
 ---
 
+## 2026-08-17 23:21 -0500 — Fase 6: protocolo de evaluación versionado
+
+**Hecho:**
+- Creada la configuración de evaluación final del U-Net/ResNet-34 con checkpoint, hash,
+  run de origen, split, umbral, métricas y artefactos explícitos.
+- Añadidos cuatro contratos locales que impiden usar `last.pt`, cambiar el umbral con
+  test u omitir evidencia necesaria para reconstruir resultados.
+- Incorporada la configuración a los índices y al validador local.
+
+**Decisiones:**
+- `best.pt` queda fijado por su SHA-256 y por el run de entrenamiento que lo produjo.
+- La evaluación se registrará como un run MLflow separado enlazado al run de training.
+- La curva de umbral sobre test será únicamente descriptiva; el umbral operativo `0.5`
+  no cambiará después de observar test.
+- Se conservarán mapas de probabilidad comprimidos en `float16`, métricas por imagen,
+  matrices y casos cualitativos para permitir análisis posteriores sin repetir inferencia.
+
+**Pendiente / carry-over:**
+- Implementar carga verificada del checkpoint ganador.
+
+---
+
 ## 2026-08-17 22:36 -0500 — Cierre de Fase 5 e inicio de Fase 6
 
 **Hecho:**
