@@ -1,38 +1,35 @@
 # PHASE_CURRENT
 
-## Fase 7 — Comparación U-Net ResNet-34 frente a EfficientNet-B0
+## Fase 8 — Empaquetado de resultados y documentación del estudio
 
-**Objetivo:** Entrenar y evaluar una variante U-Net/EfficientNet-B0 bajo el mismo
-protocolo del baseline para comparar calidad, coste y estabilidad de forma justa.
+**Objetivo:** Consolidar el baseline entrenado, su evaluación final y la evidencia
+reproducible en una entrega comprensible para revisión técnica y presentación.
 
-**Contexto:** El baseline U-Net/ResNet-34 quedó cerrado con Dice test `0.9183967352352693`
-e IoU `0.8491068445832013`. Sus splits, resolución, pérdida, semilla, umbral y protocolo
-de selección permanecen fijados y deben reutilizarse en la comparación.
+**Contexto:** U-Net/ResNet-34 obtuvo Dice test `0.9183967352352693` e IoU
+`0.8491068445832013` sobre 150 imágenes. Configuraciones, checkpoints, métricas,
+probabilidades, paneles y runs MLflow están auditados. La comparación EfficientNet-B0
+queda diferida y no forma parte de la entrega actual.
 
 ---
 
 ### Tareas
 
-- [ ] Definir y versionar la configuración U-Net/EfficientNet-B0
-- [ ] Añadir contratos de arquitectura y presupuesto de parámetros
-- [ ] Ejecutar smoke CPU/GPU de construcción y forward/backward
-- [ ] Crear configuración de entrenamiento comparable al baseline
-- [ ] Ejecutar entrenamiento reproducible con MLflow en CEDIA
-- [ ] Seleccionar `best.pt` exclusivamente mediante Dice de validation
-- [ ] Adaptar y validar la configuración de evaluación sin consumir test
-- [ ] Ejecutar una sola evaluación final sobre el mismo split test
-- [ ] Comparar métricas, parámetros, tiempo y artefactos cualitativos
-- [ ] Documentar conclusiones y limitaciones para la presentación
+- [ ] Consolidar en README el objetivo, arquitectura, datos y resultados principales
+- [ ] Crear un reporte técnico final con protocolo, métricas y análisis de errores
+- [ ] Documentar cómo recuperar checkpoint, resultados y runs MLflow
+- [ ] Crear una ficha del modelo con uso previsto, límites y riesgos
+- [ ] Revisar que presentación y documentación usen cifras consistentes
+- [ ] Añadir un índice de artefactos y fuentes canónicas
+- [ ] Ejecutar validaciones finales del repositorio y enlaces documentales
+- [ ] Preparar checklist de entrega y cierre de la fase
 
 ---
 
 ### Notas y decisiones
 
-- Solo cambia el encoder; datos, splits, resolución, augmentations, pérdida, optimizador,
-  semilla, máximo de épocas, early stopping y umbral se mantienen comparables.
-- Validation seleccionará el checkpoint de EfficientNet-B0; test se conservará aislado
-  hasta cerrar su entrenamiento y evaluador.
-- La comparación reportará Dice e IoU junto con parámetros, tiempo y memoria; una sola
-  métrica no determinará por sí misma la recomendación final.
-- Los resultados del baseline son inmutables y no se reajustarán después de observar la
-  segunda arquitectura.
+- La entrega actual contiene únicamente el baseline U-Net/ResNet-34 cerrado.
+- La Fase 7 permanece pendiente para retomarla posteriormente; no se elimina del backlog.
+- Las métricas oficiales proceden del run MLflow
+  `73876309ec7c45e09023574a02a47475` con umbral fijo `0.5`.
+- Los CSV/JSON son fuentes canónicas; las figuras y resúmenes son derivados.
+- La documentación distinguirá resultados de validation, test y smokes técnicos.

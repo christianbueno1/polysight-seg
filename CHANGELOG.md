@@ -2,6 +2,24 @@
 
 ---
 
+## 2026-08-18 00:51 -0500 — Repriorización: comparación diferida
+
+**Hecho:**
+- Devuelta la Fase 7 de comparación con EfficientNet-B0 a estado pendiente.
+- Activada la Fase 8 para consolidar la entrega del baseline ya entrenado y evaluado.
+- Preparado un tablero de documentación, ficha del modelo, artefactos y validación final.
+
+**Decisiones:**
+- La comparación de encoders no es necesaria para la entrega actual y podrá retomarse
+  posteriormente sin eliminarse del backlog.
+- El empaquetado se limitará al U-Net/ResNet-34 y a sus resultados ya cerrados; no se
+  inferirán comparaciones que no fueron ejecutadas.
+
+**Pendiente / carry-over:**
+- Fusionar el cierre de Fase 6 en `dev` y comenzar el branch de empaquetado.
+
+---
+
 ## 2026-08-18 00:45 -0500 — Cierre de Fase 6 e inicio de Fase 7
 
 **Hecho:**
