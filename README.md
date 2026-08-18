@@ -18,6 +18,7 @@ scripts/validate_local.sh
 - [Preparación del proyecto en CEDIA](docs/cedia-project-setup.md)
 - [Preparación y transferencia de Kvasir-SEG](docs/dataset-preparation.md)
 - [Material para la presentación](docs/presentacion.md)
-- [Seguimiento de experimentos con MLflow](docs/mlflow-guide.md)
+- [Referencia general de MLflow](docs/mlflow-guide.md)
+- [MLflow en PolySight Seg](docs/mlflow-project-guide.md)
 - [Guía general del clúster CEDIA](docs/cedia-cluster-guide.md)
 - [Guía del proyecto de segmentación](docs/segmentation-project-guide.md)

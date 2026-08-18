@@ -1,8 +1,8 @@
 # Guía de MLflow y artefactos reproducibles
 
-Este documento combina criterios reutilizables para futuros experimentos con la
-configuración concreta de PolySight Seg. La regla central es guardar primero los datos
-que originan una figura y tratar PNG, SVG o PDF como productos derivados regenerables.
+Este documento reúne criterios reutilizables para futuros experimentos. La regla central
+es guardar primero los datos que originan una figura y tratar PNG, SVG o PDF como
+productos derivados regenerables.
 
 ## Principios para cualquier experimento
 
@@ -39,9 +39,9 @@ matriz multiclase cruda no es posible cambiar de normalización con fidelidad.
 En segmentación binaria, la matriz se calcula por píxel:
 
 ```text
-real/predicho, fondo, pólipo
+real/predicho, fondo, objeto
 fondo,         TN,    FP
-pólipo,       FN,    TP
+objeto,        FN,    TP
 ```
 
 El fondo suele dominar, por lo que la matriz normalizada debe acompañarse con Dice e
@@ -125,25 +125,13 @@ evaluación.
 | Base SQLite inconsistente | Detener escritores antes de copiar y limitar concurrencia |
 | Nombre de módulo no coincide con versión real | Registrar versiones importadas dentro del job |
 
-## Aplicación en PolySight Seg
+## Ejemplo general: tracking local y portable
 
-### Diseño
-
-Cada job de entrenamiento inicia un servidor MLflow accesible solo desde el nodo
-asignado. El cliente de entrenamiento usa `http://127.0.0.1:5000`; el servidor guarda:
-
-- metadatos de experimentos y runs en `mlflow.db` mediante SQLite;
-- checkpoints, configuraciones y demás artefactos bajo `artifacts/`;
-- URIs portables con esquema `mlflow-artifacts:/`, sin rutas absolutas de CEDIA.
-
-La configuración canónica está en `configs/tracking/mlflow.yaml`. La base y los
-artefactos son estado experimental y no se agregan a Git.
-
-### Servidor dentro del job de CEDIA
-
-El job de entrenamiento iniciará el servidor con el equivalente a:
+Para un experimento individual puede usarse un servidor limitado a loopback, SQLite
+como backend y un directorio local de artefactos:
 
 ```bash
+cd DIRECTORIO_DEL_EXPERIMENTO
 mlflow server \
   --host 127.0.0.1 \
   --port 5000 \
@@ -151,47 +139,23 @@ mlflow server \
   --artifacts-destination ./artifacts
 ```
 
-Solo se ejecutará un escritor sobre esta base SQLite. No se deben lanzar dos jobs de
-entrenamiento concurrentes contra el mismo `mlflow.db`.
+El cliente se conecta al servidor y registra datos con nombres propios de su problema:
 
-### Información de cada run
+```python
+import mlflow
 
-MLflow registrará:
+mlflow.set_tracking_uri("http://127.0.0.1:5000")
+mlflow.set_experiment("nombre-del-experimento")
 
-- commit, job Slurm, configuraciones y versiones efectivas;
-- hashes del dataset, manifest y splits;
-- loss, Dice, IoU, precisión, recall y learning rate por época;
-- `best.pt` seleccionado por Dice de validation y `last.pt` para reanudación;
-- resúmenes de entorno y entrenamiento.
-
-Test no se usará durante esta fase ni se registrará para seleccionar el modelo.
-
-### Sincronización al equipo local
-
-Esperar a que el job y el servidor hayan terminado. Desde la raíz local del proyecto:
-
-```bash
-rsync -av --progress -e 'ssh -F /home/chris/.ssh/config' \
-  cedia:projects/polysight-seg/mlflow.db ./
-rsync -av --progress --exclude='*.log' -e 'ssh -F /home/chris/.ssh/config' \
-  cedia:projects/polysight-seg/artifacts/ ./artifacts/
+with mlflow.start_run(run_name="modelo-configuracion-semilla"):
+    mlflow.log_params({"learning_rate": 1e-3, "seed": 1234})
+    mlflow.log_metric("validation_score", 0.81, step=1)
+    mlflow.log_artifact("history.csv", artifact_path="evaluation")
 ```
 
-No copiar `mlflow.db` mientras exista un proceso escribiendo en ella.
-
-### Interfaz local
-
-Desde la carpeta que contiene `mlflow.db` y `artifacts/`:
-
-```bash
-uvx mlflow server \
-  --host 127.0.0.1 \
-  --port 5000 \
-  --backend-store-uri sqlite:///mlflow.db \
-  --artifacts-destination ./artifacts
-```
-
-Abrir `http://127.0.0.1:5000`. Usar `127.0.0.1` evita exponer la interfaz a la red.
+Para trasladar el experimento se copian juntos `mlflow.db` y `artifacts/`, siempre con
+el servidor detenido. Al iniciar la misma configuración en el destino, las URIs
+`mlflow-artifacts:/` vuelven a resolverse contra el directorio de artefactos copiado.
 
 ## Referencias oficiales
 

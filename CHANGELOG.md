@@ -2,6 +2,29 @@
 
 ---
 
+## 2026-08-17 19:00 -0500 — Fase 5: separación de guías MLflow
+
+**Hecho:**
+- Eliminadas de `docs/mlflow-guide.md` las rutas, nombres y decisiones específicas de
+  PolySight Seg.
+- Añadido un ejemplo neutral de servidor y cliente MLflow con almacenamiento portable.
+- Versionada `docs/mlflow-project-guide.md` como guía exclusiva de este proyecto.
+- Añadido a la guía del proyecto el contrato de matrices, conteos, probabilidades y
+  figuras regenerables para el checkpoint seleccionado.
+- Actualizado el índice de documentación para enlazar ambas guías por separado.
+
+**Decisiones:**
+- La guía general contiene patrones reutilizables y no menciona infraestructura,
+  datasets, modelos ni rutas de un proyecto concreto.
+- La guía de proyecto es la fuente para CEDIA, U-Net/ResNet-34, splits, checkpoints y
+  comandos de sincronización de PolySight Seg.
+
+**Pendiente / carry-over:**
+- Incorporar TP, FP, FN y TN a `configs/tracking/mlflow.yaml`.
+- Fijar la dependencia de MLflow y validar `.venv-cluster` en CEDIA.
+
+---
+
 ## 2026-08-17 18:51 -0500 — Fase 5: referencia reutilizable de MLflow y matrices
 
 **Hecho:**
