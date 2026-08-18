@@ -20,3 +20,4 @@ export PYTHONPATH="${VIRTUAL_ENV}/lib/python3.11/site-packages:${PYTHONPATH:-}:s
 echo "commit=$(git rev-parse HEAD)"
 echo "python=$(python --version 2>&1)"
 srun python scripts/validate_mlflow.py
+python scripts/train.py --help

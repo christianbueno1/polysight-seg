@@ -3,6 +3,7 @@ schema_version: 1
 server:
   host: 127.0.0.1
   port: 5000
+  workers: 1
   tracking_uri: http://127.0.0.1:5000
   backend_store_uri: sqlite:///mlflow.db
   artifacts_destination: ./artifacts
@@ -44,6 +45,8 @@ logging:
     - last_checkpoint
     - environment
     - dataset_hashes
+    - history
+    - run_summary
 
 sync:
   database: mlflow.db

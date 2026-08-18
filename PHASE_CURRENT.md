@@ -18,7 +18,7 @@ usando exclusivamente Dice de validation; test permanece aislado para la Fase 6.
 - [x] Crear configuración versionada de entrenamiento
 - [x] Implementar loops de train y validation con métricas por época
 - [x] Implementar checkpoints `last.pt` y `best.pt` con metadatos de trazabilidad
-- [ ] Integrar parámetros, métricas y artefactos del entrenamiento en MLflow
+- [~] Integrar parámetros, métricas y artefactos del entrenamiento en MLflow
 - [ ] Añadir pruebas CPU del entrenamiento, checkpoints y tracking
 - [ ] Ejecutar un smoke de entrenamiento de pocos batches en GPU
 - [ ] Ejecutar el entrenamiento completo del baseline en CEDIA
@@ -57,3 +57,7 @@ usando exclusivamente Dice de validation; test permanece aislado para la Fase 6.
   `min_delta` configurado sobre Dice de validation.
 - Cada checkpoint usa escritura atómica, sidecar SHA-256 y conserva estados de modelo,
   optimizador, scheduler, scaler y RNG, además de configuración y procedencia.
+- El runner crea un run por entrenamiento, registra configuraciones y entorno al inicio,
+  métricas e historial por época, `best.pt` al mejorar y `last.pt` al finalizar.
+- Los smokes quedan etiquetados como tales y cada run usa un directorio de checkpoints
+  separado por UUID para impedir sobrescrituras entre ejecuciones.

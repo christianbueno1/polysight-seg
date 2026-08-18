@@ -9,3 +9,5 @@ evaluar y ejecutar inferencia. Las cargas que importen PyTorch se ejecutarán en
   métrica y un artefacto mediante el cliente MLflow.
 - `smoke_training_engine.py`: comprueba en CPU los contratos básicos de los loops de
   train y validation con un modelo diminuto.
+- `train.py`: ejecuta el runner versionado con MLflow; los límites de batches se usan
+  solo para smokes y se omiten durante el entrenamiento completo.

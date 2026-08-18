@@ -43,6 +43,24 @@ MLflow registrará:
 
 Test no se usará durante esta fase ni se registrará para seleccionar el modelo.
 
+## Runner integrado
+
+El runner inicia y detiene el servidor, crea o reanuda el run, ejecuta train y
+validation, actualiza scheduler y early stopping y registra checkpoints y artefactos:
+
+```bash
+python scripts/train.py
+```
+
+El entrenamiento completo no usa límites de batches. Las opciones
+`--max-train-batches` y `--max-validation-batches` están reservadas para smokes y esos
+runs quedan etiquetados como `run_mode=smoke` para no confundirlos con resultados.
+
+Cada run usa su propio subdirectorio bajo `checkpoints/`, identificado por el UUID de
+MLflow. `history.csv` se actualiza y registra después de cada época; `best.pt` se sube
+cuando mejora y `last.pt` al finalizar. Si el job falla, los checkpoints locales
+permanecen disponibles para diagnóstico o reanudación.
+
 ## Matriz de confusión y artefactos de evaluación
 
 Por cada época se registrarán `train_tp`, `train_fp`, `train_fn`, `train_tn` y sus

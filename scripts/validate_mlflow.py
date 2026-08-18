@@ -1,48 +1,25 @@
 #!/usr/bin/env python3
-"""Valida MLflow con un servidor y un run efímeros."""
+"""Valida servidor y contrato de tracking MLflow con un run efímero."""
 
 from __future__ import annotations
 
 import socket
-import subprocess
-import sys
 import tempfile
-import time
 from pathlib import Path
-from urllib.request import urlopen
 
 import mlflow
 from mlflow import MlflowClient
 
+from polysight_seg.training.tracking import ExperimentTracker, ManagedMlflowServer
+
 
 EXPECTED_MLFLOW_VERSION = "3.15.1"
-SERVER_TIMEOUT_SECONDS = 30
 
 
 def _available_port() -> int:
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
         server_socket.bind(("127.0.0.1", 0))
         return int(server_socket.getsockname()[1])
-
-
-def _wait_until_ready(tracking_uri: str, process: subprocess.Popen[bytes]) -> None:
-    deadline = time.monotonic() + SERVER_TIMEOUT_SECONDS
-    last_error: Exception | None = None
-
-    while time.monotonic() < deadline:
-        if process.poll() is not None:
-            raise RuntimeError(
-                f"El servidor MLflow terminó antes de estar listo (código {process.returncode})"
-            )
-        try:
-            with urlopen(f"{tracking_uri}/health", timeout=2) as response:
-                if response.status == 200:
-                    return
-        except Exception as error:  # El servidor puede estar iniciando o migrando SQLite.
-            last_error = error
-        time.sleep(0.5)
-
-    raise TimeoutError(f"MLflow no respondió antes del timeout: {last_error}")
 
 
 def main() -> int:
@@ -53,71 +30,67 @@ def main() -> int:
 
     with tempfile.TemporaryDirectory(prefix="polysight-mlflow-") as temporary_dir:
         root = Path(temporary_dir)
-        database = root / "mlflow.db"
-        artifacts = root / "artifacts"
-        server_log = root / "mlflow-server.log"
-        sample_artifact = root / "validation.txt"
         port = _available_port()
-        tracking_uri = f"http://127.0.0.1:{port}"
-        command = [
-            sys.executable,
-            "-m",
-            "mlflow",
-            "server",
-            "--host",
-            "127.0.0.1",
-            "--port",
-            str(port),
-            "--backend-store-uri",
-            f"sqlite:///{database}",
-            "--artifacts-destination",
-            str(artifacts),
-        ]
+        tracking_config = {
+            "schema_version": 1,
+            "server": {
+                "host": "127.0.0.1",
+                "port": port,
+                "workers": 1,
+                "tracking_uri": f"http://127.0.0.1:{port}",
+                "backend_store_uri": f"sqlite:///{root / 'mlflow.db'}",
+                "artifacts_destination": str(root / "artifacts"),
+                "startup_timeout_seconds": 30,
+            },
+            "experiment": {
+                "name": "environment-validation",
+                "run_name_prefix": "validation",
+            },
+            "logging": {"metrics_per_epoch": ["validation_dice"]},
+        }
+        sample_config = root / "sample-config.yaml"
+        sample_config.write_text("schema_version: 1\n", encoding="utf-8")
+        history = root / "history.csv"
+        history.write_text("epoch,validation_dice\n1,0.72\n", encoding="utf-8")
+        tracker = ExperimentTracker(tracking_config)
 
-        with server_log.open("wb") as output:
-            process = subprocess.Popen(command, stdout=output, stderr=subprocess.STDOUT)
-            try:
-                _wait_until_ready(tracking_uri, process)
-                mlflow.set_tracking_uri(tracking_uri)
-                mlflow.set_experiment("environment-validation")
-                sample_artifact.write_text("MLflow operativo\n", encoding="utf-8")
+        with ManagedMlflowServer(tracking_config["server"], root):
+            tracker.configure()
+            with tracker.start_run(
+                run_name="server-client-smoke",
+                tags={"purpose": "environment-validation"},
+            ) as active_run:
+                tracker.validate_artifact_uri(active_run.info.artifact_uri)
+                tracker.log_initial_state(
+                    configs={"validation": {"schema_version": 1}},
+                    config_paths=[sample_config],
+                    dataset_hashes={"manifest_sha256": "0" * 64},
+                    runtime={"mlflow": mlflow.__version__},
+                    pip_freeze=f"mlflow=={mlflow.__version__}\n",
+                )
+                tracker.log_epoch({"validation_dice": 0.72}, epoch=1)
+                tracker.log_history(history)
+                tracker.log_summary({"status": "ok"})
+                run_id = active_run.info.run_id
 
-                with mlflow.start_run(run_name="server-client-smoke") as active_run:
-                    mlflow.log_param("python", f"{sys.version_info.major}.{sys.version_info.minor}")
-                    mlflow.log_metric("validation_dice", 0.72, step=1)
-                    mlflow.log_artifact(sample_artifact)
-                    run_id = active_run.info.run_id
+            client = MlflowClient()
+            run = client.get_run(run_id)
+            training_artifacts = {
+                artifact.path for artifact in client.list_artifacts(run_id, "training")
+            }
+            if run.data.metrics.get("validation_dice") != 0.72:
+                raise RuntimeError("La métrica enviada no quedó persistida")
+            if "training/history.csv" not in training_artifacts:
+                raise RuntimeError("El historial enviado no quedó persistido")
+            if not run.info.artifact_uri.startswith("mlflow-artifacts:/"):
+                raise RuntimeError(f"URI de artefactos no portable: {run.info.artifact_uri}")
+            if not (root / "mlflow.db").is_file():
+                raise RuntimeError("MLflow no creó la base SQLite")
 
-                run = MlflowClient().get_run(run_id)
-                artifact_names = {
-                    artifact.path for artifact in MlflowClient().list_artifacts(run_id)
-                }
-                if run.data.metrics.get("validation_dice") != 0.72:
-                    raise RuntimeError("La métrica enviada no quedó persistida")
-                if sample_artifact.name not in artifact_names:
-                    raise RuntimeError("El artefacto enviado no quedó persistido")
-                if not run.info.artifact_uri.startswith("mlflow-artifacts:/"):
-                    raise RuntimeError(
-                        f"URI de artefactos no portable: {run.info.artifact_uri}"
-                    )
-                if not database.is_file():
-                    raise RuntimeError("MLflow no creó la base SQLite")
-
-                print(f"mlflow={mlflow.__version__}")
-                print(f"tracking_uri={tracking_uri}")
-                print(f"artifact_uri={run.info.artifact_uri}")
-                print("mlflow_server_client_validation=ok")
-            except Exception:
-                output.flush()
-                print(server_log.read_text(encoding="utf-8", errors="replace"), file=sys.stderr)
-                raise
-            finally:
-                process.terminate()
-                try:
-                    process.wait(timeout=10)
-                except subprocess.TimeoutExpired:
-                    process.kill()
-                    process.wait(timeout=5)
+            print(f"mlflow={mlflow.__version__}")
+            print(f"tracking_uri={tracking_config['server']['tracking_uri']}")
+            print(f"artifact_uri={run.info.artifact_uri}")
+            print("mlflow_server_client_validation=ok")
 
     return 0
 
