@@ -2,6 +2,26 @@
 
 ---
 
+## 2026-08-18 05:08 -0500 — Cierre de Fase 9: notebooks para Colab
+
+**Hecho:**
+- Entregados dos notebooks delgados, inferencia reutilizable y contratos estáticos.
+- Superadas 29 validaciones locales sin PyTorch y comprobada la descarga HTTPS del
+  commit inmutable consumido por los notebooks.
+- Preparada la fusión de la fase en `dev`.
+
+**Decisiones:**
+- El responsable solicitó cerrar y fusionar sin ejecutar los notebooks en Colab.
+- No se afirma validación de PyTorch, checkpoint real, GPU, smoke ni entrenamiento en
+  Colab; esa ejecución queda registrada como pendiente externa en el backlog.
+- Test continúa desactivado por defecto en el notebook de reproducción.
+
+**Pendiente / carry-over:**
+- Cuando exista acceso adecuado, ejecutar ambos notebooks en Colab y registrar sus
+  resultados sin modificar los resultados oficiales del baseline.
+
+---
+
 ## 2026-08-18 02:40 -0500 — Fase 9: notebooks de verificación y reproducción
 
 **Hecho:**

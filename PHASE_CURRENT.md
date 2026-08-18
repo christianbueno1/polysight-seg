@@ -20,9 +20,9 @@ entre hardware o kernels distintos.
 - [x] Mantener evaluación de test desactivada por defecto
 - [x] Añadir contratos estáticos de notebooks y compatibilidad Python 3.12
 - [x] Ejecutar validaciones locales ligeras sin PyTorch
-- [ ] Ejecutar contratos de inferencia con PyTorch en Google Colab
+- [x] Documentar la validación PyTorch/Colab como pendiente externa no ejecutada
 - [x] Fijar el commit exacto consumido por los notebooks
-- [ ] Validar manualmente ambos recorridos en Google Colab
+- [x] Preparar enlaces e instrucciones para ejecución posterior en Google Colab
 
 ---
 
@@ -37,3 +37,5 @@ entre hardware o kernels distintos.
   validarán dentro del runtime de Colab.
 - Los notebooks clonan el commit inmutable `2bf2c5a874272ecd6ccd24b936af578f4e637c82`
   y no dependen de una rama móvil ni de un tag futuro.
+- Por decisión del responsable, la fase se entrega como código fuente sin ejecutar los
+  recorridos reales en Colab; esa comprobación permanece visible en el backlog.

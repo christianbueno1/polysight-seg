@@ -10,11 +10,12 @@
 - [x] Fase 6 — Evaluación, inferencia y análisis de errores del baseline
 - [ ] Fase 7 — Comparación U-Net ResNet-34 frente a EfficientNet-B0
 - [x] Fase 8 — Empaquetado de resultados y documentación del estudio
-- [~] Fase 9 — Notebooks reproducibles para Google Colab
+- [x] Fase 9 — Notebooks reproducibles para Google Colab
 
 ## Pendientes por evaluar
 
 - [ ] Validación cruzada para medir estabilidad con un dataset pequeño
 - [ ] Pipeline CI/CD para validaciones automáticas
 - [ ] Despliegue del modelo de segmentación
+- [ ] Ejecutar y validar manualmente los notebooks en Google Colab
 - [x] Crear y publicar el repositorio en GitHub mediante `gh` CLI
