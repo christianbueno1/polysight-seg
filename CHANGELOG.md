@@ -2,6 +2,38 @@
 
 ---
 
+## 2026-08-17 20:40 -0500 — Fase 5: contratos CPU integrales
+
+**Hecho:**
+- Añadidas diez pruebas unitarias para loops, acumulación de gradientes, checkpoints,
+  RNG, tracking y utilidades del runner.
+- Creado `slurm/test_training_cpu.sbatch` para ejecutar la suite sin GPU y continuar con
+  una integración real de servidor y cliente MLflow.
+- Verificados el contrato completo de métricas, el historial CSV atómico y los hashes
+  efectivos del dataset.
+
+**Decisiones:**
+- Los contratos usan modelos escalares mínimos para probar la lógica sin construir el
+  U-Net ni consumir GPU.
+- La suite comprueba explícitamente que train actualiza parámetros y validation usa
+  `eval()` sin modificarlos.
+- La manipulación de un checkpoint debe detectarse mediante SHA-256 antes de intentar
+  cargar su contenido.
+- La restauración de RNG cubre Python, NumPy y PyTorch CPU; CUDA se comprobará dentro
+  del smoke GPU integrado.
+
+**Resultados:**
+- Job `23310`: `COMPLETED`, código `0:0`, 33 segundos en `cpu-dev`.
+- Diez de diez pruebas correctas en PyTorch 2.10.0+cu128.
+- La validación MLflow posterior creó SQLite, registró el run y confirmó una URI
+  `mlflow-artifacts:/` portable.
+
+**Pendiente / carry-over:**
+- Ejecutar el runner completo con pocos batches en una A100 antes del entrenamiento de
+  hasta 50 épocas.
+
+---
+
 ## 2026-08-17 20:30 -0500 — Fase 5: runner integrado con MLflow
 
 **Hecho:**
