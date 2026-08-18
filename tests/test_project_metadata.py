@@ -26,8 +26,8 @@ class ProjectMetadataTest(unittest.TestCase):
     def test_package_version_matches_project(self) -> None:
         self.assertEqual(polysight_seg.__version__, self.project["version"])
 
-    def test_python_is_limited_to_cedia_version(self) -> None:
-        self.assertEqual(self.project["requires-python"], ">=3.11,<3.12")
+    def test_python_supports_cedia_and_colab_versions(self) -> None:
+        self.assertEqual(self.project["requires-python"], ">=3.11,<3.13")
 
     def test_torch_is_not_a_direct_download(self) -> None:
         package_names = {
