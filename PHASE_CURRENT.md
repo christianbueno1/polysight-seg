@@ -20,7 +20,7 @@ queda diferida y no forma parte de la entrega actual.
 - [x] Crear una ficha del modelo con uso previsto, límites y riesgos
 - [x] Revisar que presentación y documentación usen cifras consistentes
 - [x] Añadir un índice de artefactos y fuentes canónicas
-- [ ] Ejecutar validaciones finales del repositorio y enlaces documentales
+- [x] Ejecutar validaciones finales del repositorio y enlaces documentales
 - [ ] Preparar checklist de entrega y cierre de la fase
 
 ---
@@ -46,3 +46,5 @@ queda diferida y no forma parte de la entrega actual.
   anterior a la evaluación de test.
 - El índice distingue fuentes canónicas versionadas, derivados visuales y estado
   experimental externo, con rutas y procedencia de cada elemento.
+- La validación local recorre todos los Markdown versionados y rechaza enlaces locales
+  rotos; también conserva los contratos de configuración y consistencia de resultados.

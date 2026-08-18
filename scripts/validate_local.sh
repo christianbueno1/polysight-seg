@@ -14,7 +14,8 @@ for local_test in \
     test_splits.py \
     test_training_config.py \
     test_evaluation_config.py \
-    test_documentation_consistency.py; do
+    test_documentation_consistency.py \
+    test_markdown_links.py; do
     PYTHONPATH=src python3 -m unittest discover -s tests -p "${local_test}" -v
 done
 
@@ -30,6 +31,7 @@ local_safe_paths=(
     tests/test_training_config.py
     tests/test_evaluation_config.py
     tests/test_documentation_consistency.py
+    tests/test_markdown_links.py
     src/polysight_seg/__init__.py
     src/polysight_seg/cli.py
     src/polysight_seg/data/archive.py

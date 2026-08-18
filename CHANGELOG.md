@@ -2,6 +2,24 @@
 
 ---
 
+## 2026-08-18 01:26 -0500 — Fase 8: validación final del repositorio
+
+**Hecho:**
+- Añadida una prueba que recorre los archivos Markdown versionados y verifica todos sus
+  enlaces locales, incluyendo imágenes y directorios.
+- Integrada la prueba al validador local sin dependencias de PyTorch.
+- Ejecutadas comprobaciones finales de formato, contratos, documentación y estructura.
+
+**Decisiones:**
+- Los enlaces externos no se consultan durante la validación local; los destinos internos
+  sí deben existir en el checkout para que la entrega sea navegable sin red.
+- La comprobación de enlaces queda permanente para futuras ediciones documentales.
+
+**Pendiente / carry-over:**
+- Preparar el checklist de entrega, cerrar la Fase 8 y fusionarla en `dev`.
+
+---
+
 ## 2026-08-18 01:21 -0500 — Fase 8: índice de artefactos
 
 **Hecho:**
