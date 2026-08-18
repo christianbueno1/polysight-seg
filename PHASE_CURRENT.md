@@ -16,7 +16,7 @@ usando exclusivamente Dice de validation; test permanece aislado para la Fase 6.
 - [x] Adaptar y versionar la configuración de MLflow para este proyecto
 - [x] Fijar la dependencia de MLflow y validar `.venv-cluster` en CEDIA
 - [x] Crear configuración versionada de entrenamiento
-- [ ] Implementar loops de train y validation con métricas por época
+- [~] Implementar loops de train y validation con métricas por época
 - [ ] Implementar checkpoints `last.pt` y `best.pt` con metadatos de trazabilidad
 - [ ] Integrar parámetros, métricas y artefactos del entrenamiento en MLflow
 - [ ] Añadir pruebas CPU del entrenamiento, checkpoints y tracking
@@ -50,3 +50,6 @@ usando exclusivamente Dice de validation; test permanece aislado para la Fase 6.
   weight decay `1e-4`, y ReduceLROnPlateau guiado por Dice de validation.
 - Se habilita AMP `float16` con escalado de gradiente en la A100 y determinismo estricto;
   early stopping espera 10 épocas sin mejora y test permanece deshabilitado.
+- Los loops agregan la pérdida ponderada por número de muestras y calculan las métricas
+  micro desde TP, FP, FN y TN acumulados sobre la época completa.
+- Validation usa `inference_mode`, no calcula gradientes ni modifica el optimizador.
