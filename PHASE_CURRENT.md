@@ -19,11 +19,11 @@ y run MLflow `5fdf1b9929ec443da426c6442d9e20f1`. Test ha permanecido aislado.
 - [x] Implementar evaluación agregada y métricas por imagen sobre test
 - [x] Conservar conteos, probabilidades y curva de umbral como datos regenerables
 - [x] Generar matrices de confusión cruda y normalizada por clase real
-- [ ] Implementar inferencia y visualizaciones cualitativas de mejores y peores casos
+- [x] Implementar inferencia y visualizaciones cualitativas de mejores y peores casos
 - [x] Añadir pruebas CPU para contratos de evaluación y artefactos
 - [x] Ejecutar un smoke GPU de evaluación sin consumir test completo
-- [ ] Ejecutar una sola evaluación completa del checkpoint sobre test en CEDIA
-- [ ] Registrar métricas y artefactos de evaluación en MLflow
+- [~] Ejecutar una sola evaluación completa del checkpoint sobre test en CEDIA
+- [~] Registrar métricas y artefactos de evaluación en MLflow
 - [ ] Sincronizar resultados y verificar integridad local
 - [ ] Documentar resultados finales y análisis de errores para la presentación
 
@@ -50,3 +50,5 @@ y run MLflow `5fdf1b9929ec443da426c6442d9e20f1`. Test ha permanecido aislado.
   4/4 contratos CPU sin consumir test.
 - El smoke GPU `23320` cargó el checkpoint real y procesó 16 imágenes de validation con
   AMP; generó todos los artefactos esperados y no consumió ninguna muestra de test.
+- Los jobs `23321`–`23324` validaron paneles cualitativos legibles y tracking MLflow; el
+  run smoke `04ade91887f84f71a2b6004af1ca7f5c` cerró el último gate antes de test.

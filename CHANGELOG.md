@@ -2,6 +2,33 @@
 
 ---
 
+## 2026-08-18 00:36 -0500 — Fase 6: gates cerrados para evaluación de test
+
+**Hecho:**
+- Implementados paneles cualitativos deterministas para mejores, medianos y peores casos
+  con imagen, máscara, probabilidad, predicción y overlay.
+- Inspeccionada y corregida la compatibilidad de etiquetas de los paneles generados.
+- Integrado un run MLflow separado para cada evaluación con tags de checkpoint, run de
+  training, split, métricas y directorio completo de artefactos.
+- Preparado el job definitivo que ejecuta el evaluador sin límites sobre test.
+
+**Decisiones:**
+- La evaluación final escribe bajo `evaluation/.../test` y se niega a comenzar si ese
+  directorio ya existe, como protección contra repeticiones accidentales.
+- El run de evaluación conserva un vínculo explícito al run que produjo `best.pt`.
+- Las etiquetas raster usan caracteres compatibles con OpenCV para evitar texto ilegible.
+
+**Resultados:**
+- Job CPU `23321`: `COMPLETED`, 5/5 contratos cualitativos correctos.
+- Jobs GPU `23322` y `23323`: paneles reales generados y verificados visualmente.
+- Job GPU `23324`: `COMPLETED`, run MLflow
+  `04ade91887f84f71a2b6004af1ca7f5c` con métricas y artefactos portables.
+
+**Pendiente / carry-over:**
+- Ejecutar ahora la evaluación única de las 150 imágenes de test.
+
+---
+
 ## 2026-08-18 00:11 -0500 — Fase 6: smoke GPU del evaluador real
 
 **Hecho:**

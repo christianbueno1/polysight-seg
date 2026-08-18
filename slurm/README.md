@@ -20,3 +20,4 @@ trabajos reproducibles en CEDIA HPC.
 - `test_evaluation_cpu.sbatch`: valida métricas y artefactos con casos sintéticos sin GPU.
 - `smoke_evaluation_gpu.sbatch`: prueba `best.pt` y dos batches reales de validation
   antes de habilitar la evaluación única sobre test.
+- `evaluate_test.sbatch`: evalúa una sola vez `best.pt` sobre las 150 imágenes de test.
