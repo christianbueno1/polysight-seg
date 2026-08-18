@@ -12,7 +12,7 @@ NOTEBOOKS = {
     "inference": PROJECT_ROOT / "notebooks/01-polysight-seg-inference-verification.ipynb",
     "training": PROJECT_ROOT / "notebooks/02-polysight-seg-training-reproduction.ipynb",
 }
-RELEASE_REF = "2bf2c5a874272ecd6ccd24b936af578f4e637c82"
+RELEASE_REF = "c46d252b174546782291d9970b87190ce1ab0da1"
 
 
 class NotebookContractTest(unittest.TestCase):
@@ -51,6 +51,7 @@ class NotebookContractTest(unittest.TestCase):
         self.assertIn("from polysight_seg.inference import predict_image", source)
         self.assertIn("EXPECTED_CHECKPOINT_SHA256", source)
         self.assertIn("scripts/validate_local.sh", source)
+        self.assertIn("examples/segmentation/images/", source)
 
     def test_training_notebook_uses_existing_pipeline_and_disables_test(self) -> None:
         source = self.sources["training"]

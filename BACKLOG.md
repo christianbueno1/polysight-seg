@@ -11,6 +11,7 @@
 - [ ] Fase 7 — Comparación U-Net ResNet-34 frente a EfficientNet-B0
 - [x] Fase 8 — Empaquetado de resultados y documentación del estudio
 - [x] Fase 9 — Notebooks reproducibles para Google Colab
+- [x] Fase 10 — Ejemplos trazables para clasificación y segmentación
 
 ## Pendientes por evaluar
 
