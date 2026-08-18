@@ -44,6 +44,7 @@ Runs principales:
 - [Recuperación de checkpoint, resultados y runs](docs/artifact-recovery.md)
 - [Índice de artefactos y fuentes canónicas](docs/artifact-index.md)
 - [Checklist de entrega](docs/delivery-checklist.md)
+- [Imágenes pequeñas para probar clasificación y segmentación](examples/)
 - [Configuración de entrenamiento](configs/training/unet-resnet34-baseline.yaml)
 - [Configuración de evaluación](configs/evaluation/unet-resnet34-baseline.yaml)
 
@@ -68,11 +69,11 @@ Los notebooks son interfaces ejecutables del código versionado; no duplican el 
 ni el pipeline:
 
 - [`01-polysight-seg-inference-verification.ipynb`](notebooks/01-polysight-seg-inference-verification.ipynb):
-  verifica `best.pt` y ejecuta inferencia visual.
+  verifica `best.pt` y ejecuta inferencia visual con una imagen incluida.
 - [`02-polysight-seg-training-reproduction.ipynb`](notebooks/02-polysight-seg-training-reproduction.ipynb):
   reconstruye datos y splits, ejecuta smoke y permite repetir training.
 
-Ambos clonan el commit `2bf2c5a874272ecd6ccd24b936af578f4e637c82`. Los archivos
+Ambos clonan el commit `c46d252b174546782291d9970b87190ce1ab0da1`. Los archivos
 grandes se proporcionan por Google Drive o carga manual y se validan mediante SHA-256.
 La evaluación sobre test está desactivada por defecto en el notebook de reproducción.
 

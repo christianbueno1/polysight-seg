@@ -2,6 +2,30 @@
 
 ---
 
+## 2026-08-18 05:39 -0500 — Fase 10: ejemplos para probar ambos modelos
+
+**Hecho:**
+- Extraídas sin recomprimir 16 imágenes, una por cada clase real de `main16`.
+- Añadidos tres casos de segmentación de `validation`, uno por estrato, con sus máscaras.
+- Registrados miembros fuente, etiquetas, roles y SHA-256 en `examples/manifest.csv`.
+- Configurado el notebook de inferencia para usar un ejemplo incluido por defecto.
+- Superadas 33 validaciones locales, incluidas apertura JPEG, hashes, cobertura de clases,
+  dimensiones de los pares y pertenencia al split `validation`.
+
+**Decisiones:**
+- Los ejemplos son fixtures funcionales y visuales; no se reportan como evaluación ni
+  deben incorporarse a `test`.
+- Clasificación usa el UUID lexicográficamente menor de cada clase con al menos 100
+  imágenes; segmentación usa el caso central por fracción de máscara en cada estrato.
+- El notebook fija un commit que ya contiene su imagen predeterminada para que la ruta
+  funcione después del clon inmutable en Colab.
+
+**Pendiente / carry-over:**
+- Ejecutar los checkpoints reales sobre estas imágenes en Colab o en la API cuando sus
+  binarios estén disponibles.
+
+---
+
 ## 2026-08-18 05:08 -0500 — Cierre de Fase 9: notebooks para Colab
 
 **Hecho:**

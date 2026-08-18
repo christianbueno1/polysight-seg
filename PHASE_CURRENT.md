@@ -1,41 +1,34 @@
 # PHASE_CURRENT
 
-## Fase 9 — Notebooks reproducibles para Google Colab
+## Fase 10 — Ejemplos trazables para clasificación y segmentación
 
-**Objetivo:** Permitir que un revisor pruebe el código, verifique el checkpoint y repita
-el entrenamiento desde notebooks delgados que reutilizan directamente el paquete.
+**Objetivo:** Versionar un conjunto pequeño de imágenes que permita comprobar de forma
+inmediata el clasificador `main16` y el segmentador sin descargar los datasets completos.
 
-**Contexto:** Colab usa Python 3.12 y recursos efímeros. Los notebooks deben fijar una
-revisión, validar cada archivo grande por SHA-256 y distinguir verificación rápida de
-reproducción completa. Las métricas deben ser comparables; no se exige igualdad binaria
-entre hardware o kernels distintos.
+**Contexto:** Las imágenes proceden de los dos ZIP locales de HyperKvasir. Son fixtures
+funcionales y visuales, no un conjunto para calcular métricas ni reemplazar los splits
+experimentales.
 
 ---
 
 ### Tareas
 
-- [x] Implementar inferencia reutilizable de una imagen en CPU o CUDA
-- [x] Crear notebook de verificación del checkpoint e inferencia visual
-- [x] Crear notebook de reconstrucción de datos y reproducción de training
-- [x] Mantener evaluación de test desactivada por defecto
-- [x] Añadir contratos estáticos de notebooks y compatibilidad Python 3.12
-- [x] Ejecutar validaciones locales ligeras sin PyTorch
-- [x] Documentar la validación PyTorch/Colab como pendiente externa no ejecutada
-- [x] Fijar el commit exacto consumido por los notebooks
-- [x] Preparar enlaces e instrucciones para ejecución posterior en Google Colab
+- [x] Seleccionar una imagen representativa por cada clase de `main16`
+- [x] Seleccionar tres imágenes de `validation` de segmentación con sus máscaras
+- [x] Registrar etiquetas, procedencia y SHA-256 en un manifest
+- [x] Documentar uso, alcance y atribución de los ejemplos
+- [x] Validar formato, hashes, dimensiones y exclusión de `test`
+- [x] Integrar un ejemplo como entrada predeterminada del notebook de inferencia
 
 ---
 
 ### Notas y decisiones
 
-- Los notebooks orquestan funciones y scripts existentes; no duplican el modelo.
-- `best.pt` y el ZIP se reciben desde Drive o carga manual y siempre verifican SHA-256.
-- El recorrido rápido funciona en CPU; smoke y training completo requieren CUDA.
-- Test no participa en el notebook de reproducción y permanece desactivado por defecto.
-- La clasificación y la API quedan fuera de esta fase después del cambio de alcance.
-- La laptop no ejecutará pruebas pesadas; PyTorch, checkpoint real y smoke GPU se
-  validarán dentro del runtime de Colab.
-- Los notebooks clonan el commit inmutable `2bf2c5a874272ecd6ccd24b936af578f4e637c82`
-  y no dependen de una rama móvil ni de un tag futuro.
-- Por decisión del responsable, la fase se entrega como código fuente sin ejecutar los
-  recorridos reales en Colab; esa comprobación permanece visible en el backlog.
+- Clasificación cubre las 16 salidas reales del perfil `main16`; una sola imagen por
+  clase sirve como prueba funcional, no como estimación de calidad.
+- Segmentación usa únicamente `validation`, nunca `test`, e incluye imagen y máscara.
+- La selección es determinista para que pueda reconstruirse desde los ZIP originales.
+- El conjunto completo ocupa 6,2 MiB y contiene 16 imágenes de clasificación y tres
+  pares imagen–máscara de segmentación.
+- Los notebooks fijan el commit `c46d252b174546782291d9970b87190ce1ab0da1`, que ya
+  contiene la imagen de demostración usada como entrada predeterminada.
