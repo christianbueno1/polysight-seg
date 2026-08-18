@@ -19,11 +19,19 @@ logging:
     - train_iou
     - train_precision
     - train_recall
+    - train_tp
+    - train_fp
+    - train_fn
+    - train_tn
     - val_loss
     - val_dice
     - val_iou
     - val_precision
     - val_recall
+    - val_tp
+    - val_fp
+    - val_fn
+    - val_tn
     - learning_rate
   tags:
     - code_commit

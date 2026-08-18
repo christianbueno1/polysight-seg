@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11,<3.12"
 dependencies = [
     "albumentations==1.4.24",
+    "mlflow==3.15.1",
     "numpy==1.26.4",
     "opencv-python-headless==4.10.0.84",
     "pillow==10.4.0",

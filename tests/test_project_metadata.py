@@ -36,6 +36,9 @@ class ProjectMetadataTest(unittest.TestCase):
         }
         self.assertNotIn("torch", package_names)
 
+    def test_mlflow_version_is_pinned(self) -> None:
+        self.assertIn("mlflow==3.15.1", self.project["dependencies"])
+
     def test_required_project_structure_exists(self) -> None:
         required_paths = (
             "configs",
@@ -45,7 +48,9 @@ class ProjectMetadataTest(unittest.TestCase):
             "src/polysight_seg",
             "tests",
             "scripts/smoke_gpu.py",
+            "scripts/validate_mlflow.py",
             "slurm/smoke_gpu.sbatch",
+            "slurm/validate_mlflow.sbatch",
         )
         for relative_path in required_paths:
             with self.subTest(path=relative_path):

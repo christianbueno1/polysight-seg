@@ -14,7 +14,7 @@ usando exclusivamente Dice de validation; test permanece aislado para la Fase 6.
 ### Tareas
 
 - [x] Adaptar y versionar la configuración de MLflow para este proyecto
-- [ ] Fijar la dependencia de MLflow y validar `.venv-cluster` en CEDIA
+- [~] Fijar la dependencia de MLflow y validar `.venv-cluster` en CEDIA
 - [ ] Crear configuración versionada de entrenamiento
 - [ ] Implementar loops de train y validation con métricas por época
 - [ ] Implementar checkpoints `last.pt` y `best.pt` con metadatos de trazabilidad
@@ -42,3 +42,7 @@ usando exclusivamente Dice de validation; test permanece aislado para la Fase 6.
 - El tracking usa un servidor limitado a `127.0.0.1`, SQLite como backend y proxy de
   artefactos local para conservar URIs `mlflow-artifacts:/` portables.
 - `mlflow.db` tendrá un solo escritor y se sincronizará solo después de terminar el job.
+- MLflow se fija en `3.15.1`, versión estable compatible con Python 3.11; la validación
+  se ejecuta mediante Slurm en `cpu-dev`, nunca en el nodo de login.
+- Se conservan TP, FP, FN y TN de train y validation por época para reconstruir métricas
+  y matrices sin repetir el entrenamiento.

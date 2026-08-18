@@ -5,6 +5,8 @@ trabajos reproducibles en CEDIA HPC.
 
 - `setup_cluster_env.sbatch`: crea `.venv-cluster` y registra módulos, runtime y
   dependencias efectivas desde un nodo de cómputo CPU.
+- `validate_mlflow.sbatch`: prueba en `cpu-dev` la versión fijada y un ciclo efímero
+  servidor-cliente con SQLite, métricas y artefactos.
 - `prepare_dataset.sbatch`: reconstruye y valida dataset, manifest y splits desde el ZIP
   original almacenado fuera de Git.
 - `test_baseline_cpu.sbatch`: ejecuta contratos numéricos del modelo, pérdida y métricas

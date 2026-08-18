@@ -5,3 +5,5 @@ evaluar y ejecutar inferencia. Las cargas que importen PyTorch se ejecutarán en
 
 - `smoke_baseline.py`: valida un batch real con forward, pérdida, métricas y backward
   del U-Net/ResNet-34 en GPU.
+- `validate_mlflow.py`: levanta un servidor efímero y comprueba persistencia de una
+  métrica y un artefacto mediante el cliente MLflow.
