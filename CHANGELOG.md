@@ -2,6 +2,30 @@
 
 ---
 
+## 2026-08-17 23:27 -0500 — Fase 6: carga verificada del checkpoint ganador
+
+**Hecho:**
+- Implementada una carga específica de evaluación que verifica el hash externo fijado,
+  el sidecar y los metadatos de selección antes de restaurar pesos.
+- Validada la coincidencia de run MLflow, época, métrica, mejor valor y marca `is_best`;
+  el modelo queda en modo `eval()` tras una carga correcta.
+- Ampliados los contratos CPU para cubrir carga válida y rechazo de hash o procedencia
+  incorrectos.
+
+**Decisiones:**
+- La identidad del checkpoint no dependerá solo del sidecar copiado junto al archivo; el
+  hash versionado en la configuración funciona como segunda fuente independiente.
+- Ningún dato de test debe consumirse si la identidad o selección del checkpoint difiere
+  del protocolo aprobado.
+
+**Resultados:**
+- Job `23317`: `COMPLETED`, código `0:0`, 12/12 pruebas y validación MLflow correctas.
+
+**Pendiente / carry-over:**
+- Implementar evaluación agregada y métricas por imagen sobre test.
+
+---
+
 ## 2026-08-17 23:21 -0500 — Fase 6: protocolo de evaluación versionado
 
 **Hecho:**

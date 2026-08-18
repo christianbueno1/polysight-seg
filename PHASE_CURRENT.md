@@ -15,7 +15,7 @@ y run MLflow `5fdf1b9929ec443da426c6442d9e20f1`. Test ha permanecido aislado.
 ### Tareas
 
 - [x] Crear una configuración versionada de evaluación e inferencia
-- [ ] Implementar carga verificada del checkpoint ganador
+- [x] Implementar carga verificada del checkpoint ganador
 - [ ] Implementar evaluación agregada y métricas por imagen sobre test
 - [ ] Conservar conteos, probabilidades y curva de umbral como datos regenerables
 - [ ] Generar matrices de confusión cruda y normalizada por clase real
@@ -43,3 +43,5 @@ y run MLflow `5fdf1b9929ec443da426c6442d9e20f1`. Test ha permanecido aislado.
   predicción binaria, con identificadores suficientes para auditoría.
 - La configuración enlaza el run de entrenamiento y fija `best.pt` por ruta y SHA-256;
   una evaluación crea un run MLflow separado para no alterar el historial de training.
+- La carga valida sidecar, hash fijado, run MLflow, época, métrica y valor de selección
+  antes de restaurar pesos; el job CPU `23317` verificó los contratos con 12/12 pruebas.
