@@ -44,7 +44,6 @@ Runs principales:
 - [Recuperación de checkpoint, resultados y runs](docs/artifact-recovery.md)
 - [Índice de artefactos y fuentes canónicas](docs/artifact-index.md)
 - [Checklist de entrega](docs/delivery-checklist.md)
-- [Guía de API piloto local](docs/api-pilot-guide.md)
 - [Configuración de entrenamiento](configs/training/unet-resnet34-baseline.yaml)
 - [Configuración de evaluación](configs/evaluation/unet-resnet34-baseline.yaml)
 
@@ -62,6 +61,20 @@ scripts/validate_local.sh
 Los jobs reproducibles están en [`slurm/`](slurm/) y los comandos Python en
 [`scripts/`](scripts/). Los datos, checkpoints, `mlflow.db` y artefactos generados no se
 guardan en Git.
+
+## Google Colab
+
+Los notebooks son interfaces ejecutables del código versionado; no duplican el modelo
+ni el pipeline:
+
+- [`01-polysight-seg-inference-verification.ipynb`](notebooks/01-polysight-seg-inference-verification.ipynb):
+  verifica `best.pt` y ejecuta inferencia visual.
+- [`02-polysight-seg-training-reproduction.ipynb`](notebooks/02-polysight-seg-training-reproduction.ipynb):
+  reconstruye datos y splits, ejecuta smoke y permite repetir training.
+
+Ambos clonan el tag `polysight-colab-v1.0.0`. Los archivos grandes se proporcionan por
+Google Drive o carga manual y se validan mediante SHA-256. La evaluación sobre test está
+desactivada por defecto en el notebook de reproducción.
 
 ## Documentación
 
