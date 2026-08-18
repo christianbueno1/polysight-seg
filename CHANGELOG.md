@@ -2,6 +2,38 @@
 
 ---
 
+## 2026-08-17 20:18 -0500 — Fase 5: checkpoints auditables y reanudables
+
+**Hecho:**
+- Implementado guardado atómico de `last.pt` en cada época y `best.pt` únicamente ante
+  mejora suficiente de la métrica de selección.
+- Añadidos sidecars `.sha256` y verificación de integridad previa a toda carga.
+- Conservados estados de modelo, optimizador, scheduler, GradScaler y generadores
+  aleatorios, además de métricas, configuración, versiones y procedencia.
+- Implementada restauración segura mediante `torch.load(..., weights_only=True)`.
+- Ampliado y ejecutado el smoke CPU para cubrir guardado, selección, hash y carga.
+
+**Decisiones:**
+- `last.pt` permite continuar desde `next_epoch`; `best.pt` representa exclusivamente el
+  mayor Dice de validation según `min_delta` y nunca se selecciona con test.
+- Los temporales se crean en el mismo directorio y se reemplazan atómicamente para no
+  exponer un checkpoint parcialmente escrito si el job se interrumpe.
+- Cada checkpoint incluye schema y tipo explícitos; la carga rechaza otros formatos o
+  versiones antes de restaurar estados.
+- Los RNG de Python, NumPy, CPU y CUDA se almacenan con tipos compatibles con la carga
+  restringida de PyTorch.
+
+**Resultados:**
+- Job `23308`: `COMPLETED`, código `0:0`, diez segundos y `status=ok` en CPU.
+- La primera época creó `best.pt`; una segunda métrica inferior no lo reemplazó y su
+  SHA-256 permaneció intacto.
+- La carga restauró los pesos guardados y confirmó `next_epoch=2`.
+
+**Pendiente / carry-over:**
+- Integrar configuración, métricas y artefactos del entrenamiento con MLflow.
+
+---
+
 ## 2026-08-17 20:01 -0500 — Fase 5: loops de train y validation
 
 **Hecho:**
