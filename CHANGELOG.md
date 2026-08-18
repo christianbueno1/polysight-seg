@@ -2,6 +2,25 @@
 
 ---
 
+## 2026-08-18 01:21 -0500 — Fase 8: índice de artefactos
+
+**Hecho:**
+- Creado `docs/artifact-index.md` con fuentes canónicas, derivados, documentos y estado
+  experimental no versionado.
+- Relacionados los artefactos con los jobs, runs MLflow y preguntas que permiten
+  responder durante una revisión técnica.
+- Enlazado el índice desde el README.
+
+**Decisiones:**
+- YAML, JSON y CSV tienen prioridad sobre figuras y resúmenes si surge una discrepancia.
+- Los binarios grandes se referencian por ruta y procedencia, pero permanecen fuera de
+  Git y se recuperan mediante la guía de sincronización.
+
+**Pendiente / carry-over:**
+- Ejecutar la validación final del repositorio y de todos los enlaces documentales.
+
+---
+
 ## 2026-08-18 01:17 -0500 — Fase 8: consistencia documental
 
 **Hecho:**

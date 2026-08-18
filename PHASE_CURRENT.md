@@ -19,7 +19,7 @@ queda diferida y no forma parte de la entrega actual.
 - [x] Documentar cómo recuperar checkpoint, resultados y runs MLflow
 - [x] Crear una ficha del modelo con uso previsto, límites y riesgos
 - [x] Revisar que presentación y documentación usen cifras consistentes
-- [ ] Añadir un índice de artefactos y fuentes canónicas
+- [x] Añadir un índice de artefactos y fuentes canónicas
 - [ ] Ejecutar validaciones finales del repositorio y enlaces documentales
 - [ ] Preparar checklist de entrega y cierre de la fase
 
@@ -44,3 +44,5 @@ queda diferida y no forma parte de la entrega actual.
 - La consistencia entre JSON/CSV, documentos formales y resúmenes redondeados queda
   protegida por una prueba local; se eliminó de la presentación una frase temporal
   anterior a la evaluación de test.
+- El índice distingue fuentes canónicas versionadas, derivados visuales y estado
+  experimental externo, con rutas y procedencia de cada elemento.
