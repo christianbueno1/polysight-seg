@@ -17,3 +17,6 @@ trabajos reproducibles en CEDIA HPC.
   runner, seguida por un servidor MLflow efímero real.
 - `smoke_baseline.sbatch`: ejecuta un batch real del baseline con pesos ImageNet,
   forward/backward y una A100 en `gpu-dev`.
+- `test_evaluation_cpu.sbatch`: valida métricas y artefactos con casos sintéticos sin GPU.
+- `smoke_evaluation_gpu.sbatch`: prueba `best.pt` y dos batches reales de validation
+  antes de habilitar la evaluación única sobre test.
