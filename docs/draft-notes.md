@@ -177,3 +177,44 @@ revisar las epocas
 # cambiar por el job que corresponda
 grep '"epoch"' slurm-polysight-baseline-23312.out | tail -1
 ```
+---
+## MLflow
+```bash
+uvx mlflow server --host 127.0.0.1 --port 5000 --backend-store-uri sqlite:///mlflow.db --artifacts-destination ./artifacts
+
+uvx mlflow server \
+--host 127.0.0.1 \
+--port 5000 \
+--backend-store-uri sqlite:///mlflow.db \
+--artifacts-destination ./artifacts
+
+```
+---
+```bash
+# calcular tamanio
+# Para calcular el contenido completo usé:
+du -sh artifacts/
+
+# En tu clúster debería mostrar aproximadamente:
+1.1G    artifacts/
+
+# Para ver el tamaño exacto aparente:
+du -sh --apparent-size artifacts/
+
+# para conocer qué ocupa más espacio:
+du -ah artifacts/ | sort -h | tail -20
+```
+El ~1,1 GB se explica principalmente por cuatro checkpoints:
+
+- Smoke: best.pt y last.pt, aproximadamente 294 MB cada uno.
+- Entrenamiento completo: best.pt y last.pt, aproximadamente 294 MB cada uno.
+
+En total:
+
+4 × 293.562.339 bytes = 1.174.249.356 bytes
+
+Eso equivale aproximadamente a 1,09 GiB, que du -sh redondea y presenta como 1.1G.
+
+mlflow.db solo pesa 1,3 MB porque contiene metadatos y métricas. Los pesos del modelo y otros archivos grandes están dentro de artifacts/.
+
+---
