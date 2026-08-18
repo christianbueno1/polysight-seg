@@ -170,4 +170,10 @@ Adam (Adaptive Moment Estimation) es un popular algoritmo de optimización que s
 AMP (Automatic Mixed Precision o Precisión Mixta Automática) es una técnica de entrenamiento en aprendizaje profundo que combina números de 16 bits (FP16 o BF16) y de 32 bits (FP32). Acelera el proceso y reduce el uso de memoria en la GPU sin perder precisión.
 
  IoU stands for Intersection over Union. 
- 
+
+---
+revisar las epocas
+```bash
+# cambiar por el job que corresponda
+grep '"epoch"' slurm-polysight-baseline-23312.out | tail -1
+```
