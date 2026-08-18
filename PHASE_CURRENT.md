@@ -14,7 +14,7 @@ queda diferida y no forma parte de la entrega actual.
 
 ### Tareas
 
-- [ ] Consolidar en README el objetivo, arquitectura, datos y resultados principales
+- [x] Consolidar en README el objetivo, arquitectura, datos y resultados principales
 - [ ] Crear un reporte técnico final con protocolo, métricas y análisis de errores
 - [ ] Documentar cómo recuperar checkpoint, resultados y runs MLflow
 - [ ] Crear una ficha del modelo con uso previsto, límites y riesgos
@@ -33,3 +33,5 @@ queda diferida y no forma parte de la entrega actual.
   `73876309ec7c45e09023574a02a47475` con umbral fijo `0.5`.
 - Los CSV/JSON son fuentes canónicas; las figuras y resúmenes son derivados.
 - La documentación distinguirá resultados de validation, test y smokes técnicos.
+- El README presenta primero resultados test, protocolo, runs y evidencia versionada,
+  con una advertencia explícita sobre alcance y variabilidad por imagen.

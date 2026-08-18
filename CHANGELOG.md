@@ -2,6 +2,25 @@
 
 ---
 
+## 2026-08-18 00:53 -0500 — Fase 8: README consolidado
+
+**Hecho:**
+- Reorganizado el README para presentar el objetivo, la arquitectura, el protocolo y
+  los resultados oficiales del baseline U-Net/ResNet-34.
+- Añadidos los runs MLflow principales y enlaces directos a configuraciones, métricas,
+  curvas y material de presentación.
+- Registrada la primera tarea de empaquetado como completada.
+
+**Decisiones:**
+- La portada prioriza resultados de test y advierte sobre la variabilidad por imagen y
+  la ausencia de validación clínica externa.
+- La comparación con EfficientNet-B0 permanece fuera del alcance de esta entrega.
+
+**Pendiente / carry-over:**
+- Crear el reporte técnico final y documentar la recuperación de artefactos y runs.
+
+---
+
 ## 2026-08-18 00:51 -0500 — Repriorización: comparación diferida
 
 **Hecho:**
