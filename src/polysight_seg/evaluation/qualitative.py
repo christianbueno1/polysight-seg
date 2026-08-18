@@ -93,10 +93,10 @@ def generate_qualitative_panels(
         overlay = cv2.addWeighted(overlay, 0.72, color, 0.28, 0)
         panels = [
             _label(image, "Imagen"),
-            _label(ground_panel, "Máscara real"),
+            _label(ground_panel, "Mascara real"),
             _label(probability_panel, "Probabilidad"),
-            _label(prediction_panel, f"Predicción ≥ {threshold:.2f}"),
-            _label(overlay, f"Overlay · Dice {float(metric_row['dice']):.4f}"),
+            _label(prediction_panel, f"Prediccion >= {threshold:.2f}"),
+            _label(overlay, f"Overlay | Dice {float(metric_row['dice']):.4f}"),
         ]
         filename = f"{category}-{rank:02d}-{sample_id}.png"
         if not cv2.imwrite(str(output_directory / filename), np.hstack(panels)):
@@ -120,4 +120,3 @@ def generate_qualitative_panels(
         writer.writeheader()
         writer.writerows(selection_rows)
     return selection_path
-
