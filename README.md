@@ -62,6 +62,20 @@ Los jobs reproducibles están en [`slurm/`](slurm/) y los comandos Python en
 [`scripts/`](scripts/). Los datos, checkpoints, `mlflow.db` y artefactos generados no se
 guardan en Git.
 
+## Google Colab
+
+Los notebooks son interfaces ejecutables del código versionado; no duplican el modelo
+ni el pipeline:
+
+- [`01-polysight-seg-inference-verification.ipynb`](notebooks/01-polysight-seg-inference-verification.ipynb):
+  verifica `best.pt` y ejecuta inferencia visual.
+- [`02-polysight-seg-training-reproduction.ipynb`](notebooks/02-polysight-seg-training-reproduction.ipynb):
+  reconstruye datos y splits, ejecuta smoke y permite repetir training.
+
+Ambos clonan el commit `2bf2c5a874272ecd6ccd24b936af578f4e637c82`. Los archivos
+grandes se proporcionan por Google Drive o carga manual y se validan mediante SHA-256.
+La evaluación sobre test está desactivada por defecto en el notebook de reproducción.
+
 ## Documentación
 
 - [Entornos de ejecución](docs/execution-environments.md)

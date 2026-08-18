@@ -28,6 +28,8 @@ class MarkdownLinksTest(unittest.TestCase):
         failures: list[str] = []
         for relative_path in result.stdout.splitlines():
             document_path = PROJECT_ROOT / relative_path
+            if not document_path.is_file():
+                continue
             text = document_path.read_text(encoding="utf-8")
             for line_number, line in enumerate(text.splitlines(), start=1):
                 for match in LINK_PATTERN.finditer(line):
