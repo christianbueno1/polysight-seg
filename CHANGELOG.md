@@ -2,6 +2,28 @@
 
 ---
 
+## 2026-08-18 02:40 -0500 — Fase 9: notebooks de verificación y reproducción
+
+**Hecho:**
+- Reemplazado el alcance de API local por dos notebooks delgados para Google Colab.
+- Implementada inferencia reutilizable de una imagen con carga estricta de `best.pt`.
+- Añadidos contratos que impiden outputs guardados, secretos, rutas personales, código
+  duplicado y activación accidental de test.
+- Ampliado el rango declarado a Python 3.12 y actualizada la versión del paquete a 0.2.0.
+
+**Decisiones:**
+- Un notebook verifica el modelo y otro permite reconstruir datos, ejecutar smoke y
+  repetir el entrenamiento completo.
+- Colab no se usa como servidor; API y clasificación quedan fuera del alcance actual.
+- Los notebooks fijan el tag `polysight-colab-v1.0.0` y verifican archivos grandes por
+  SHA-256 antes de usarlos.
+
+**Pendiente / carry-over:**
+- Ejecutar en Colab los contratos PyTorch, la inferencia real y el smoke GPU; después
+  publicar el tag fijo consumido por los notebooks.
+
+---
+
 ## 2026-08-18 02:20 -0500 — Fase 9: diseño de API piloto local
 
 **Hecho:**
