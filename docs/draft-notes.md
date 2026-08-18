@@ -166,3 +166,8 @@ Ambas losses reciben el mismo `target`; solo la rama de Dice necesita el `sigmoi
 RMSprop (Root Mean Square Propagation) es un algoritmo de optimización para aprendizaje profundo. Ajusta la tasa de aprendizaje de cada parámetro de forma individual usando una media móvil de los gradientes al cuadrado. Esto acelera la convergencia, evita que el aprendizaje se detenga y maneja mejor la variación en los datos.
 
 Adam (Adaptive Moment Estimation) es un popular algoritmo de optimización que se usa en inteligencia artificial y aprendizaje profundo (deep learning) para entrenar redes neuronales de forma rápida y eficiente. Combina las ventajas de dos métodos clásicos: Momentum y RMSprop.
+---
+AMP (Automatic Mixed Precision o Precisión Mixta Automática) es una técnica de entrenamiento en aprendizaje profundo que combina números de 16 bits (FP16 o BF16) y de 32 bits (FP32). Acelera el proceso y reduce el uso de memoria en la GPU sin perder precisión.
+
+ IoU stands for Intersection over Union. 
+ 
