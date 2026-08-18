@@ -287,3 +287,31 @@ aprender todo desde cero con solo 700 imágenes de entrenamiento.
 
 No. Solo verifican que datos, arquitectura, pérdida, métricas y gradientes funcionan
 juntos. El rendimiento se medirá después del entrenamiento y la selección por validation.
+
+---
+
+## Entrenamiento del baseline
+
+### Cómo explicarlo durante la exposición
+
+Entrenamos el U-Net/ResNet-34 con 700 imágenes y usamos 150 imágenes de validation para
+medir su capacidad de generalizar. El protocolo permitía hasta 50 épocas, pero el
+entrenamiento se detuvo automáticamente en la época 32 porque validation dejó de mejorar.
+Este mecanismo, llamado *early stopping*, evita continuar memorizando los datos de train.
+
+El mejor resultado apareció en la época 22, con un Dice de validation de `0,8978`. Esto
+indica una superposición alta entre los pólipos predichos y las máscaras reales de
+validation. Conservamos ese estado como `best.pt`; el estado de la última época se guarda
+por separado como `last.pt` y no se usa como el mejor modelo.
+
+### Evidencia principal
+
+- Hardware: una NVIDIA A100 de 40 GB con precisión mixta.
+- Mejor Dice de validation: `0,8978` en la época 22.
+- Parada: época 32 por *early stopping*.
+- Trazabilidad: métricas por época, configuración y entorno registrados en MLflow.
+- Integridad: `best.pt` y `last.pt` verificados mediante SHA-256.
+
+Este es un resultado de **validation**, utilizado para seleccionar el checkpoint. El
+conjunto de test permaneció aislado y se evaluará en la siguiente fase para obtener la
+medición final sin sesgo.

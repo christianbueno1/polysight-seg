@@ -21,25 +21,23 @@ usando exclusivamente Dice de validation; test permanece aislado para la Fase 6.
 - [x] Integrar parámetros, métricas y artefactos del entrenamiento en MLflow
 - [x] Añadir pruebas CPU del entrenamiento, checkpoints y tracking
 - [x] Ejecutar un smoke de entrenamiento de pocos batches en GPU
-- [~] Ejecutar el entrenamiento completo del baseline en CEDIA
+- [x] Ejecutar el entrenamiento completo del baseline en CEDIA
 - [ ] Sincronizar `mlflow.db` y `artifacts/` y verificar la interfaz local
-- [ ] Documentar configuración, curvas y resultados de validation para la presentación
+- [~] Documentar configuración, curvas y resultados de validation para la presentación
 
 ---
 
 ### Punto de reanudación después de `/clear`
 
-**Estado:** Fase 5 activa en `chore/training-mlflow`. El smoke integrado GPU `23311`
-terminó correctamente y habilitó el entrenamiento completo. Este último queda como la
-tarea activa.
+**Estado:** Fase 5 activa en `chore/training-mlflow`. El entrenamiento completo `23312`
+terminó correctamente por early stopping y sus checkpoints fueron verificados. Quedan
+la sincronización local de MLflow y la preparación de curvas para la presentación.
 
 **Siguiente acción exacta:**
 
-1. Enviar `slurm/train_baseline.sbatch` en CEDIA.
-2. Seguir el job hasta estado terminal y revisar métricas y stop reason.
-3. Verificar `history.csv`, `last.pt`, `best.pt`, sidecars SHA-256 y artefactos MLflow.
-4. Con el servidor MLflow detenido, sincronizar `mlflow.db` y `artifacts/` al equipo
+1. Con el servidor MLflow detenido, sincronizar `mlflow.db` y `artifacts/` al equipo
    local y abrir la interfaz según `docs/mlflow-project-guide.md`.
+2. Generar y documentar las curvas de train y validation desde `history.csv`.
 
 **Evidencia del smoke `23311`:** A100-SXM4-40GB, `device=cuda:0`, AMP `float16` con
 gradient scaling, 100 pasos, ambos hashes correctos, run
@@ -96,3 +94,5 @@ usa un solo writer y no debe copiarse mientras el servidor esté activo.
   artefactos MLflow; su mejor Dice de validation fue `0.8484443416628759`.
 - El entrenamiento completo solicita seis horas en `gpu-dev`; el límite publicado de la
   partición es cuatro días y el tiempo se estimó conservadoramente desde el smoke.
+- El job completo `23312` terminó en 32 épocas por early stopping; el mejor checkpoint
+  fue la época 22 con Dice de validation `0.8977634135250631`. Test siguió aislado.

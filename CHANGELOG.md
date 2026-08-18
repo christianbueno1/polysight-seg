@@ -2,6 +2,29 @@
 
 ---
 
+## 2026-08-17 21:19 -0500 — Fase 5: entrenamiento completo del baseline
+
+**Hecho:**
+- Ejecutado el entrenamiento completo U-Net/ResNet-34 mediante el job `23312` en una
+  A100; terminó correctamente en 32 épocas y 2.816 pasos.
+- Verificados `best.pt`, `last.pt`, ambos sidecars SHA-256, el historial de 32 épocas y
+  los artefactos del run MLflow `5fdf1b9929ec443da426c6442d9e20f1`.
+- Añadido a `docs/presentacion.md` un resumen breve y explicativo del resultado.
+
+**Decisiones:**
+- Se conserva como modelo seleccionado `best.pt`, correspondiente a la época 22 y Dice
+  de validation `0.8977634135250631`; `last.pt` no lo reemplaza.
+- La parada en la época 32 se considera correcta porque fue activada por early stopping,
+  no por error ni por límite de recursos.
+- El resultado se presenta explícitamente como validation; test sigue aislado hasta la
+  Fase 6 para evitar sesgo en la medición final.
+
+**Pendiente / carry-over:**
+- Sincronizar la base y los artefactos MLflow, verificar la interfaz local y preparar
+  las curvas de entrenamiento y validation.
+
+---
+
 ## 2026-08-17 20:45 -0500 — Fase 5: handoff de contexto antes de `/clear`
 
 **Hecho:**
