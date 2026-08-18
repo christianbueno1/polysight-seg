@@ -10,6 +10,8 @@ y evaluación. No se guardarán secretos ni rutas personales.
 - `training/unet-resnet34-baseline.yaml`: protocolo de optimización, reproducibilidad,
   selección, early stopping y checkpoints del primer entrenamiento.
 - `tracking/mlflow.yaml`: servidor local al job, experimento y contrato de tracking.
+- `evaluation/unet-resnet34-baseline.yaml`: checkpoint seleccionado, protocolo de test,
+  métricas y artefactos de la evaluación final del baseline.
 
 La configuración del modelo conserva `activation: null`: la red devuelve logits y la
 sigmoid con umbral se aplica solamente durante métricas o inferencia.

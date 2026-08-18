@@ -8,3 +8,6 @@ PyTorch ni solicitar recursos de cómputo.
 
 `test_training_components.py` se ejecuta en `cpu-dev` y cubre loops, checkpoints,
 tracking y utilidades del runner; no construye el U-Net ni solicita GPU.
+
+`test_evaluation_config.py` fija checkpoint, split, umbral y artefactos requeridos antes
+de consumir el conjunto de test.

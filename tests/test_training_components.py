@@ -15,6 +15,7 @@ import yaml
 from torch import nn
 
 from polysight_seg.data.dataset import load_data_config
+from polysight_seg.evaluation.checkpoint import load_selected_checkpoint
 from polysight_seg.training.checkpointing import (
     load_training_checkpoint,
     save_epoch_checkpoints,
@@ -152,6 +153,7 @@ class CheckpointingTest(unittest.TestCase):
         epoch: int = 1,
         current_metric: float = 0.8,
         best_metric: float | None = None,
+        mlflow_run_id: str | None = None,
     ):
         scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode="max")
         return save_epoch_checkpoints(
@@ -175,6 +177,7 @@ class CheckpointingTest(unittest.TestCase):
             dataset_hashes={"manifest_sha256": "0" * 64},
             architecture={"name": "scalar"},
             threshold=0.5,
+            mlflow_run_id=mlflow_run_id,
         )
 
     def test_best_selection_hash_and_state_restoration(self) -> None:
@@ -243,6 +246,61 @@ class CheckpointingTest(unittest.TestCase):
             self.assertEqual(actual[0], expected[0])
             self.assertEqual(actual[1], expected[1])
             self.assertTrue(torch.equal(actual[2], expected[2]))
+
+    def test_selected_checkpoint_validates_identity_before_loading(self) -> None:
+        source_model = ScalarModel(initial_weight=0.25)
+        optimizer = torch.optim.SGD(source_model.parameters(), lr=0.1)
+        with tempfile.TemporaryDirectory() as temporary_dir:
+            result = self._save(
+                Path(temporary_dir),
+                source_model,
+                optimizer,
+                mlflow_run_id="source-run",
+            )
+            target_model = ScalarModel(initial_weight=9.0)
+            payload = load_selected_checkpoint(
+                result.best_path,
+                expected_sha256=result.best_sha256,
+                expected_run_id="source-run",
+                expected_epoch=1,
+                expected_selection_metric="val_dice",
+                expected_selection_value=0.8,
+                model=target_model,
+            )
+            self.assertEqual(payload["epoch"], 1)
+            self.assertTrue(torch.equal(source_model.weight, target_model.weight))
+            self.assertFalse(target_model.training)
+
+    def test_selected_checkpoint_rejects_hash_or_metadata_mismatch(self) -> None:
+        model = ScalarModel(initial_weight=0.25)
+        optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+        with tempfile.TemporaryDirectory() as temporary_dir:
+            result = self._save(
+                Path(temporary_dir),
+                model,
+                optimizer,
+                mlflow_run_id="source-run",
+            )
+            with self.assertRaisesRegex(ValueError, "fijado en configuración"):
+                load_selected_checkpoint(
+                    result.best_path,
+                    expected_sha256="0" * 64,
+                    expected_run_id="source-run",
+                    expected_epoch=1,
+                    expected_selection_metric="val_dice",
+                    expected_selection_value=0.8,
+                    model=ScalarModel(),
+                )
+            with self.assertRaisesRegex(ValueError, "run MLflow"):
+                load_selected_checkpoint(
+                    result.best_path,
+                    expected_sha256=result.best_sha256,
+                    expected_run_id="wrong-run",
+                    expected_epoch=1,
+                    expected_selection_metric="val_dice",
+                    expected_selection_value=0.8,
+                    model=ScalarModel(),
+                )
 
 
 class TrackingAndRunnerTest(unittest.TestCase):

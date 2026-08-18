@@ -7,9 +7,9 @@
 - [x] Fase 3 — Splits reproducibles y pipeline de datos
 - [x] Fase 4 — Baseline U-Net con encoder ResNet-34
 - [x] Fase 5 — Entrenamiento reproducible y seguimiento de experimentos
-- [~] Fase 6 — Evaluación, inferencia y análisis de errores del baseline
+- [x] Fase 6 — Evaluación, inferencia y análisis de errores del baseline
 - [ ] Fase 7 — Comparación U-Net ResNet-34 frente a EfficientNet-B0
-- [ ] Fase 8 — Empaquetado de resultados y documentación del estudio
+- [~] Fase 8 — Empaquetado de resultados y documentación del estudio
 
 ## Pendientes por evaluar
 

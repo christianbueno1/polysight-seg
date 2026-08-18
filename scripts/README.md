@@ -13,6 +13,8 @@ evaluar y ejecutar inferencia. Las cargas que importen PyTorch se ejecutarán en
   solo para smokes y se omiten durante el entrenamiento completo.
 - `plot_training_history.py`: genera las curvas editables de pérdida y Dice desde el
   historial CSV versionado.
+- `evaluate.py`: ejecuta un smoke limitado sobre validation o la evaluación completa y
+  no fraccionable sobre test.
 
 ## Curvas del entrenamiento
 

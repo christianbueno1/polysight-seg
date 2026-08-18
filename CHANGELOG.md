@@ -2,6 +2,185 @@
 
 ---
 
+## 2026-08-18 00:51 -0500 — Repriorización: comparación diferida
+
+**Hecho:**
+- Devuelta la Fase 7 de comparación con EfficientNet-B0 a estado pendiente.
+- Activada la Fase 8 para consolidar la entrega del baseline ya entrenado y evaluado.
+- Preparado un tablero de documentación, ficha del modelo, artefactos y validación final.
+
+**Decisiones:**
+- La comparación de encoders no es necesaria para la entrega actual y podrá retomarse
+  posteriormente sin eliminarse del backlog.
+- El empaquetado se limitará al U-Net/ResNet-34 y a sus resultados ya cerrados; no se
+  inferirán comparaciones que no fueron ejecutadas.
+
+**Pendiente / carry-over:**
+- Fusionar el cierre de Fase 6 en `dev` y comenzar el branch de empaquetado.
+
+---
+
+## 2026-08-18 00:45 -0500 — Cierre de Fase 6 e inicio de Fase 7
+
+**Hecho:**
+- Ejecutado `best.pt` una sola vez sobre las 150 imágenes de test mediante el job `23325`.
+- Auditados 150 registros por imagen, 150 mapas de probabilidad, nueve umbrales, ambas
+  matrices y 15 paneles cualitativos.
+- Registrada la evaluación final en MLflow y sincronizados base, artefactos y resultados
+  al equipo local.
+- Versionados métricas, conteos, métricas por imagen, curva descriptiva y ejemplos
+  cualitativos para la presentación.
+- Cerrada la Fase 6 y preparado el protocolo comparable de EfficientNet-B0 para Fase 7.
+
+**Decisiones:**
+- El resultado oficial usa umbral `0.5`; la curva de test no se utiliza para reajustarlo.
+- Se reportan métricas agregadas y distribución por imagen porque el promedio oculta
+  fallos severos como el caso mínimo de Dice `0.07747857191064318`.
+- La presentación limita las conclusiones a Kvasir-SEG y no interpreta el estudio como
+  validación clínica externa.
+
+**Resultados:**
+- Dice test `0.9183967352352693`, IoU `0.8491068445832013`, precisión
+  `0.9237401535043426` y recall `0.913114779938238`.
+- Mediana Dice por imagen `0.954879509971524`; máximo `0.9890401607948728`.
+- Run MLflow final: `73876309ec7c45e09023574a02a47475`, estado `FINISHED`.
+
+**Pendiente / carry-over:**
+- Iniciar la comparación U-Net/ResNet-34 frente a U-Net/EfficientNet-B0 sin modificar
+  el protocolo ni los resultados ya cerrados del baseline.
+
+---
+
+## 2026-08-18 00:36 -0500 — Fase 6: gates cerrados para evaluación de test
+
+**Hecho:**
+- Implementados paneles cualitativos deterministas para mejores, medianos y peores casos
+  con imagen, máscara, probabilidad, predicción y overlay.
+- Inspeccionada y corregida la compatibilidad de etiquetas de los paneles generados.
+- Integrado un run MLflow separado para cada evaluación con tags de checkpoint, run de
+  training, split, métricas y directorio completo de artefactos.
+- Preparado el job definitivo que ejecuta el evaluador sin límites sobre test.
+
+**Decisiones:**
+- La evaluación final escribe bajo `evaluation/.../test` y se niega a comenzar si ese
+  directorio ya existe, como protección contra repeticiones accidentales.
+- El run de evaluación conserva un vínculo explícito al run que produjo `best.pt`.
+- Las etiquetas raster usan caracteres compatibles con OpenCV para evitar texto ilegible.
+
+**Resultados:**
+- Job CPU `23321`: `COMPLETED`, 5/5 contratos cualitativos correctos.
+- Jobs GPU `23322` y `23323`: paneles reales generados y verificados visualmente.
+- Job GPU `23324`: `COMPLETED`, run MLflow
+  `04ade91887f84f71a2b6004af1ca7f5c` con métricas y artefactos portables.
+
+**Pendiente / carry-over:**
+- Ejecutar ahora la evaluación única de las 150 imágenes de test.
+
+---
+
+## 2026-08-18 00:11 -0500 — Fase 6: smoke GPU del evaluador real
+
+**Hecho:**
+- Integrado un runner que conecta configuración, checkpoint verificado, DataLoader,
+  inferencia y escritura de artefactos.
+- Añadidas protecciones que prohíben test parcial y exigen límite de batches para un
+  smoke sobre validation.
+- Ejecutado el evaluador real con `best.pt`, AMP y dos batches de validation en A100.
+- Verificados métricas, 16 registros por imagen, 16 mapas de probabilidad, nueve puntos
+  de umbral y matrices cruda y normalizada.
+
+**Decisiones:**
+- La arquitectura se reconstruye sin volver a cargar pesos ImageNet; `best.pt` es la
+  única fuente de pesos durante evaluación.
+- Los resultados del smoke se separan por job bajo `evaluation/.../smoke/` y no se
+  confunden con la evaluación final.
+- Test no admite `--max-batches`; su futura ejecución debe cubrir las 150 muestras.
+
+**Resultados:**
+- Job `23320`: `COMPLETED`, código `0:0`, 19 segundos y 16 muestras de validation.
+- Dice del smoke: `0.8990412835061632`; se reporta solo como evidencia técnica.
+
+**Pendiente / carry-over:**
+- Generar visualizaciones cualitativas y registrar la evaluación mediante MLflow antes
+  de ejecutar test completo una sola vez.
+
+---
+
+## 2026-08-17 23:44 -0500 — Fase 6: motor y artefactos de evaluación
+
+**Hecho:**
+- Implementada una sola pasada de inferencia que calcula métricas micro agregadas y por
+  imagen, además de conteos para múltiples umbrales.
+- Conservados mapas de probabilidad comprimidos en `float16` y datos tabulares para
+  métricas, curva de umbral y matrices de confusión.
+- Implementada escritura atómica de JSON, CSV y NPZ, con validación de identificadores
+  antes de construir rutas de artefactos.
+- Añadidos contratos CPU con resultados exactos y persistencia reconstruible.
+
+**Decisiones:**
+- Las métricas agregadas se calculan desde la suma de TP, FP, FN y TN de todas las
+  imágenes, no promediando métricas por batch.
+- La matriz usa filas de clase real y columnas de predicción; se conserva en conteos y
+  normalizada por clase real.
+- Cada mapa de probabilidad se guarda por `sample_id` para permitir nuevos análisis sin
+  repetir inferencia.
+
+**Resultados:**
+- Job `23318`: `COMPLETED`, código `0:0`, 3/3 contratos del motor correctos.
+- Job `23319`: `COMPLETED`, código `0:0`, 4/4 contratos de motor y artefactos correctos.
+- Ninguna imagen del split test fue consumida.
+
+**Pendiente / carry-over:**
+- Implementar visualizaciones cualitativas de mejores, medianos y peores casos.
+
+---
+
+## 2026-08-17 23:27 -0500 — Fase 6: carga verificada del checkpoint ganador
+
+**Hecho:**
+- Implementada una carga específica de evaluación que verifica el hash externo fijado,
+  el sidecar y los metadatos de selección antes de restaurar pesos.
+- Validada la coincidencia de run MLflow, época, métrica, mejor valor y marca `is_best`;
+  el modelo queda en modo `eval()` tras una carga correcta.
+- Ampliados los contratos CPU para cubrir carga válida y rechazo de hash o procedencia
+  incorrectos.
+
+**Decisiones:**
+- La identidad del checkpoint no dependerá solo del sidecar copiado junto al archivo; el
+  hash versionado en la configuración funciona como segunda fuente independiente.
+- Ningún dato de test debe consumirse si la identidad o selección del checkpoint difiere
+  del protocolo aprobado.
+
+**Resultados:**
+- Job `23317`: `COMPLETED`, código `0:0`, 12/12 pruebas y validación MLflow correctas.
+
+**Pendiente / carry-over:**
+- Implementar evaluación agregada y métricas por imagen sobre test.
+
+---
+
+## 2026-08-17 23:21 -0500 — Fase 6: protocolo de evaluación versionado
+
+**Hecho:**
+- Creada la configuración de evaluación final del U-Net/ResNet-34 con checkpoint, hash,
+  run de origen, split, umbral, métricas y artefactos explícitos.
+- Añadidos cuatro contratos locales que impiden usar `last.pt`, cambiar el umbral con
+  test u omitir evidencia necesaria para reconstruir resultados.
+- Incorporada la configuración a los índices y al validador local.
+
+**Decisiones:**
+- `best.pt` queda fijado por su SHA-256 y por el run de entrenamiento que lo produjo.
+- La evaluación se registrará como un run MLflow separado enlazado al run de training.
+- La curva de umbral sobre test será únicamente descriptiva; el umbral operativo `0.5`
+  no cambiará después de observar test.
+- Se conservarán mapas de probabilidad comprimidos en `float16`, métricas por imagen,
+  matrices y casos cualitativos para permitir análisis posteriores sin repetir inferencia.
+
+**Pendiente / carry-over:**
+- Implementar carga verificada del checkpoint ganador.
+
+---
+
 ## 2026-08-17 22:36 -0500 — Cierre de Fase 5 e inicio de Fase 6
 
 **Hecho:**

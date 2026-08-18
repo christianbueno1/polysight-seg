@@ -1,43 +1,35 @@
 # PHASE_CURRENT
 
-## Fase 6 — Evaluación, inferencia y análisis de errores del baseline
+## Fase 8 — Empaquetado de resultados y documentación del estudio
 
-**Objetivo:** Evaluar una sola vez el checkpoint seleccionado U-Net/ResNet-34 sobre test,
-conservar resultados reproducibles por imagen y analizar de forma cuantitativa y visual
-los aciertos y errores del baseline.
+**Objetivo:** Consolidar el baseline entrenado, su evaluación final y la evidencia
+reproducible en una entrega comprensible para revisión técnica y presentación.
 
-**Contexto:** La Fase 5 seleccionó `best.pt` exclusivamente mediante Dice de validation.
-El checkpoint ganador corresponde a la época 22 con Dice de validation `0.8977634135250631`
-y run MLflow `5fdf1b9929ec443da426c6442d9e20f1`. Test ha permanecido aislado.
+**Contexto:** U-Net/ResNet-34 obtuvo Dice test `0.9183967352352693` e IoU
+`0.8491068445832013` sobre 150 imágenes. Configuraciones, checkpoints, métricas,
+probabilidades, paneles y runs MLflow están auditados. La comparación EfficientNet-B0
+queda diferida y no forma parte de la entrega actual.
 
 ---
 
 ### Tareas
 
-- [ ] Crear una configuración versionada de evaluación e inferencia
-- [ ] Implementar carga verificada del checkpoint ganador
-- [ ] Implementar evaluación agregada y métricas por imagen sobre test
-- [ ] Conservar conteos, probabilidades y curva de umbral como datos regenerables
-- [ ] Generar matrices de confusión cruda y normalizada por clase real
-- [ ] Implementar inferencia y visualizaciones cualitativas de mejores y peores casos
-- [ ] Añadir pruebas CPU para contratos de evaluación y artefactos
-- [ ] Ejecutar un smoke GPU de evaluación sin consumir test completo
-- [ ] Ejecutar una sola evaluación completa del checkpoint sobre test en CEDIA
-- [ ] Registrar métricas y artefactos de evaluación en MLflow
-- [ ] Sincronizar resultados y verificar integridad local
-- [ ] Documentar resultados finales y análisis de errores para la presentación
+- [ ] Consolidar en README el objetivo, arquitectura, datos y resultados principales
+- [ ] Crear un reporte técnico final con protocolo, métricas y análisis de errores
+- [ ] Documentar cómo recuperar checkpoint, resultados y runs MLflow
+- [ ] Crear una ficha del modelo con uso previsto, límites y riesgos
+- [ ] Revisar que presentación y documentación usen cifras consistentes
+- [ ] Añadir un índice de artefactos y fuentes canónicas
+- [ ] Ejecutar validaciones finales del repositorio y enlaces documentales
+- [ ] Preparar checklist de entrega y cierre de la fase
 
 ---
 
 ### Notas y decisiones
 
-- La evaluación usará `best.pt`, nunca `last.pt`.
-- Test se ejecutará una sola vez después de fijar código, configuración y umbral.
-- El umbral inicial permanece en `0.5`; cualquier análisis de sensibilidad se reportará
-  sin usar test para reajustar el modelo o seleccionar otro checkpoint.
-- Se conservarán TP, FP, FN y TN agregados y por imagen, además de Dice, IoU, precisión
-  y recall, para reconstruir métricas y matrices.
-- Las figuras serán derivados de CSV/JSON versionados o registrados en MLflow; los datos
-  tabulares seguirán siendo la evidencia canónica.
-- Las visualizaciones cualitativas distinguirán imagen, máscara real, probabilidad y
-  predicción binaria, con identificadores suficientes para auditoría.
+- La entrega actual contiene únicamente el baseline U-Net/ResNet-34 cerrado.
+- La Fase 7 permanece pendiente para retomarla posteriormente; no se elimina del backlog.
+- Las métricas oficiales proceden del run MLflow
+  `73876309ec7c45e09023574a02a47475` con umbral fijo `0.5`.
+- Los CSV/JSON son fuentes canónicas; las figuras y resúmenes son derivados.
+- La documentación distinguirá resultados de validation, test y smokes técnicos.
