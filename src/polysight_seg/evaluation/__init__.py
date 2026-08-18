@@ -2,6 +2,15 @@
 
 from polysight_seg.evaluation.checkpoint import load_selected_checkpoint
 from polysight_seg.evaluation.engine import EvaluationResult, evaluate_segmentation
+from polysight_seg.evaluation.artifacts import (
+    EvaluationArtifactPaths,
+    write_evaluation_artifacts,
+)
 
-__all__ = ["EvaluationResult", "evaluate_segmentation", "load_selected_checkpoint"]
-
+__all__ = [
+    "EvaluationArtifactPaths",
+    "EvaluationResult",
+    "evaluate_segmentation",
+    "load_selected_checkpoint",
+    "write_evaluation_artifacts",
+]
