@@ -218,3 +218,36 @@ Eso equivale aproximadamente a 1,09 GiB, que du -sh redondea y presenta como 1.1
 mlflow.db solo pesa 1,3 MB porque contiene metadatos y métricas. Los pesos del modelo y otros archivos grandes están dentro de artifacts/.
 
 ---
+## Mejora
+• Correcto. MLflow está mostrando el run, pero la información importante no quedó suficientemente visible.
+
+Lo que ocurre es:
+
+- En Overview, MLflow muestra el último valor registrado de val_dice: época 32, 0.890785.
+- El mejor valor está en el historial de la métrica: época 22, 0.897763.
+- best.pt está guardado como artefacto, no como “Logged model” ni como modelo registrado. Por eso las secciones “Logged models” y “Registered models” aparecen vacías.
+
+Puedes encontrar el checkpoint ganador en:
+
+Artifacts
+└── checkpoints
+    └── best
+        ├── best.pt
+        └── best.pt.sha256
+
+El modelo ganador exacto es:
+
+Run ID:     5fdf1b9929ec443da426c6442d9e20f1
+Época:      22
+Val Dice:   0.8977634135250631
+Checkpoint: checkpoints/best/best.pt
+
+Aquí hay una mejora clara pendiente: registrar explícitamente en MLflow:
+
+- best_epoch=22
+- best_val_dice=0.897763...
+- selected_checkpoint=checkpoints/best/best.pt
+- El modelo ganador como MLflow Model o en Model Registry.
+
+Así aparecería directamente en el resumen y no habría que buscar el máximo dentro de la curva. Actualmente el checkpoint ganador sí existe y está íntegro, pero está
+registrado únicamente como artefacto.
