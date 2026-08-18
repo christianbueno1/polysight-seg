@@ -18,7 +18,7 @@ queda diferida y no forma parte de la entrega actual.
 - [x] Crear un reporte técnico final con protocolo, métricas y análisis de errores
 - [x] Documentar cómo recuperar checkpoint, resultados y runs MLflow
 - [x] Crear una ficha del modelo con uso previsto, límites y riesgos
-- [ ] Revisar que presentación y documentación usen cifras consistentes
+- [x] Revisar que presentación y documentación usen cifras consistentes
 - [ ] Añadir un índice de artefactos y fuentes canónicas
 - [ ] Ejecutar validaciones finales del repositorio y enlaces documentales
 - [ ] Preparar checklist de entrega y cierre de la fase
@@ -41,3 +41,6 @@ queda diferida y no forma parte de la entrega actual.
   no requiere repetir entrenamiento ni test.
 - La ficha limita el modelo a investigación sobre Kvasir-SEG y prohíbe interpretarlo
   como herramienta autónoma o clínicamente validada.
+- La consistencia entre JSON/CSV, documentos formales y resúmenes redondeados queda
+  protegida por una prueba local; se eliminó de la presentación una frase temporal
+  anterior a la evaluación de test.

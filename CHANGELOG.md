@@ -2,6 +2,25 @@
 
 ---
 
+## 2026-08-18 01:17 -0500 — Fase 8: consistencia documental
+
+**Hecho:**
+- Auditadas las métricas, la época seleccionada, los runs, el umbral y los tamaños de
+  splits entre README, reporte, ficha y presentación.
+- Corregida una frase obsoleta que anunciaba la evaluación de test como trabajo futuro.
+- Añadido un contrato local que compara JSON/CSV canónicos con valores exactos y
+  redondeados publicados en los documentos finales.
+
+**Decisiones:**
+- Reporte y ficha conservan precisión completa; README y presentación usan cuatro
+  decimales para facilitar lectura sin cambiar el valor representado.
+- Los resultados canónicos siguen procediendo de `docs/results/test/`.
+
+**Pendiente / carry-over:**
+- Añadir un índice de artefactos y fuentes canónicas.
+
+---
+
 ## 2026-08-18 01:14 -0500 — Fase 8: ficha del modelo
 
 **Hecho:**
