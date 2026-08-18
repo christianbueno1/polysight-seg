@@ -2,6 +2,160 @@
 
 ---
 
+## 2026-08-18 01:28 -0500 — Cierre de Fase 8: entrega del baseline
+
+**Hecho:**
+- Creado el checklist final de alcance, resultados, trazabilidad, documentación y
+  validación técnica.
+- Cerradas todas las tareas de empaquetado y marcada la Fase 8 como completada.
+- Preparada la fusión del branch de fase en `dev` con el repositorio validado.
+
+**Decisiones:**
+- La entrega final se limita al U-Net/ResNet-34; la comparación EfficientNet-B0 sigue
+  pendiente y requiere una decisión futura antes de iniciar trabajo.
+- Se conserva `PHASE_CURRENT.md` como registro de la fase recién cerrada hasta que el
+  responsable confirme cuál será la siguiente fase activa.
+
+**Resultados:**
+- 24 contratos locales correctos, enlaces internos válidos y documentación consistente.
+- Dice test `0.9183967352352693` e IoU `0.8491068445832013` sobre 150 imágenes.
+
+**Pendiente / carry-over:**
+- Definir si el siguiente trabajo será la Fase 7 u otro pendiente del backlog.
+
+---
+
+## 2026-08-18 01:26 -0500 — Fase 8: validación final del repositorio
+
+**Hecho:**
+- Añadida una prueba que recorre los archivos Markdown versionados y verifica todos sus
+  enlaces locales, incluyendo imágenes y directorios.
+- Integrada la prueba al validador local sin dependencias de PyTorch.
+- Ejecutadas comprobaciones finales de formato, contratos, documentación y estructura.
+
+**Decisiones:**
+- Los enlaces externos no se consultan durante la validación local; los destinos internos
+  sí deben existir en el checkout para que la entrega sea navegable sin red.
+- La comprobación de enlaces queda permanente para futuras ediciones documentales.
+
+**Pendiente / carry-over:**
+- Preparar el checklist de entrega, cerrar la Fase 8 y fusionarla en `dev`.
+
+---
+
+## 2026-08-18 01:21 -0500 — Fase 8: índice de artefactos
+
+**Hecho:**
+- Creado `docs/artifact-index.md` con fuentes canónicas, derivados, documentos y estado
+  experimental no versionado.
+- Relacionados los artefactos con los jobs, runs MLflow y preguntas que permiten
+  responder durante una revisión técnica.
+- Enlazado el índice desde el README.
+
+**Decisiones:**
+- YAML, JSON y CSV tienen prioridad sobre figuras y resúmenes si surge una discrepancia.
+- Los binarios grandes se referencian por ruta y procedencia, pero permanecen fuera de
+  Git y se recuperan mediante la guía de sincronización.
+
+**Pendiente / carry-over:**
+- Ejecutar la validación final del repositorio y de todos los enlaces documentales.
+
+---
+
+## 2026-08-18 01:17 -0500 — Fase 8: consistencia documental
+
+**Hecho:**
+- Auditadas las métricas, la época seleccionada, los runs, el umbral y los tamaños de
+  splits entre README, reporte, ficha y presentación.
+- Corregida una frase obsoleta que anunciaba la evaluación de test como trabajo futuro.
+- Añadido un contrato local que compara JSON/CSV canónicos con valores exactos y
+  redondeados publicados en los documentos finales.
+
+**Decisiones:**
+- Reporte y ficha conservan precisión completa; README y presentación usan cuatro
+  decimales para facilitar lectura sin cambiar el valor representado.
+- Los resultados canónicos siguen procediendo de `docs/results/test/`.
+
+**Pendiente / carry-over:**
+- Añadir un índice de artefactos y fuentes canónicas.
+
+---
+
+## 2026-08-18 01:14 -0500 — Fase 8: ficha del modelo
+
+**Hecho:**
+- Creada `docs/model-card.md` con identificación, uso previsto, interfaz, rendimiento,
+  procedencia, limitaciones, riesgos y usos no recomendados.
+- Enlazada la ficha desde el README y actualizada la tarea correspondiente de la fase.
+
+**Decisiones:**
+- El modelo se limita a investigación reproducible sobre Kvasir-SEG y no se presenta
+  como herramienta de decisión clínica.
+- La ficha destaca el peor Dice individual y los riesgos de falsos negativos, cambio de
+  dominio y falta de validación externa.
+- No se atribuye superioridad frente a EfficientNet-B0 porque esa comparación no fue
+  ejecutada.
+
+**Pendiente / carry-over:**
+- Auditar la consistencia de cifras entre README, reporte, ficha y presentación.
+
+---
+
+## 2026-08-18 00:57 -0500 — Fase 8: recuperación de artefactos
+
+**Hecho:**
+- Creada una guía para sincronizar `mlflow.db`, artefactos y resultados desde CEDIA.
+- Documentadas las rutas y los identificadores canónicos de entrenamiento y evaluación.
+- Verificados localmente el SHA-256 de `best.pt`, 150 métricas por imagen y 150 mapas de
+  probabilidad.
+
+**Decisiones:**
+- La recuperación valida explícitamente el checkpoint ganador y no requiere repetir
+  entrenamiento ni evaluación de test.
+- Se diferencia el pequeño backend SQLite del directorio de artefactos, que concentra
+  aproximadamente 1.2 GB en la copia actual.
+
+**Pendiente / carry-over:**
+- Crear la ficha del modelo con uso previsto, límites y riesgos.
+
+---
+
+## 2026-08-18 00:55 -0500 — Fase 8: reporte técnico final
+
+**Hecho:**
+- Creado `docs/final-report.md` con protocolo, entrenamiento, evaluación, análisis de
+  errores, trazabilidad y límites del baseline.
+- Enlazado el reporte desde el README y verificadas sus fuentes documentales.
+
+**Decisiones:**
+- Se reportan métricas micro agregadas junto con la distribución por imagen para evitar
+  ocultar fallos severos detrás del promedio.
+- Las conclusiones se limitan a Kvasir-SEG y excluyen la comparación no ejecutada.
+
+**Pendiente / carry-over:**
+- Documentar la recuperación del checkpoint, los resultados y los runs MLflow.
+
+---
+
+## 2026-08-18 00:53 -0500 — Fase 8: README consolidado
+
+**Hecho:**
+- Reorganizado el README para presentar el objetivo, la arquitectura, el protocolo y
+  los resultados oficiales del baseline U-Net/ResNet-34.
+- Añadidos los runs MLflow principales y enlaces directos a configuraciones, métricas,
+  curvas y material de presentación.
+- Registrada la primera tarea de empaquetado como completada.
+
+**Decisiones:**
+- La portada prioriza resultados de test y advierte sobre la variabilidad por imagen y
+  la ausencia de validación clínica externa.
+- La comparación con EfficientNet-B0 permanece fuera del alcance de esta entrega.
+
+**Pendiente / carry-over:**
+- Crear el reporte técnico final y documentar la recuperación de artefactos y runs.
+
+---
+
 ## 2026-08-18 00:51 -0500 — Repriorización: comparación diferida
 
 **Hecho:**

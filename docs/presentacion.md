@@ -330,8 +330,8 @@ python scripts/plot_training_history.py \
 ```
 
 Este es un resultado de **validation**, utilizado para seleccionar el checkpoint. El
-conjunto de test permaneció aislado y se evaluará en la siguiente fase para obtener la
-medición final sin sesgo.
+conjunto de test permaneció aislado durante esa selección y después se evaluó una sola
+vez para obtener la medición final.
 
 ---
 

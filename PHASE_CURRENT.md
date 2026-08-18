@@ -14,14 +14,14 @@ queda diferida y no forma parte de la entrega actual.
 
 ### Tareas
 
-- [ ] Consolidar en README el objetivo, arquitectura, datos y resultados principales
-- [ ] Crear un reporte técnico final con protocolo, métricas y análisis de errores
-- [ ] Documentar cómo recuperar checkpoint, resultados y runs MLflow
-- [ ] Crear una ficha del modelo con uso previsto, límites y riesgos
-- [ ] Revisar que presentación y documentación usen cifras consistentes
-- [ ] Añadir un índice de artefactos y fuentes canónicas
-- [ ] Ejecutar validaciones finales del repositorio y enlaces documentales
-- [ ] Preparar checklist de entrega y cierre de la fase
+- [x] Consolidar en README el objetivo, arquitectura, datos y resultados principales
+- [x] Crear un reporte técnico final con protocolo, métricas y análisis de errores
+- [x] Documentar cómo recuperar checkpoint, resultados y runs MLflow
+- [x] Crear una ficha del modelo con uso previsto, límites y riesgos
+- [x] Revisar que presentación y documentación usen cifras consistentes
+- [x] Añadir un índice de artefactos y fuentes canónicas
+- [x] Ejecutar validaciones finales del repositorio y enlaces documentales
+- [x] Preparar checklist de entrega y cierre de la fase
 
 ---
 
@@ -33,3 +33,20 @@ queda diferida y no forma parte de la entrega actual.
   `73876309ec7c45e09023574a02a47475` con umbral fijo `0.5`.
 - Los CSV/JSON son fuentes canónicas; las figuras y resúmenes son derivados.
 - La documentación distinguirá resultados de validation, test y smokes técnicos.
+- El README presenta primero resultados test, protocolo, runs y evidencia versionada,
+  con una advertencia explícita sobre alcance y variabilidad por imagen.
+- El reporte técnico separa protocolo, resultados agregados, variabilidad por imagen y
+  límites; no presenta como comparación ningún experimento no ejecutado.
+- La recuperación parte de los runs canónicos y exige verificar el SHA-256 de `best.pt`;
+  no requiere repetir entrenamiento ni test.
+- La ficha limita el modelo a investigación sobre Kvasir-SEG y prohíbe interpretarlo
+  como herramienta autónoma o clínicamente validada.
+- La consistencia entre JSON/CSV, documentos formales y resúmenes redondeados queda
+  protegida por una prueba local; se eliminó de la presentación una frase temporal
+  anterior a la evaluación de test.
+- El índice distingue fuentes canónicas versionadas, derivados visuales y estado
+  experimental externo, con rutas y procedencia de cada elemento.
+- La validación local recorre todos los Markdown versionados y rechaza enlaces locales
+  rotos; también conserva los contratos de configuración y consistencia de resultados.
+- El checklist confirma alcance, trazabilidad, documentación y gates técnicos; no se
+  activa la Fase 7 mientras la comparación permanezca diferida.
