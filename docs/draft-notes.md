@@ -160,3 +160,9 @@ Ambas losses reciben el mismo `target`; solo la rama de Dice necesita el `sigmoi
 
   Por tanto, en el ejemplo diríamos: “El modelo consigue una segmentación razonable, pero aún pierde parte del pólipo y añade regiones incorrectas; es un punto de partida
   mejorable”.
+
+---
+## Algoritmo de Optimizacion
+RMSprop (Root Mean Square Propagation) es un algoritmo de optimización para aprendizaje profundo. Ajusta la tasa de aprendizaje de cada parámetro de forma individual usando una media móvil de los gradientes al cuadrado. Esto acelera la convergencia, evita que el aprendizaje se detenga y maneja mejor la variación en los datos.
+
+Adam (Adaptive Moment Estimation) es un popular algoritmo de optimización que se usa en inteligencia artificial y aprendizaje profundo (deep learning) para entrenar redes neuronales de forma rápida y eficiente. Combina las ventajas de dos métodos clásicos: Momentum y RMSprop.
