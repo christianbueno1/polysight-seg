@@ -20,8 +20,8 @@ y run MLflow `5fdf1b9929ec443da426c6442d9e20f1`. Test ha permanecido aislado.
 - [x] Conservar conteos, probabilidades y curva de umbral como datos regenerables
 - [x] Generar matrices de confusión cruda y normalizada por clase real
 - [ ] Implementar inferencia y visualizaciones cualitativas de mejores y peores casos
-- [ ] Añadir pruebas CPU para contratos de evaluación y artefactos
-- [ ] Ejecutar un smoke GPU de evaluación sin consumir test completo
+- [x] Añadir pruebas CPU para contratos de evaluación y artefactos
+- [x] Ejecutar un smoke GPU de evaluación sin consumir test completo
 - [ ] Ejecutar una sola evaluación completa del checkpoint sobre test en CEDIA
 - [ ] Registrar métricas y artefactos de evaluación en MLflow
 - [ ] Sincronizar resultados y verificar integridad local
@@ -48,3 +48,5 @@ y run MLflow `5fdf1b9929ec443da426c6442d9e20f1`. Test ha permanecido aislado.
 - El motor calcula métricas micro y por imagen en una sola pasada, conserva mapas
   `float16` y deriva la curva de umbral y matrices desde conteos; el job `23319` pasó
   4/4 contratos CPU sin consumir test.
+- El smoke GPU `23320` cargó el checkpoint real y procesó 16 imágenes de validation con
+  AMP; generó todos los artefactos esperados y no consumió ninguna muestra de test.

@@ -2,6 +2,34 @@
 
 ---
 
+## 2026-08-18 00:11 -0500 — Fase 6: smoke GPU del evaluador real
+
+**Hecho:**
+- Integrado un runner que conecta configuración, checkpoint verificado, DataLoader,
+  inferencia y escritura de artefactos.
+- Añadidas protecciones que prohíben test parcial y exigen límite de batches para un
+  smoke sobre validation.
+- Ejecutado el evaluador real con `best.pt`, AMP y dos batches de validation en A100.
+- Verificados métricas, 16 registros por imagen, 16 mapas de probabilidad, nueve puntos
+  de umbral y matrices cruda y normalizada.
+
+**Decisiones:**
+- La arquitectura se reconstruye sin volver a cargar pesos ImageNet; `best.pt` es la
+  única fuente de pesos durante evaluación.
+- Los resultados del smoke se separan por job bajo `evaluation/.../smoke/` y no se
+  confunden con la evaluación final.
+- Test no admite `--max-batches`; su futura ejecución debe cubrir las 150 muestras.
+
+**Resultados:**
+- Job `23320`: `COMPLETED`, código `0:0`, 19 segundos y 16 muestras de validation.
+- Dice del smoke: `0.8990412835061632`; se reporta solo como evidencia técnica.
+
+**Pendiente / carry-over:**
+- Generar visualizaciones cualitativas y registrar la evaluación mediante MLflow antes
+  de ejecutar test completo una sola vez.
+
+---
+
 ## 2026-08-17 23:44 -0500 — Fase 6: motor y artefactos de evaluación
 
 **Hecho:**
