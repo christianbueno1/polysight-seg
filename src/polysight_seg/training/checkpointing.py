@@ -125,8 +125,8 @@ def _atomic_torch_save(payload: dict[str, Any], path: Path) -> str:
     return digest
 
 
-def verify_checkpoint_hash(path: Path) -> str:
-    """Comprueba el sidecar SHA-256 antes de cargar un checkpoint."""
+def verify_checkpoint_hash(path: Path, expected_digest: str | None = None) -> str:
+    """Comprueba el sidecar y, si se fija, un SHA-256 externo al checkpoint."""
 
     sidecar = path.with_suffix(f"{path.suffix}.sha256")
     if not sidecar.is_file():
@@ -134,11 +134,16 @@ def verify_checkpoint_hash(path: Path) -> str:
     fields = sidecar.read_text(encoding="utf-8").strip().split()
     if len(fields) != 2 or fields[1] != path.name:
         raise ValueError(f"Formato SHA-256 inválido: {sidecar}")
-    expected_digest = fields[0]
+    sidecar_digest = fields[0]
     actual_digest = _sha256(path)
-    if actual_digest != expected_digest:
+    if actual_digest != sidecar_digest:
         raise ValueError(
-            f"SHA-256 inválido para {path}: {actual_digest} != {expected_digest}"
+            f"SHA-256 inválido para {path}: {actual_digest} != {sidecar_digest}"
+        )
+    if expected_digest is not None and actual_digest != expected_digest:
+        raise ValueError(
+            f"SHA-256 distinto al fijado en configuración para {path}: "
+            f"{actual_digest} != {expected_digest}"
         )
     return actual_digest
 
