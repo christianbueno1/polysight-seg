@@ -119,7 +119,8 @@ class EvaluationEngineTest(unittest.TestCase):
             )
             saved = np.load(paths.probability_maps_directory / "sample-a.npz")
             self.assertEqual(saved["probabilities"].dtype, np.float16)
-            self.assertEqual(len(list(csv.DictReader(paths.per_image_metrics.open()))), 2)
+            with paths.per_image_metrics.open(newline="", encoding="utf-8") as stream:
+                self.assertEqual(len(list(csv.DictReader(stream))), 2)
 
 
 if __name__ == "__main__":

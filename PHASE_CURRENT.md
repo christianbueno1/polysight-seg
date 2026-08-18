@@ -16,9 +16,9 @@ y run MLflow `5fdf1b9929ec443da426c6442d9e20f1`. Test ha permanecido aislado.
 
 - [x] Crear una configuración versionada de evaluación e inferencia
 - [x] Implementar carga verificada del checkpoint ganador
-- [ ] Implementar evaluación agregada y métricas por imagen sobre test
-- [ ] Conservar conteos, probabilidades y curva de umbral como datos regenerables
-- [ ] Generar matrices de confusión cruda y normalizada por clase real
+- [x] Implementar evaluación agregada y métricas por imagen sobre test
+- [x] Conservar conteos, probabilidades y curva de umbral como datos regenerables
+- [x] Generar matrices de confusión cruda y normalizada por clase real
 - [ ] Implementar inferencia y visualizaciones cualitativas de mejores y peores casos
 - [ ] Añadir pruebas CPU para contratos de evaluación y artefactos
 - [ ] Ejecutar un smoke GPU de evaluación sin consumir test completo
@@ -45,3 +45,6 @@ y run MLflow `5fdf1b9929ec443da426c6442d9e20f1`. Test ha permanecido aislado.
   una evaluación crea un run MLflow separado para no alterar el historial de training.
 - La carga valida sidecar, hash fijado, run MLflow, época, métrica y valor de selección
   antes de restaurar pesos; el job CPU `23317` verificó los contratos con 12/12 pruebas.
+- El motor calcula métricas micro y por imagen en una sola pasada, conserva mapas
+  `float16` y deriva la curva de umbral y matrices desde conteos; el job `23319` pasó
+  4/4 contratos CPU sin consumir test.

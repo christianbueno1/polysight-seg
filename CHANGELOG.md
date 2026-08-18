@@ -2,6 +2,35 @@
 
 ---
 
+## 2026-08-17 23:44 -0500 — Fase 6: motor y artefactos de evaluación
+
+**Hecho:**
+- Implementada una sola pasada de inferencia que calcula métricas micro agregadas y por
+  imagen, además de conteos para múltiples umbrales.
+- Conservados mapas de probabilidad comprimidos en `float16` y datos tabulares para
+  métricas, curva de umbral y matrices de confusión.
+- Implementada escritura atómica de JSON, CSV y NPZ, con validación de identificadores
+  antes de construir rutas de artefactos.
+- Añadidos contratos CPU con resultados exactos y persistencia reconstruible.
+
+**Decisiones:**
+- Las métricas agregadas se calculan desde la suma de TP, FP, FN y TN de todas las
+  imágenes, no promediando métricas por batch.
+- La matriz usa filas de clase real y columnas de predicción; se conserva en conteos y
+  normalizada por clase real.
+- Cada mapa de probabilidad se guarda por `sample_id` para permitir nuevos análisis sin
+  repetir inferencia.
+
+**Resultados:**
+- Job `23318`: `COMPLETED`, código `0:0`, 3/3 contratos del motor correctos.
+- Job `23319`: `COMPLETED`, código `0:0`, 4/4 contratos de motor y artefactos correctos.
+- Ninguna imagen del split test fue consumida.
+
+**Pendiente / carry-over:**
+- Implementar visualizaciones cualitativas de mejores, medianos y peores casos.
+
+---
+
 ## 2026-08-17 23:27 -0500 — Fase 6: carga verificada del checkpoint ganador
 
 **Hecho:**
