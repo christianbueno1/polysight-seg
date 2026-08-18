@@ -17,7 +17,7 @@ usando exclusivamente Dice de validation; test permanece aislado para la Fase 6.
 - [x] Fijar la dependencia de MLflow y validar `.venv-cluster` en CEDIA
 - [x] Crear configuración versionada de entrenamiento
 - [x] Implementar loops de train y validation con métricas por época
-- [ ] Implementar checkpoints `last.pt` y `best.pt` con metadatos de trazabilidad
+- [~] Implementar checkpoints `last.pt` y `best.pt` con metadatos de trazabilidad
 - [ ] Integrar parámetros, métricas y artefactos del entrenamiento en MLflow
 - [ ] Añadir pruebas CPU del entrenamiento, checkpoints y tracking
 - [ ] Ejecutar un smoke de entrenamiento de pocos batches en GPU
@@ -53,3 +53,7 @@ usando exclusivamente Dice de validation; test permanece aislado para la Fase 6.
 - Los loops agregan la pérdida ponderada por número de muestras y calculan las métricas
   micro desde TP, FP, FN y TN acumulados sobre la época completa.
 - Validation usa `inference_mode`, no calcula gradientes ni modifica el optimizador.
+- `last.pt` se actualiza cada época y `best.pt` solo ante una mejora superior al
+  `min_delta` configurado sobre Dice de validation.
+- Cada checkpoint usa escritura atómica, sidecar SHA-256 y conserva estados de modelo,
+  optimizador, scheduler, scaler y RNG, además de configuración y procedencia.

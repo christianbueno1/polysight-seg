@@ -4,11 +4,19 @@
 from __future__ import annotations
 
 import json
+import tempfile
+from pathlib import Path
 
 import torch
 from torch import nn
 
-from polysight_seg.training import train_one_epoch, validate_one_epoch
+from polysight_seg.training import (
+    load_training_checkpoint,
+    save_epoch_checkpoints,
+    train_one_epoch,
+    validate_one_epoch,
+    verify_checkpoint_hash,
+)
 
 
 def main() -> None:
@@ -91,6 +99,88 @@ def main() -> None:
             f"Métricas de validation inesperadas: {sorted(validation_result)}"
         )
 
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode="max")
+    checkpoint_report: dict[str, object]
+    with tempfile.TemporaryDirectory(prefix="polysight-checkpoint-") as temporary_dir:
+        checkpoint_directory = Path(temporary_dir)
+        expected_weight = model.weight.detach().clone()
+        first_save = save_epoch_checkpoints(
+            directory=checkpoint_directory,
+            last_filename="last.pt",
+            best_filename="best.pt",
+            epoch=1,
+            current_metric=float(validation_result["val_dice"]),
+            best_metric=None,
+            selection_metric="val_dice",
+            selection_mode="max",
+            min_delta=1.0e-4,
+            model=model,
+            optimizer=optimizer,
+            scheduler=scheduler,
+            grad_scaler=None,
+            metrics={**train_result, **validation_result},
+            trainer_state={"global_step": 1, "epochs_without_improvement": 0},
+            config_snapshot={"run": {"seed": 20260817}},
+            code_commit="smoke-contract",
+            dataset_hashes={"manifest_sha256": "0" * 64},
+            architecture={"name": "conv2d-smoke"},
+            threshold=0.5,
+            slurm_job_id=None,
+            mlflow_run_id=None,
+        )
+        if not first_save.improved or first_save.best_path is None:
+            raise RuntimeError("La primera época no creó best.pt")
+        initial_best_hash = verify_checkpoint_hash(first_save.best_path)
+
+        with torch.no_grad():
+            model.weight.add_(10.0)
+        loaded = load_training_checkpoint(
+            first_save.last_path,
+            model=model,
+            optimizer=optimizer,
+            scheduler=scheduler,
+            restore_rng=False,
+        )
+        if not torch.equal(expected_weight, model.weight.detach()):
+            raise RuntimeError("La carga no restauró los pesos del modelo")
+        if loaded["next_epoch"] != 2:
+            raise RuntimeError("El checkpoint no indica la próxima época")
+
+        second_save = save_epoch_checkpoints(
+            directory=checkpoint_directory,
+            last_filename="last.pt",
+            best_filename="best.pt",
+            epoch=2,
+            current_metric=0.5,
+            best_metric=first_save.best_metric,
+            selection_metric="val_dice",
+            selection_mode="max",
+            min_delta=1.0e-4,
+            model=model,
+            optimizer=optimizer,
+            scheduler=scheduler,
+            grad_scaler=None,
+            metrics={"val_dice": 0.5},
+            trainer_state={"global_step": 2, "epochs_without_improvement": 1},
+            config_snapshot={"run": {"seed": 20260817}},
+            code_commit="smoke-contract",
+            dataset_hashes={"manifest_sha256": "0" * 64},
+            architecture={"name": "conv2d-smoke"},
+            threshold=0.5,
+        )
+        if second_save.improved or second_save.best_path is not None:
+            raise RuntimeError("Una métrica peor reemplazó indebidamente best.pt")
+        if verify_checkpoint_hash(checkpoint_directory / "best.pt") != initial_best_hash:
+            raise RuntimeError("best.pt cambió sin una mejora de validation")
+        checkpoint_report = {
+            "first_epoch_improved": first_save.improved,
+            "second_epoch_improved": second_save.improved,
+            "best_metric": second_save.best_metric,
+            "last_sha256": second_save.last_sha256,
+            "best_sha256": initial_best_hash,
+            "restored_next_epoch": loaded["next_epoch"],
+        }
+
     print(
         json.dumps(
             {
@@ -99,6 +189,7 @@ def main() -> None:
                 "device": "cpu",
                 "train": train_result,
                 "validation": validation_result,
+                "checkpoint": checkpoint_report,
             },
             indent=2,
             sort_keys=True,
