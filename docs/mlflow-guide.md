@@ -111,6 +111,38 @@ En un problema binario conviene registrar `tp`, `fp`, `fn` y `tn` además de Dic
 precision y recall. Así se pueden reconstruir matrices sin repetir entrenamiento ni
 evaluación.
 
+### Hacer visible el modelo seleccionado
+
+La vista general de MLflow muestra el último valor de cada serie, que no necesariamente
+es el mejor. No debe obligarse a la audiencia a recorrer una curva para descubrir qué
+época ganó. Al cerrar el run, registrar explícitamente:
+
+- métrica y regla de selección, por ejemplo maximizar `validation_score`;
+- mejor valor y paso o época donde ocurrió;
+- ruta del checkpoint seleccionado y su hash;
+- motivo y paso final de parada;
+- un `run-summary.json` con los mismos datos como evidencia portable.
+
+Conviene exponer estos campos como tags con nombres estables, por ejemplo
+`selection.metric`, `selection.best_value`, `selection.best_step` y
+`selection.checkpoint_artifact`. Registrar además una métrica escalar final como
+`best_validation_score` permite verla directamente en Overview sin confundirla con el
+último punto de `validation_score`.
+
+Un checkpoint de entrenamiento guardado mediante `log_artifact` sigue siendo un archivo
+genérico: conserva pesos, optimizador y estado para auditoría o reanudación, pero no
+aparece como **Logged model**. Para que el ganador sea consumible desde MLflow, también
+debe registrarse con el flavor correspondiente, por ejemplo `mlflow.pytorch.log_model`,
+incluyendo firma e input example cuando sea posible. Son dos artefactos complementarios:
+
+- **checkpoint:** reanudación y trazabilidad completa del entrenamiento;
+- **MLflow Model:** carga estandarizada, inferencia, comparación y despliegue.
+
+El Model Registry es un paso adicional, útil cuando existe un flujo de promoción. Solo
+debe registrarse el modelo seleccionado después de cerrar el criterio de validation; test
+no participa en esa selección. Usar alias con significado operativo, como `candidate` o
+`champion`, es preferible a depender únicamente de números de versión.
+
 ### Problemas frecuentes que deben prevenirse
 
 | Problema | Prevención |
@@ -121,6 +153,8 @@ evaluación.
 | Texto blanco sobre celda clara | Elegir color de anotación según luminancia/valor |
 | Valores salen de las celdas | Abreviar, ajustar fuente y usar layout automático |
 | No se puede reproducir un run | Registrar commit, config, semilla, versiones y hashes |
+| El mejor resultado queda oculto en la curva | Registrar mejor valor, paso, criterio y ruta como resumen y tags |
+| El ganador no aparece como Logged model | Registrar además el modelo con su flavor; el checkpoint solo es un artefacto |
 | Artefactos apuntan a otra máquina | Usar URIs portables y sincronizar base más artefactos |
 | Base SQLite inconsistente | Detener escritores antes de copiar y limitar concurrencia |
 | Nombre de módulo no coincide con versión real | Registrar versiones importadas dentro del job |

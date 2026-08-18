@@ -2,6 +2,29 @@
 
 ---
 
+## 2026-08-17 22:27 -0500 — Fase 5: modelo seleccionado visible en MLflow
+
+**Hecho:**
+- Ampliada la guía general de MLflow con un patrón para mostrar directamente el mejor
+  valor, paso, criterio, checkpoint y motivo de parada de cada run.
+- Documentada la diferencia entre un checkpoint registrado como artefacto, un Logged
+  Model con flavor y la promoción opcional mediante Model Registry.
+- Añadidas medidas preventivas para evitar que el ganador quede oculto en una curva o
+  aparezca únicamente como archivo genérico.
+
+**Decisiones:**
+- Los próximos proyectos registrarán tags `selection.*`, una métrica escalar final del
+  mejor resultado y un resumen JSON portable.
+- Checkpoint y MLflow Model se conservarán como productos complementarios: el primero
+  para reanudación/auditoría y el segundo para carga estandarizada e inferencia.
+- Test no participará en la selección ni en la promoción inicial del modelo.
+
+**Pendiente / carry-over:**
+- Aplicar este patrón en runners futuros; el run actual conserva correctamente su
+  checkpoint ganador como artefacto.
+
+---
+
 ## 2026-08-17 21:19 -0500 — Fase 5: entrenamiento completo del baseline
 
 **Hecho:**
