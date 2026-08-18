@@ -2,6 +2,26 @@
 
 ---
 
+## 2026-08-18 01:14 -0500 — Fase 8: ficha del modelo
+
+**Hecho:**
+- Creada `docs/model-card.md` con identificación, uso previsto, interfaz, rendimiento,
+  procedencia, limitaciones, riesgos y usos no recomendados.
+- Enlazada la ficha desde el README y actualizada la tarea correspondiente de la fase.
+
+**Decisiones:**
+- El modelo se limita a investigación reproducible sobre Kvasir-SEG y no se presenta
+  como herramienta de decisión clínica.
+- La ficha destaca el peor Dice individual y los riesgos de falsos negativos, cambio de
+  dominio y falta de validación externa.
+- No se atribuye superioridad frente a EfficientNet-B0 porque esa comparación no fue
+  ejecutada.
+
+**Pendiente / carry-over:**
+- Auditar la consistencia de cifras entre README, reporte, ficha y presentación.
+
+---
+
 ## 2026-08-18 00:57 -0500 — Fase 8: recuperación de artefactos
 
 **Hecho:**

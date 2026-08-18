@@ -40,6 +40,7 @@ Runs principales:
 - [Curvas de entrenamiento](docs/assets/unet-resnet34-training-curves.svg)
 - [Resultados y análisis para presentación](docs/presentacion.md)
 - [Reporte técnico final](docs/final-report.md)
+- [Ficha del modelo](docs/model-card.md)
 - [Recuperación de checkpoint, resultados y runs](docs/artifact-recovery.md)
 - [Configuración de entrenamiento](configs/training/unet-resnet34-baseline.yaml)
 - [Configuración de evaluación](configs/evaluation/unet-resnet34-baseline.yaml)

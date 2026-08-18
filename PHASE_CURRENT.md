@@ -17,7 +17,7 @@ queda diferida y no forma parte de la entrega actual.
 - [x] Consolidar en README el objetivo, arquitectura, datos y resultados principales
 - [x] Crear un reporte técnico final con protocolo, métricas y análisis de errores
 - [x] Documentar cómo recuperar checkpoint, resultados y runs MLflow
-- [ ] Crear una ficha del modelo con uso previsto, límites y riesgos
+- [x] Crear una ficha del modelo con uso previsto, límites y riesgos
 - [ ] Revisar que presentación y documentación usen cifras consistentes
 - [ ] Añadir un índice de artefactos y fuentes canónicas
 - [ ] Ejecutar validaciones finales del repositorio y enlaces documentales
@@ -39,3 +39,5 @@ queda diferida y no forma parte de la entrega actual.
   límites; no presenta como comparación ningún experimento no ejecutado.
 - La recuperación parte de los runs canónicos y exige verificar el SHA-256 de `best.pt`;
   no requiere repetir entrenamiento ni test.
+- La ficha limita el modelo a investigación sobre Kvasir-SEG y prohíbe interpretarlo
+  como herramienta autónoma o clínicamente validada.
