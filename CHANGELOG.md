@@ -2,6 +2,32 @@
 
 ---
 
+## 2026-08-17 19:31 -0500 — Fase 5: protocolo de entrenamiento versionado
+
+**Hecho:**
+- Creada `configs/training/unet-resnet34-baseline.yaml` con referencias a datos, modelo
+  y tracking, además de runtime, optimizador, scheduler y checkpoints.
+- Añadidos cinco contratos locales para validar referencias, presupuesto, selección y
+  aislamiento de test sin importar PyTorch.
+- Incorporada la nueva prueba al validador local y actualizados los índices de
+  configuraciones y pruebas.
+
+**Decisiones:**
+- El baseline tendrá un máximo de 50 épocas con semilla `20260817`, AdamW con learning
+  rate `1e-4` y weight decay `1e-4`.
+- ReduceLROnPlateau reducirá el learning rate a la mitad después de tres épocas sin una
+  mejora absoluta de `1e-4` en Dice de validation, con mínimo `1e-6`.
+- Early stopping esperará diez épocas sin mejora para permitir reducciones del learning
+  rate antes de detener el entrenamiento.
+- La A100 usará AMP `float16` con gradient scaling y determinismo estricto; el mejor
+  checkpoint se seleccionará únicamente por `val_dice`.
+- Test queda deshabilitado declarativamente y reservado para la Fase 6.
+
+**Pendiente / carry-over:**
+- Implementar los loops de train y validation con agregación correcta por época.
+
+---
+
 ## 2026-08-17 19:26 -0500 — Fase 5: MLflow instalado y validado en CEDIA
 
 **Hecho:**
