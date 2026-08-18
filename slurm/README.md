@@ -11,5 +11,7 @@ trabajos reproducibles en CEDIA HPC.
   original almacenado fuera de Git.
 - `test_baseline_cpu.sbatch`: ejecuta contratos numéricos del modelo, pérdida y métricas
   en `cpu-dev`, sin solicitar GPU.
+- `smoke_training_engine.sbatch`: valida en `cpu-dev` agregación por época, actualización
+  en train e inmutabilidad del modelo durante validation.
 - `smoke_baseline.sbatch`: ejecuta un batch real del baseline con pesos ImageNet,
   forward/backward y una A100 en `gpu-dev`.
