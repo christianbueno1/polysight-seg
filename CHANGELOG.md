@@ -2,6 +2,68 @@
 
 ---
 
+## 2026-08-18 05:08 -0500 — Cierre de Fase 9: notebooks para Colab
+
+**Hecho:**
+- Entregados dos notebooks delgados, inferencia reutilizable y contratos estáticos.
+- Superadas 29 validaciones locales sin PyTorch y comprobada la descarga HTTPS del
+  commit inmutable consumido por los notebooks.
+- Preparada la fusión de la fase en `dev`.
+
+**Decisiones:**
+- El responsable solicitó cerrar y fusionar sin ejecutar los notebooks en Colab.
+- No se afirma validación de PyTorch, checkpoint real, GPU, smoke ni entrenamiento en
+  Colab; esa ejecución queda registrada como pendiente externa en el backlog.
+- Test continúa desactivado por defecto en el notebook de reproducción.
+
+**Pendiente / carry-over:**
+- Cuando exista acceso adecuado, ejecutar ambos notebooks en Colab y registrar sus
+  resultados sin modificar los resultados oficiales del baseline.
+
+---
+
+## 2026-08-18 02:40 -0500 — Fase 9: notebooks de verificación y reproducción
+
+**Hecho:**
+- Reemplazado el alcance de API local por dos notebooks delgados para Google Colab.
+- Implementada inferencia reutilizable de una imagen con carga estricta de `best.pt`.
+- Añadidos contratos que impiden outputs guardados, secretos, rutas personales, código
+  duplicado y activación accidental de test.
+- Ampliado el rango declarado a Python 3.12 y actualizada la versión del paquete a 0.2.0.
+
+**Decisiones:**
+- Un notebook verifica el modelo y otro permite reconstruir datos, ejecutar smoke y
+  repetir el entrenamiento completo.
+- Colab no se usa como servidor; API y clasificación quedan fuera del alcance actual.
+- Los notebooks fijan el commit `2bf2c5a874272ecd6ccd24b936af578f4e637c82` y verifican
+  archivos grandes por SHA-256 antes de usarlos.
+
+**Pendiente / carry-over:**
+- Ejecutar en Colab los contratos PyTorch, la inferencia real y el smoke GPU.
+
+---
+
+## 2026-08-18 02:20 -0500 — Fase 9: diseño de API piloto local
+
+**Hecho:**
+- Creada `docs/api-pilot-guide.md` con arquitectura, endpoints, configuración,
+  preprocesamiento, seguridad, pruebas y criterios de aceptación para una laptop.
+- Diseñada la clasificación como capacidad opcional mediante adaptadores desacoplados.
+- Activada la Fase 9 y actualizado el backlog de despliegue local.
+
+**Decisiones:**
+- La segmentación funciona por sí sola; el clasificador puede ejecutarse en proceso o
+  como servicio HTTP local si existen conflictos de dependencias entre proyectos.
+- El piloto queda limitado a `127.0.0.1`, un worker, procesamiento en memoria y uso
+  experimental sin validez clínica.
+- No se agregan todavía FastAPI ni dependencias web: primero se revisa esta guía y luego
+  se implementa en tareas separadas.
+
+**Pendiente / carry-over:**
+- Aprobar el contrato y elegir el modo de integración del proyecto de clasificación.
+
+---
+
 ## 2026-08-18 01:28 -0500 — Cierre de Fase 8: entrega del baseline
 
 **Hecho:**
