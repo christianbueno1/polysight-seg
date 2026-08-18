@@ -20,7 +20,7 @@ usando exclusivamente Dice de validation; test permanece aislado para la Fase 6.
 - [x] Implementar checkpoints `last.pt` y `best.pt` con metadatos de trazabilidad
 - [x] Integrar parámetros, métricas y artefactos del entrenamiento en MLflow
 - [x] Añadir pruebas CPU del entrenamiento, checkpoints y tracking
-- [ ] Ejecutar un smoke de entrenamiento de pocos batches en GPU
+- [~] Ejecutar un smoke de entrenamiento de pocos batches en GPU
 - [ ] Ejecutar el entrenamiento completo del baseline en CEDIA
 - [ ] Sincronizar `mlflow.db` y `artifacts/` y verificar la interfaz local
 - [ ] Documentar configuración, curvas y resultados de validation para la presentación
