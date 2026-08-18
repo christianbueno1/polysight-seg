@@ -125,6 +125,64 @@ evaluación.
 | Base SQLite inconsistente | Detener escritores antes de copiar y limitar concurrencia |
 | Nombre de módulo no coincide con versión real | Registrar versiones importadas dentro del job |
 
+## Instalación reproducible en clústeres con Slurm
+
+La instalación debe probarse en el mismo tipo de nodo y con los mismos módulos que
+usará el experimento. El nodo de login se limita a sincronizar código, enviar jobs y
+consultar resultados; la instalación y los imports se ejecutan dentro de un job CPU.
+
+### Elegir y fijar la versión
+
+Antes de instalar:
+
+1. consultar el metadato oficial `Requires-Python` de la versión candidata;
+2. confirmar que admite la versión de Python del clúster;
+3. fijarla exactamente en el archivo de dependencias, por ejemplo
+   `mlflow==X.Y.Z`;
+4. instalar desde ese archivo, no mediante un comando manual que no quede versionado.
+
+Fijar la versión evita que dos ejecuciones obtengan releases distintas. La versión
+efectivamente importada debe registrarse dentro del job, porque el nombre de un módulo
+del clúster no garantiza por sí solo qué paquete termina resolviendo Python.
+
+### Reutilizar el framework provisto por el clúster
+
+Si PyTorch, CUDA u otro framework pesado proviene de módulos, se puede crear el entorno
+con acceso a sus paquetes y mantener el resto de dependencias dentro del virtualenv:
+
+```bash
+module purge
+module load MODULO_DEL_FRAMEWORK
+
+python -m venv --system-site-packages .venv
+source .venv/bin/activate
+
+venv_site_packages="$VIRTUAL_ENV/lib/pythonX.Y/site-packages"
+export PYTHONPATH="${venv_site_packages}:${PYTHONPATH:-}"
+
+python -m pip install -e .
+python -m pip check
+```
+
+Se reemplaza `pythonX.Y` por la versión real del job. Anteponer el `site-packages` del
+virtualenv hace que se respeten las versiones fijadas allí, mientras
+`--system-site-packages` permite reutilizar el framework administrado por el clúster.
+Si no se necesita ningún paquete del sistema, es preferible crear un virtualenv normal.
+
+### Validar más que el import
+
+Después de instalar, una prueba efímera debe:
+
+- comprobar las versiones reales de Python, MLflow y el framework;
+- ejecutar `pip check` para detectar dependencias incompatibles;
+- iniciar un servidor MLflow limitado a `127.0.0.1` con una base SQLite temporal;
+- crear un run, persistir una métrica y un artefacto y volver a leerlos con el cliente;
+- comprobar que la URI del artefacto sea portable;
+- detener el servidor y descartar los archivos temporales.
+
+Este smoke separa los errores de instalación de los del entrenamiento y no contamina la
+base ni los artefactos del experimento real.
+
 ## Ejemplo general: tracking local y portable
 
 Para un experimento individual puede usarse un servidor limitado a loopback, SQLite
