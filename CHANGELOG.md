@@ -2,6 +2,361 @@
 
 ---
 
+## 2026-08-17 22:36 -0500 — Cierre de Fase 5 e inicio de Fase 6
+
+**Hecho:**
+- Sincronizados localmente `mlflow.db` y los artefactos de los runs smoke y full; los
+  cuatro checkpoints pasaron su verificación SHA-256.
+- Verificada la interfaz local MLflow y el acceso al run completo, métricas, historial,
+  configuraciones y checkpoint ganador.
+- Versionado el historial de 32 épocas y creado un generador de curvas SVG sin
+  dependencias externas, además de exportaciones SVG editable y PNG de alta resolución.
+- Incorporadas las curvas y su interpretación breve a la presentación.
+- Cerrada la Fase 5 y preparado el tablero de evaluación, inferencia y análisis de errores
+  de la Fase 6.
+
+**Decisiones:**
+- El CSV es la fuente canónica de las curvas; SVG y PNG son derivados regenerables.
+- La línea de selección identifica la época 22 y evita confundir el último valor con el
+  mejor Dice de validation.
+- La Fase 6 evaluará una sola vez `best.pt` sobre test y conservará métricas por imagen,
+  conteos, probabilidades y figuras auditables.
+
+**Resultados:**
+- Run completo accesible localmente: `5fdf1b9929ec443da426c6442d9e20f1`.
+- Mejor Dice de validation: `0.8977634135250631` en la época 22.
+- Curvas regeneradas de forma determinista desde el historial sincronizado.
+
+**Pendiente / carry-over:**
+- Iniciar la implementación de la evaluación sin consumir todavía el conjunto de test.
+
+---
+
+## 2026-08-17 22:27 -0500 — Fase 5: modelo seleccionado visible en MLflow
+
+**Hecho:**
+- Ampliada la guía general de MLflow con un patrón para mostrar directamente el mejor
+  valor, paso, criterio, checkpoint y motivo de parada de cada run.
+- Documentada la diferencia entre un checkpoint registrado como artefacto, un Logged
+  Model con flavor y la promoción opcional mediante Model Registry.
+- Añadidas medidas preventivas para evitar que el ganador quede oculto en una curva o
+  aparezca únicamente como archivo genérico.
+
+**Decisiones:**
+- Los próximos proyectos registrarán tags `selection.*`, una métrica escalar final del
+  mejor resultado y un resumen JSON portable.
+- Checkpoint y MLflow Model se conservarán como productos complementarios: el primero
+  para reanudación/auditoría y el segundo para carga estandarizada e inferencia.
+- Test no participará en la selección ni en la promoción inicial del modelo.
+
+**Pendiente / carry-over:**
+- Aplicar este patrón en runners futuros; el run actual conserva correctamente su
+  checkpoint ganador como artefacto.
+
+---
+
+## 2026-08-17 21:19 -0500 — Fase 5: entrenamiento completo del baseline
+
+**Hecho:**
+- Ejecutado el entrenamiento completo U-Net/ResNet-34 mediante el job `23312` en una
+  A100; terminó correctamente en 32 épocas y 2.816 pasos.
+- Verificados `best.pt`, `last.pt`, ambos sidecars SHA-256, el historial de 32 épocas y
+  los artefactos del run MLflow `5fdf1b9929ec443da426c6442d9e20f1`.
+- Añadido a `docs/presentacion.md` un resumen breve y explicativo del resultado.
+
+**Decisiones:**
+- Se conserva como modelo seleccionado `best.pt`, correspondiente a la época 22 y Dice
+  de validation `0.8977634135250631`; `last.pt` no lo reemplaza.
+- La parada en la época 32 se considera correcta porque fue activada por early stopping,
+  no por error ni por límite de recursos.
+- El resultado se presenta explícitamente como validation; test sigue aislado hasta la
+  Fase 6 para evitar sesgo en la medición final.
+
+**Pendiente / carry-over:**
+- Sincronizar la base y los artefactos MLflow, verificar la interfaz local y preparar
+  las curvas de entrenamiento y validation.
+
+---
+
+## 2026-08-17 20:45 -0500 — Fase 5: handoff de contexto antes de `/clear`
+
+**Hecho:**
+- Consolidado en `PHASE_CURRENT.md` el estado exacto de la fase, la última evidencia
+  válida y la secuencia para reanudar sin depender del historial de conversación.
+- Documentado el comando del próximo smoke integrado, el entorno Slurm requerido y las
+  comprobaciones que deben cumplirse antes del entrenamiento completo.
+
+**Decisiones:**
+- La próxima sesión comenzará por el smoke del runner con dos batches de train y dos de
+  validation en una A100.
+- El entrenamiento completo no se enviará hasta verificar en el mismo smoke AMP, MLflow,
+  historial, ambos checkpoints y sus hashes.
+- `BACKLOG.md` no cambia: la Fase 5 continúa activa y es la única fase en progreso.
+
+**Estado para reanudación:**
+- Branch: `chore/training-mlflow`; repositorios local, GitHub y CEDIA sincronizados al
+  preparar este handoff.
+- Último resultado experimental: job CPU `23310`, 10/10 pruebas y MLflow correcto.
+- Próxima tarea pendiente: smoke integrado de pocos batches en GPU.
+
+---
+
+## 2026-08-17 20:40 -0500 — Fase 5: contratos CPU integrales
+
+**Hecho:**
+- Añadidas diez pruebas unitarias para loops, acumulación de gradientes, checkpoints,
+  RNG, tracking y utilidades del runner.
+- Creado `slurm/test_training_cpu.sbatch` para ejecutar la suite sin GPU y continuar con
+  una integración real de servidor y cliente MLflow.
+- Verificados el contrato completo de métricas, el historial CSV atómico y los hashes
+  efectivos del dataset.
+
+**Decisiones:**
+- Los contratos usan modelos escalares mínimos para probar la lógica sin construir el
+  U-Net ni consumir GPU.
+- La suite comprueba explícitamente que train actualiza parámetros y validation usa
+  `eval()` sin modificarlos.
+- La manipulación de un checkpoint debe detectarse mediante SHA-256 antes de intentar
+  cargar su contenido.
+- La restauración de RNG cubre Python, NumPy y PyTorch CPU; CUDA se comprobará dentro
+  del smoke GPU integrado.
+
+**Resultados:**
+- Job `23310`: `COMPLETED`, código `0:0`, 33 segundos en `cpu-dev`.
+- Diez de diez pruebas correctas en PyTorch 2.10.0+cu128.
+- La validación MLflow posterior creó SQLite, registró el run y confirmó una URI
+  `mlflow-artifacts:/` portable.
+
+**Pendiente / carry-over:**
+- Ejecutar el runner completo con pocos batches en una A100 antes del entrenamiento de
+  hasta 50 épocas.
+
+---
+
+## 2026-08-17 20:30 -0500 — Fase 5: runner integrado con MLflow
+
+**Hecho:**
+- Implementado el runner que construye datos, modelo, pérdida, AdamW, scheduler, AMP y
+  ejecuta train/validation con early stopping y checkpoints.
+- Implementado un servidor MLflow administrado por el proceso de entrenamiento y un
+  tracker que aplica el contrato de parámetros, tags, métricas y artefactos.
+- Añadido `scripts/train.py` como CLI para entrenamiento completo y smokes limitados.
+- Registrados configuración, hashes, entorno, `pip freeze`, historial por época,
+  checkpoints y resumen final de cada run.
+- Refactorizada y ejecutada la validación MLflow usando los componentes reales.
+
+**Decisiones:**
+- El servidor escucha solo en `127.0.0.1` y usa un worker para mantener un único flujo
+  de escritura sobre SQLite.
+- Cada run nuevo recibe un subdirectorio de checkpoints basado en su UUID de MLflow para
+  evitar sobrescrituras; una reanudación conserva el run y directorio originales.
+- Los registros por época son síncronos y deben coincidir exactamente con el contrato
+  de métricas versionado.
+- `run_mode=smoke` distingue cualquier ejecución limitada por batches; el entrenamiento
+  completo omite ambos límites.
+- Test no se construye ni evalúa dentro del runner de la Fase 5.
+
+**Resultados:**
+- Job `23309`: `COMPLETED`, código `0:0`, 44 segundos en `cpu-dev`.
+- Servidor, SQLite, parámetros, métrica, historial y resumen persistidos con URI
+  `mlflow-artifacts:/`; el CLI real cargó correctamente.
+
+**Pendiente / carry-over:**
+- Añadir pruebas CPU integrales de loops, checkpoints, tracking y utilidades del runner.
+
+---
+
+## 2026-08-17 20:18 -0500 — Fase 5: checkpoints auditables y reanudables
+
+**Hecho:**
+- Implementado guardado atómico de `last.pt` en cada época y `best.pt` únicamente ante
+  mejora suficiente de la métrica de selección.
+- Añadidos sidecars `.sha256` y verificación de integridad previa a toda carga.
+- Conservados estados de modelo, optimizador, scheduler, GradScaler y generadores
+  aleatorios, además de métricas, configuración, versiones y procedencia.
+- Implementada restauración segura mediante `torch.load(..., weights_only=True)`.
+- Ampliado y ejecutado el smoke CPU para cubrir guardado, selección, hash y carga.
+
+**Decisiones:**
+- `last.pt` permite continuar desde `next_epoch`; `best.pt` representa exclusivamente el
+  mayor Dice de validation según `min_delta` y nunca se selecciona con test.
+- Los temporales se crean en el mismo directorio y se reemplazan atómicamente para no
+  exponer un checkpoint parcialmente escrito si el job se interrumpe.
+- Cada checkpoint incluye schema y tipo explícitos; la carga rechaza otros formatos o
+  versiones antes de restaurar estados.
+- Los RNG de Python, NumPy, CPU y CUDA se almacenan con tipos compatibles con la carga
+  restringida de PyTorch.
+
+**Resultados:**
+- Job `23308`: `COMPLETED`, código `0:0`, diez segundos y `status=ok` en CPU.
+- La primera época creó `best.pt`; una segunda métrica inferior no lo reemplazó y su
+  SHA-256 permaneció intacto.
+- La carga restauró los pesos guardados y confirmó `next_epoch=2`.
+
+**Pendiente / carry-over:**
+- Integrar configuración, métricas y artefactos del entrenamiento con MLflow.
+
+---
+
+## 2026-08-17 20:01 -0500 — Fase 5: loops de train y validation
+
+**Hecho:**
+- Implementados `train_one_epoch` y `validate_one_epoch` como motor reutilizable de
+  segmentación binaria.
+- Añadidos AMP, gradient scaling, acumulación de gradientes, clipping, límite opcional
+  de batches y transferencia no bloqueante hacia CUDA.
+- Agregadas pérdida, Dice, IoU, precision, recall y TP/FP/FN/TN sobre cada época.
+- Creado y ejecutado un smoke contractual mediante `cpu-dev` con un modelo diminuto.
+
+**Decisiones:**
+- La pérdida se promedia ponderando cada batch por su número de muestras; las métricas
+  se calculan desde conteos de píxeles acumulados, no promediando métricas por batch.
+- La última agrupación incompleta de gradient accumulation usa su tamaño real para no
+  reducir artificialmente su contribución.
+- Validation usa `torch.inference_mode()`, activa `eval()` y nunca recibe optimizador.
+- Los loops rechazan logits o pérdidas no finitos antes de continuar el entrenamiento.
+
+**Resultados:**
+- Job `23307`: `COMPLETED`, código `0:0`, nueve segundos y `status=ok` en CPU.
+- Train modificó los parámetros; validation los conservó; se procesaron 12 píxeles y
+  la pérdida ponderada coincidió con el valor esperado.
+
+**Pendiente / carry-over:**
+- Implementar `last.pt` y `best.pt` con estado y metadatos suficientes para reanudar y
+  auditar el entrenamiento.
+
+---
+
+## 2026-08-17 19:31 -0500 — Fase 5: protocolo de entrenamiento versionado
+
+**Hecho:**
+- Creada `configs/training/unet-resnet34-baseline.yaml` con referencias a datos, modelo
+  y tracking, además de runtime, optimizador, scheduler y checkpoints.
+- Añadidos cinco contratos locales para validar referencias, presupuesto, selección y
+  aislamiento de test sin importar PyTorch.
+- Incorporada la nueva prueba al validador local y actualizados los índices de
+  configuraciones y pruebas.
+
+**Decisiones:**
+- El baseline tendrá un máximo de 50 épocas con semilla `20260817`, AdamW con learning
+  rate `1e-4` y weight decay `1e-4`.
+- ReduceLROnPlateau reducirá el learning rate a la mitad después de tres épocas sin una
+  mejora absoluta de `1e-4` en Dice de validation, con mínimo `1e-6`.
+- Early stopping esperará diez épocas sin mejora para permitir reducciones del learning
+  rate antes de detener el entrenamiento.
+- La A100 usará AMP `float16` con gradient scaling y determinismo estricto; el mejor
+  checkpoint se seleccionará únicamente por `val_dice`.
+- Test queda deshabilitado declarativamente y reservado para la Fase 6.
+
+**Pendiente / carry-over:**
+- Implementar los loops de train y validation con agregación correcta por época.
+
+---
+
+## 2026-08-17 19:26 -0500 — Fase 5: MLflow instalado y validado en CEDIA
+
+**Hecho:**
+- Fijado `mlflow==3.15.1`, compatible con Python 3.11, en las dependencias del proyecto.
+- Incorporados TP, FP, FN y TN de train y validation al contrato de métricas por época.
+- Añadidos un smoke servidor-cliente efímero y su job Slurm para `cpu-dev`.
+- Actualizado `.venv-cluster` mediante el job `23305` y ejecutado el smoke funcional
+  mediante el job `23306`.
+- Documentada en la guía general la estrategia reproducible de instalación en clústeres
+  con módulos, virtualenv y Slurm.
+
+**Decisiones:**
+- La versión de MLflow se fija exactamente y se instala desde el proyecto, no mediante
+  una modificación manual sin trazabilidad.
+- El nodo de login se limita a sincronización, envío y consulta; instalación, imports y
+  validación se ejecutan en nodos de cómputo CPU.
+- El virtualenv reutiliza PyTorch del módulo del clúster y prioriza sus propios paquetes
+  fijados mediante `PYTHONPATH`.
+- La validación usa almacenamiento temporal para no crear runs ni artefactos en el
+  experimento real.
+
+**Resultados:**
+- Job `23305`: `COMPLETED`, código `0:0`; Python 3.11.14, MLflow 3.15.1 y `pip check`
+  sin conflictos.
+- Job `23306`: `COMPLETED`, código `0:0`; servidor, SQLite, métrica y artefacto
+  persistidos y URI `mlflow-artifacts:/` confirmada.
+
+**Pendiente / carry-over:**
+- Crear la configuración versionada del entrenamiento baseline.
+
+---
+
+## 2026-08-17 19:00 -0500 — Fase 5: separación de guías MLflow
+
+**Hecho:**
+- Eliminadas de `docs/mlflow-guide.md` las rutas, nombres y decisiones específicas de
+  PolySight Seg.
+- Añadido un ejemplo neutral de servidor y cliente MLflow con almacenamiento portable.
+- Versionada `docs/mlflow-project-guide.md` como guía exclusiva de este proyecto.
+- Añadido a la guía del proyecto el contrato de matrices, conteos, probabilidades y
+  figuras regenerables para el checkpoint seleccionado.
+- Actualizado el índice de documentación para enlazar ambas guías por separado.
+
+**Decisiones:**
+- La guía general contiene patrones reutilizables y no menciona infraestructura,
+  datasets, modelos ni rutas de un proyecto concreto.
+- La guía de proyecto es la fuente para CEDIA, U-Net/ResNet-34, splits, checkpoints y
+  comandos de sincronización de PolySight Seg.
+
+**Pendiente / carry-over:**
+- Incorporar TP, FP, FN y TN a `configs/tracking/mlflow.yaml`.
+- Fijar la dependencia de MLflow y validar `.venv-cluster` en CEDIA.
+
+---
+
+## 2026-08-17 18:51 -0500 — Fase 5: referencia reutilizable de MLflow y matrices
+
+**Hecho:**
+- Ampliada `docs/mlflow-guide.md` como referencia general para futuros experimentos.
+- Documentados datos fuente, matrices crudas/normalizadas, métricas por muestra,
+  probabilidades, umbrales y formatos editables de figuras.
+- Añadida una tabla de problemas frecuentes y medidas preventivas basada en incidentes
+  experimentales ya observados.
+
+**Decisiones:**
+- Los conteos y archivos tabulares son la fuente canónica; las figuras son derivados
+  regenerables y nunca la única evidencia.
+- Ante desbalance, la vista principal de la matriz se normaliza por clase real y se
+  acompaña siempre por conteos absolutos y métricas apropiadas al problema.
+- SVG/PDF editables y PNG de alta resolución se generan desde una configuración visual
+  versionada con contraste y layout adaptativos.
+- Para cambiar umbrales sin repetir inferencia deben conservarse probabilidades o logits
+  del checkpoint seleccionado, además del umbral aplicado.
+
+**Pendiente / carry-over:**
+- Incorporar TP, FP, FN y TN al contrato de tracking del entrenamiento actual.
+- Fijar la dependencia de MLflow y validar `.venv-cluster` en CEDIA.
+
+---
+
+## 2026-08-17 18:16 -0500 — Fase 5: diseño de tracking con MLflow
+
+**Hecho:**
+- Creada `configs/tracking/mlflow.yaml` con servidor, experimento, métricas, artefactos
+  y archivos que deben sincronizarse.
+- Adaptada `docs/mlflow-guide.md` al flujo real entre Slurm, CEDIA y el equipo local.
+- Excluidos `mlflow.db` y sus archivos auxiliares de Git.
+- Añadidos enlaces y referencias a la configuración y guía de tracking.
+
+**Decisiones:**
+- Cada job de entrenamiento usará un servidor MLflow en `127.0.0.1:5000` con backend
+  SQLite y proxy hacia `./artifacts`.
+- El proxy conserva URIs `mlflow-artifacts:/` que pueden resolverse después de copiar
+  `mlflow.db` y `artifacts/` al equipo local.
+- SQLite tendrá un solo escritor; no se ejecutarán entrenamientos concurrentes contra
+  la misma base ni se copiará la base mientras el servidor esté activo.
+- Test permanece fuera del tracking de esta fase para no contaminar la selección del
+  mejor checkpoint por Dice de validation.
+
+**Pendiente / carry-over:**
+- Fijar una versión compatible de MLflow y validar `.venv-cluster` en CEDIA.
+
+---
+
 ## 2026-08-17 18:10 -0500 — Cierre de Fase 4 e inicio de Fase 5
 
 **Hecho:**

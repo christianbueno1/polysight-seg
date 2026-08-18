@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">Curvas de entrenamiento y validation del baseline</title>
+  <desc id="desc">Pérdida y Dice durante 32 épocas; el mejor Dice de validation ocurrió en la época 22.</desc>
+  <style>
+    text { font-family: Inter, system-ui, sans-serif; fill: #172033; }
+    .panel-title { font-size: 22px; font-weight: 700; }
+    .tick { font-size: 13px; fill: #526077; }
+    .legend { font-size: 14px; }
+    .grid { stroke: #dce2ea; stroke-width: 1; }
+    .axis { stroke: #728096; stroke-width: 1.5; }
+    .best { stroke: #7c3aed; stroke-width: 2; stroke-dasharray: 7 5; }
+  </style>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <text x="75" y="45" class="panel-title">Pérdida</text>
+  <line x1="75.00" y1="430.00" x2="565.00" y2="430.00" class="grid"/>
+  <text x="63.00" y="435.00" class="tick" text-anchor="end">0.00</text>
+  <line x1="75.00" y1="359.00" x2="565.00" y2="359.00" class="grid"/>
+  <text x="63.00" y="364.00" class="tick" text-anchor="end">0.20</text>
+  <line x1="75.00" y1="288.00" x2="565.00" y2="288.00" class="grid"/>
+  <text x="63.00" y="293.00" class="tick" text-anchor="end">0.40</text>
+  <line x1="75.00" y1="217.00" x2="565.00" y2="217.00" class="grid"/>
+  <text x="63.00" y="222.00" class="tick" text-anchor="end">0.60</text>
+  <line x1="75.00" y1="146.00" x2="565.00" y2="146.00" class="grid"/>
+  <text x="63.00" y="151.00" class="tick" text-anchor="end">0.80</text>
+  <line x1="75.00" y1="75.00" x2="565.00" y2="75.00" class="grid"/>
+  <text x="63.00" y="80.00" class="tick" text-anchor="end">1.00</text>
+  <line x1="75.00" y1="430" x2="75.00" y2="436" class="axis"/>
+  <text x="75.00" y="457" class="tick" text-anchor="middle">1</text>
+  <line x1="185.65" y1="430" x2="185.65" y2="436" class="axis"/>
+  <text x="185.65" y="457" class="tick" text-anchor="middle">8</text>
+  <line x1="312.10" y1="430" x2="312.10" y2="436" class="axis"/>
+  <text x="312.10" y="457" class="tick" text-anchor="middle">16</text>
+  <line x1="438.55" y1="430" x2="438.55" y2="436" class="axis"/>
+  <text x="438.55" y="457" class="tick" text-anchor="middle">24</text>
+  <line x1="565.00" y1="430" x2="565.00" y2="436" class="axis"/>
+  <text x="565.00" y="457" class="tick" text-anchor="middle">32</text>
+  <line x1="75" y1="430" x2="565.0" y2="430" class="axis"/>
+  <polyline points="75.00,105.39 90.81,214.13 106.61,261.71 122.42,293.27 138.23,314.04 154.03,326.04 169.84,338.73 185.65,341.28 201.45,346.96 217.26,354.96 233.06,364.84 248.87,373.01 264.68,373.64 280.48,376.16 296.29,382.03 312.10,380.89 327.90,382.76 343.71,387.73 359.52,386.55 375.32,389.08 391.13,388.76 406.94,390.42 422.74,392.80 438.55,393.51 454.35,396.03 470.16,393.90 485.97,396.93 501.77,398.09 517.58,398.29 533.39,400.23 549.19,400.55 565.00,401.31" fill="none" stroke="#2563eb" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="75.00,177.77 90.81,236.41 106.61,284.50 122.42,274.19 138.23,322.75 154.03,322.59 169.84,319.82 185.65,318.55 201.45,326.13 217.26,324.23 233.06,339.65 248.87,341.72 264.68,317.98 280.48,342.60 296.29,341.39 312.10,342.13 327.90,335.89 343.71,330.67 359.52,340.00 375.32,327.92 391.13,332.33 406.94,339.58 422.74,332.02 438.55,333.56 454.35,321.07 470.16,334.85 485.97,334.28 501.77,333.94 517.58,335.55 533.39,336.98 549.19,333.59 565.00,337.16" fill="none" stroke="#e11d48" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <line x1="406.94" y1="75" x2="406.94" y2="430" class="best"/>
+  <text x="635" y="45" class="panel-title">Dice</text>
+  <line x1="635.00" y1="430.00" x2="1125.00" y2="430.00" class="grid"/>
+  <text x="623.00" y="435.00" class="tick" text-anchor="end">0.60</text>
+  <line x1="635.00" y1="359.00" x2="1125.00" y2="359.00" class="grid"/>
+  <text x="623.00" y="364.00" class="tick" text-anchor="end">0.68</text>
+  <line x1="635.00" y1="288.00" x2="1125.00" y2="288.00" class="grid"/>
+  <text x="623.00" y="293.00" class="tick" text-anchor="end">0.76</text>
+  <line x1="635.00" y1="217.00" x2="1125.00" y2="217.00" class="grid"/>
+  <text x="623.00" y="222.00" class="tick" text-anchor="end">0.84</text>
+  <line x1="635.00" y1="146.00" x2="1125.00" y2="146.00" class="grid"/>
+  <text x="623.00" y="151.00" class="tick" text-anchor="end">0.92</text>
+  <line x1="635.00" y1="75.00" x2="1125.00" y2="75.00" class="grid"/>
+  <text x="623.00" y="80.00" class="tick" text-anchor="end">1.00</text>
+  <line x1="635.00" y1="430" x2="635.00" y2="436" class="axis"/>
+  <text x="635.00" y="457" class="tick" text-anchor="middle">1</text>
+  <line x1="745.65" y1="430" x2="745.65" y2="436" class="axis"/>
+  <text x="745.65" y="457" class="tick" text-anchor="middle">8</text>
+  <line x1="872.10" y1="430" x2="872.10" y2="436" class="axis"/>
+  <text x="872.10" y="457" class="tick" text-anchor="middle">16</text>
+  <line x1="998.55" y1="430" x2="998.55" y2="436" class="axis"/>
+  <text x="998.55" y="457" class="tick" text-anchor="middle">24</text>
+  <line x1="1125.00" y1="430" x2="1125.00" y2="436" class="axis"/>
+  <text x="1125.00" y="457" class="tick" text-anchor="middle">32</text>
+  <line x1="635.0" y1="430" x2="1125.0" y2="430" class="axis"/>
+  <polyline points="635.00,374.37 650.81,246.71 666.61,214.26 682.42,191.75 698.23,182.80 714.03,174.22 729.84,161.54 745.65,169.73 761.45,161.95 777.26,153.63 793.06,142.40 808.87,133.79 824.68,134.39 840.48,129.92 856.29,123.55 872.10,124.95 887.90,123.86 903.71,117.53 919.52,120.48 935.32,118.73 951.13,117.86 966.94,116.70 982.74,113.49 998.55,113.03 1014.35,110.09 1030.16,111.90 1045.97,109.55 1061.77,108.32 1077.58,108.39 1093.39,106.01 1109.19,106.11 1125.00,104.57" fill="none" stroke="#2563eb" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="635.00,275.52 650.81,230.19 666.61,200.07 682.42,227.56 698.23,184.00 714.03,183.59 729.84,193.66 745.65,219.63 761.45,194.21 777.26,191.13 793.06,177.31 808.87,174.30 824.68,205.52 840.48,175.42 856.29,172.46 872.10,172.46 887.90,173.84 903.71,188.87 919.52,169.60 935.32,182.36 951.13,189.01 966.94,165.73 982.74,177.11 998.55,177.43 1014.35,192.69 1030.16,175.41 1045.97,177.82 1061.77,177.63 1077.58,175.87 1093.39,172.07 1109.19,175.70 1125.00,171.93" fill="none" stroke="#e11d48" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <line x1="966.94" y1="75" x2="966.94" y2="430" class="best"/>
+  <line x1="370" y1="475" x2="405" y2="475" stroke="#2563eb" stroke-width="3"/><text x="415" y="480" class="legend">Train</text>
+  <line x1="510" y1="475" x2="545" y2="475" stroke="#e11d48" stroke-width="3"/><text x="555" y="480" class="legend">Validation</text>
+  <line x1="710" y1="458" x2="710" y2="490" class="best"/><text x="722" y="480" class="legend">Mejor época: 22 (val Dice 0.8978)</text>
+</svg>

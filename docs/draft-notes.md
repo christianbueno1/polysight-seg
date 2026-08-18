@@ -160,3 +160,94 @@ Ambas losses reciben el mismo `target`; solo la rama de Dice necesita el `sigmoi
 
   Por tanto, en el ejemplo diríamos: “El modelo consigue una segmentación razonable, pero aún pierde parte del pólipo y añade regiones incorrectas; es un punto de partida
   mejorable”.
+
+---
+## Algoritmo de Optimizacion
+RMSprop (Root Mean Square Propagation) es un algoritmo de optimización para aprendizaje profundo. Ajusta la tasa de aprendizaje de cada parámetro de forma individual usando una media móvil de los gradientes al cuadrado. Esto acelera la convergencia, evita que el aprendizaje se detenga y maneja mejor la variación en los datos.
+
+Adam (Adaptive Moment Estimation) es un popular algoritmo de optimización que se usa en inteligencia artificial y aprendizaje profundo (deep learning) para entrenar redes neuronales de forma rápida y eficiente. Combina las ventajas de dos métodos clásicos: Momentum y RMSprop.
+---
+AMP (Automatic Mixed Precision o Precisión Mixta Automática) es una técnica de entrenamiento en aprendizaje profundo que combina números de 16 bits (FP16 o BF16) y de 32 bits (FP32). Acelera el proceso y reduce el uso de memoria en la GPU sin perder precisión.
+
+ IoU stands for Intersection over Union. 
+
+---
+revisar las epocas
+```bash
+# cambiar por el job que corresponda
+grep '"epoch"' slurm-polysight-baseline-23312.out | tail -1
+```
+---
+## MLflow
+```bash
+uvx mlflow server --host 127.0.0.1 --port 5000 --backend-store-uri sqlite:///mlflow.db --artifacts-destination ./artifacts
+
+uvx mlflow server \
+--host 127.0.0.1 \
+--port 5000 \
+--backend-store-uri sqlite:///mlflow.db \
+--artifacts-destination ./artifacts
+
+```
+---
+```bash
+# calcular tamanio
+# Para calcular el contenido completo usé:
+du -sh artifacts/
+
+# En tu clúster debería mostrar aproximadamente:
+1.1G    artifacts/
+
+# Para ver el tamaño exacto aparente:
+du -sh --apparent-size artifacts/
+
+# para conocer qué ocupa más espacio:
+du -ah artifacts/ | sort -h | tail -20
+```
+El ~1,1 GB se explica principalmente por cuatro checkpoints:
+
+- Smoke: best.pt y last.pt, aproximadamente 294 MB cada uno.
+- Entrenamiento completo: best.pt y last.pt, aproximadamente 294 MB cada uno.
+
+En total:
+
+4 × 293.562.339 bytes = 1.174.249.356 bytes
+
+Eso equivale aproximadamente a 1,09 GiB, que du -sh redondea y presenta como 1.1G.
+
+mlflow.db solo pesa 1,3 MB porque contiene metadatos y métricas. Los pesos del modelo y otros archivos grandes están dentro de artifacts/.
+
+---
+## Mejora
+• Correcto. MLflow está mostrando el run, pero la información importante no quedó suficientemente visible.
+
+Lo que ocurre es:
+
+- En Overview, MLflow muestra el último valor registrado de val_dice: época 32, 0.890785.
+- El mejor valor está en el historial de la métrica: época 22, 0.897763.
+- best.pt está guardado como artefacto, no como “Logged model” ni como modelo registrado. Por eso las secciones “Logged models” y “Registered models” aparecen vacías.
+
+Puedes encontrar el checkpoint ganador en:
+
+Artifacts
+└── checkpoints
+    └── best
+        ├── best.pt
+        └── best.pt.sha256
+
+El modelo ganador exacto es:
+
+Run ID:     5fdf1b9929ec443da426c6442d9e20f1
+Época:      22
+Val Dice:   0.8977634135250631
+Checkpoint: checkpoints/best/best.pt
+
+Aquí hay una mejora clara pendiente: registrar explícitamente en MLflow:
+
+- best_epoch=22
+- best_val_dice=0.897763...
+- selected_checkpoint=checkpoints/best/best.pt
+- El modelo ganador como MLflow Model o en Model Registry.
+
+Así aparecería directamente en el resumen y no habría que buscar el máximo dentro de la curva. Actualmente el checkpoint ganador sí existe y está íntegro, pero está
+registrado únicamente como artefacto.

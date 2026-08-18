@@ -1,41 +1,43 @@
 # PHASE_CURRENT
 
-## Fase 5 — Entrenamiento reproducible y seguimiento de experimentos
+## Fase 6 — Evaluación, inferencia y análisis de errores del baseline
 
-**Objetivo:** Entrenar el baseline U-Net/ResNet-34 en CEDIA con un protocolo versionado,
-checkpoints auditables y seguimiento completo mediante MLflow.
+**Objetivo:** Evaluar una sola vez el checkpoint seleccionado U-Net/ResNet-34 sobre test,
+conservar resultados reproducibles por imagen y analizar de forma cuantitativa y visual
+los aciertos y errores del baseline.
 
-**Contexto:** La Fase 4 validó datos, arquitectura, pérdida, métricas, contratos CPU y
-un forward/backward real en una A100. El entrenamiento seleccionará el mejor checkpoint
-usando exclusivamente Dice de validation; test permanece aislado para la Fase 6.
+**Contexto:** La Fase 5 seleccionó `best.pt` exclusivamente mediante Dice de validation.
+El checkpoint ganador corresponde a la época 22 con Dice de validation `0.8977634135250631`
+y run MLflow `5fdf1b9929ec443da426c6442d9e20f1`. Test ha permanecido aislado.
 
 ---
 
 ### Tareas
 
-- [ ] Adaptar y versionar la configuración de MLflow para este proyecto
-- [ ] Fijar la dependencia de MLflow y validar `.venv-cluster` en CEDIA
-- [ ] Crear configuración versionada de entrenamiento
-- [ ] Implementar loops de train y validation con métricas por época
-- [ ] Implementar checkpoints `last.pt` y `best.pt` con metadatos de trazabilidad
-- [ ] Integrar parámetros, métricas y artefactos del entrenamiento en MLflow
-- [ ] Añadir pruebas CPU del entrenamiento, checkpoints y tracking
-- [ ] Ejecutar un smoke de entrenamiento de pocos batches en GPU
-- [ ] Ejecutar el entrenamiento completo del baseline en CEDIA
-- [ ] Sincronizar `mlflow.db` y `artifacts/` y verificar la interfaz local
-- [ ] Documentar configuración, curvas y resultados de validation para la presentación
+- [ ] Crear una configuración versionada de evaluación e inferencia
+- [ ] Implementar carga verificada del checkpoint ganador
+- [ ] Implementar evaluación agregada y métricas por imagen sobre test
+- [ ] Conservar conteos, probabilidades y curva de umbral como datos regenerables
+- [ ] Generar matrices de confusión cruda y normalizada por clase real
+- [ ] Implementar inferencia y visualizaciones cualitativas de mejores y peores casos
+- [ ] Añadir pruebas CPU para contratos de evaluación y artefactos
+- [ ] Ejecutar un smoke GPU de evaluación sin consumir test completo
+- [ ] Ejecutar una sola evaluación completa del checkpoint sobre test en CEDIA
+- [ ] Registrar métricas y artefactos de evaluación en MLflow
+- [ ] Sincronizar resultados y verificar integridad local
+- [ ] Documentar resultados finales y análisis de errores para la presentación
 
 ---
 
 ### Notas y decisiones
 
-- MLflow se incorpora antes del primer entrenamiento completo; no existen ejecuciones
-  históricas que migrar.
-- Registrar por época: loss, Dice, IoU, precisión, recall y learning rate para train y
-  validation cuando corresponda.
-- Registrar también commit, configuraciones, versiones efectivas y hashes del dataset.
-- `best.pt` se selecciona por Dice de validation; test no participa en selección ni
-  ajuste de hiperparámetros.
-- `mlflow.db`, artefactos, checkpoints y logs permanecen fuera de Git.
-- Los hiperparámetros concretos se decidirán y documentarán al crear la configuración
-  de entrenamiento, antes de ejecutar el primer run.
+- La evaluación usará `best.pt`, nunca `last.pt`.
+- Test se ejecutará una sola vez después de fijar código, configuración y umbral.
+- El umbral inicial permanece en `0.5`; cualquier análisis de sensibilidad se reportará
+  sin usar test para reajustar el modelo o seleccionar otro checkpoint.
+- Se conservarán TP, FP, FN y TN agregados y por imagen, además de Dice, IoU, precisión
+  y recall, para reconstruir métricas y matrices.
+- Las figuras serán derivados de CSV/JSON versionados o registrados en MLflow; los datos
+  tabulares seguirán siendo la evidencia canónica.
+- Las visualizaciones cualitativas distinguirán imagen, máscara real, probabilidad y
+  predicción binaria, con identificadores suficientes para auditoría.
