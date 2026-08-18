@@ -2,6 +2,29 @@
 
 ---
 
+## 2026-08-17 20:45 -0500 — Fase 5: handoff de contexto antes de `/clear`
+
+**Hecho:**
+- Consolidado en `PHASE_CURRENT.md` el estado exacto de la fase, la última evidencia
+  válida y la secuencia para reanudar sin depender del historial de conversación.
+- Documentado el comando del próximo smoke integrado, el entorno Slurm requerido y las
+  comprobaciones que deben cumplirse antes del entrenamiento completo.
+
+**Decisiones:**
+- La próxima sesión comenzará por el smoke del runner con dos batches de train y dos de
+  validation en una A100.
+- El entrenamiento completo no se enviará hasta verificar en el mismo smoke AMP, MLflow,
+  historial, ambos checkpoints y sus hashes.
+- `BACKLOG.md` no cambia: la Fase 5 continúa activa y es la única fase en progreso.
+
+**Estado para reanudación:**
+- Branch: `chore/training-mlflow`; repositorios local, GitHub y CEDIA sincronizados al
+  preparar este handoff.
+- Último resultado experimental: job CPU `23310`, 10/10 pruebas y MLflow correcto.
+- Próxima tarea pendiente: smoke integrado de pocos batches en GPU.
+
+---
+
 ## 2026-08-17 20:40 -0500 — Fase 5: contratos CPU integrales
 
 **Hecho:**

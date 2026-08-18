@@ -27,6 +27,41 @@ usando exclusivamente Dice de validation; test permanece aislado para la Fase 6.
 
 ---
 
+### Punto de reanudación después de `/clear`
+
+**Estado:** Fase 5 activa en `chore/training-mlflow`. Las siete primeras tareas están
+completadas. El último job fue `23310` (`COMPLETED`, 10/10 contratos CPU y validación
+MLflow correcta). No se ha iniciado todavía el entrenamiento completo.
+
+**Siguiente acción exacta:**
+
+1. Crear un job en `gpu-dev` con una A100 que cargue `pytorch/2.2` y `cuda/12.4`.
+2. Activar `.venv-cluster`, priorizar su `site-packages` y definir
+   `NO_ALBUMENTATIONS_UPDATE=1`.
+3. Ejecutar el runner integrado con:
+
+   ```bash
+   srun python scripts/train.py \
+     --max-train-batches 2 \
+     --max-validation-batches 2
+   ```
+
+4. Verificar CUDA/AMP, métricas, `history.csv`, `last.pt`, `best.pt`, sidecars SHA-256,
+   run `run_mode=smoke` y artefactos MLflow.
+5. Solo si el smoke termina correctamente, enviar el entrenamiento real mediante
+   `python scripts/train.py` sin límites de batches.
+
+**Entorno CEDIA:** trabajar mediante Slurm; el nodo de login se usa solo para Git,
+`sbatch`, consultas y logs. El repositorio remoto está en `projects/polysight-seg` y se
+accede con `ssh -F /home/chris/.ssh/config cedia`. Git remoto antiguo requiere fetch
+explícito del branch antes de `git merge --ff-only`.
+
+**Protecciones vigentes:** test continúa aislado hasta la Fase 6; los smokes se etiquetan
+separadamente; `mlflow.db`, `artifacts/` y `checkpoints/` permanecen fuera de Git; SQLite
+usa un solo writer y no debe copiarse mientras el servidor esté activo.
+
+---
+
 ### Notas y decisiones
 
 - MLflow se incorpora antes del primer entrenamiento completo; no existen ejecuciones
