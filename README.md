@@ -39,6 +39,7 @@ Runs principales:
 - [Métricas y datos fuente de test](docs/results/test/)
 - [Curvas de entrenamiento](docs/assets/unet-resnet34-training-curves.svg)
 - [Resultados y análisis para presentación](docs/presentacion.md)
+- [Reporte técnico final](docs/final-report.md)
 - [Configuración de entrenamiento](configs/training/unet-resnet34-baseline.yaml)
 - [Configuración de evaluación](configs/evaluation/unet-resnet34-baseline.yaml)
 

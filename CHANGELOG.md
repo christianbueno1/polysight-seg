@@ -2,6 +2,23 @@
 
 ---
 
+## 2026-08-18 00:55 -0500 — Fase 8: reporte técnico final
+
+**Hecho:**
+- Creado `docs/final-report.md` con protocolo, entrenamiento, evaluación, análisis de
+  errores, trazabilidad y límites del baseline.
+- Enlazado el reporte desde el README y verificadas sus fuentes documentales.
+
+**Decisiones:**
+- Se reportan métricas micro agregadas junto con la distribución por imagen para evitar
+  ocultar fallos severos detrás del promedio.
+- Las conclusiones se limitan a Kvasir-SEG y excluyen la comparación no ejecutada.
+
+**Pendiente / carry-over:**
+- Documentar la recuperación del checkpoint, los resultados y los runs MLflow.
+
+---
+
 ## 2026-08-18 00:53 -0500 — Fase 8: README consolidado
 
 **Hecho:**
