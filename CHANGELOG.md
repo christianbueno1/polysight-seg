@@ -2,6 +2,35 @@
 
 ---
 
+## 2026-08-17 20:01 -0500 — Fase 5: loops de train y validation
+
+**Hecho:**
+- Implementados `train_one_epoch` y `validate_one_epoch` como motor reutilizable de
+  segmentación binaria.
+- Añadidos AMP, gradient scaling, acumulación de gradientes, clipping, límite opcional
+  de batches y transferencia no bloqueante hacia CUDA.
+- Agregadas pérdida, Dice, IoU, precision, recall y TP/FP/FN/TN sobre cada época.
+- Creado y ejecutado un smoke contractual mediante `cpu-dev` con un modelo diminuto.
+
+**Decisiones:**
+- La pérdida se promedia ponderando cada batch por su número de muestras; las métricas
+  se calculan desde conteos de píxeles acumulados, no promediando métricas por batch.
+- La última agrupación incompleta de gradient accumulation usa su tamaño real para no
+  reducir artificialmente su contribución.
+- Validation usa `torch.inference_mode()`, activa `eval()` y nunca recibe optimizador.
+- Los loops rechazan logits o pérdidas no finitos antes de continuar el entrenamiento.
+
+**Resultados:**
+- Job `23307`: `COMPLETED`, código `0:0`, nueve segundos y `status=ok` en CPU.
+- Train modificó los parámetros; validation los conservó; se procesaron 12 píxeles y
+  la pérdida ponderada coincidió con el valor esperado.
+
+**Pendiente / carry-over:**
+- Implementar `last.pt` y `best.pt` con estado y metadatos suficientes para reanudar y
+  auditar el entrenamiento.
+
+---
+
 ## 2026-08-17 19:31 -0500 — Fase 5: protocolo de entrenamiento versionado
 
 **Hecho:**
