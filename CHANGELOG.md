@@ -2,6 +2,39 @@
 
 ---
 
+## 2026-08-17 20:30 -0500 — Fase 5: runner integrado con MLflow
+
+**Hecho:**
+- Implementado el runner que construye datos, modelo, pérdida, AdamW, scheduler, AMP y
+  ejecuta train/validation con early stopping y checkpoints.
+- Implementado un servidor MLflow administrado por el proceso de entrenamiento y un
+  tracker que aplica el contrato de parámetros, tags, métricas y artefactos.
+- Añadido `scripts/train.py` como CLI para entrenamiento completo y smokes limitados.
+- Registrados configuración, hashes, entorno, `pip freeze`, historial por época,
+  checkpoints y resumen final de cada run.
+- Refactorizada y ejecutada la validación MLflow usando los componentes reales.
+
+**Decisiones:**
+- El servidor escucha solo en `127.0.0.1` y usa un worker para mantener un único flujo
+  de escritura sobre SQLite.
+- Cada run nuevo recibe un subdirectorio de checkpoints basado en su UUID de MLflow para
+  evitar sobrescrituras; una reanudación conserva el run y directorio originales.
+- Los registros por época son síncronos y deben coincidir exactamente con el contrato
+  de métricas versionado.
+- `run_mode=smoke` distingue cualquier ejecución limitada por batches; el entrenamiento
+  completo omite ambos límites.
+- Test no se construye ni evalúa dentro del runner de la Fase 5.
+
+**Resultados:**
+- Job `23309`: `COMPLETED`, código `0:0`, 44 segundos en `cpu-dev`.
+- Servidor, SQLite, parámetros, métrica, historial y resumen persistidos con URI
+  `mlflow-artifacts:/`; el CLI real cargó correctamente.
+
+**Pendiente / carry-over:**
+- Añadir pruebas CPU integrales de loops, checkpoints, tracking y utilidades del runner.
+
+---
+
 ## 2026-08-17 20:18 -0500 — Fase 5: checkpoints auditables y reanudables
 
 **Hecho:**
