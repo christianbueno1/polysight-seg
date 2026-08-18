@@ -21,7 +21,7 @@ entre hardware o kernels distintos.
 - [x] Añadir contratos estáticos de notebooks y compatibilidad Python 3.12
 - [x] Ejecutar validaciones locales ligeras sin PyTorch
 - [ ] Ejecutar contratos de inferencia con PyTorch en Google Colab
-- [ ] Publicar el tag fijo consumido por los notebooks
+- [x] Fijar el commit exacto consumido por los notebooks
 - [ ] Validar manualmente ambos recorridos en Google Colab
 
 ---
@@ -35,3 +35,5 @@ entre hardware o kernels distintos.
 - La clasificación y la API quedan fuera de esta fase después del cambio de alcance.
 - La laptop no ejecutará pruebas pesadas; PyTorch, checkpoint real y smoke GPU se
   validarán dentro del runtime de Colab.
+- Los notebooks clonan el commit inmutable `2bf2c5a874272ecd6ccd24b936af578f4e637c82`
+  y no dependen de una rama móvil ni de un tag futuro.

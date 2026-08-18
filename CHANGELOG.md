@@ -15,12 +15,11 @@
 - Un notebook verifica el modelo y otro permite reconstruir datos, ejecutar smoke y
   repetir el entrenamiento completo.
 - Colab no se usa como servidor; API y clasificación quedan fuera del alcance actual.
-- Los notebooks fijan el tag `polysight-colab-v1.0.0` y verifican archivos grandes por
-  SHA-256 antes de usarlos.
+- Los notebooks fijan el commit `2bf2c5a874272ecd6ccd24b936af578f4e637c82` y verifican
+  archivos grandes por SHA-256 antes de usarlos.
 
 **Pendiente / carry-over:**
-- Ejecutar en Colab los contratos PyTorch, la inferencia real y el smoke GPU; después
-  publicar el tag fijo consumido por los notebooks.
+- Ejecutar en Colab los contratos PyTorch, la inferencia real y el smoke GPU.
 
 ---
 

@@ -72,9 +72,9 @@ ni el pipeline:
 - [`02-polysight-seg-training-reproduction.ipynb`](notebooks/02-polysight-seg-training-reproduction.ipynb):
   reconstruye datos y splits, ejecuta smoke y permite repetir training.
 
-Ambos clonan el tag `polysight-colab-v1.0.0`. Los archivos grandes se proporcionan por
-Google Drive o carga manual y se validan mediante SHA-256. La evaluación sobre test está
-desactivada por defecto en el notebook de reproducción.
+Ambos clonan el commit `2bf2c5a874272ecd6ccd24b936af578f4e637c82`. Los archivos
+grandes se proporcionan por Google Drive o carga manual y se validan mediante SHA-256.
+La evaluación sobre test está desactivada por defecto en el notebook de reproducción.
 
 ## Documentación
 

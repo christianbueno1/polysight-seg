@@ -12,7 +12,7 @@ NOTEBOOKS = {
     "inference": PROJECT_ROOT / "notebooks/01-polysight-seg-inference-verification.ipynb",
     "training": PROJECT_ROOT / "notebooks/02-polysight-seg-training-reproduction.ipynb",
 }
-RELEASE_REF = "polysight-colab-v1.0.0"
+RELEASE_REF = "2bf2c5a874272ecd6ccd24b936af578f4e637c82"
 
 
 class NotebookContractTest(unittest.TestCase):
@@ -38,11 +38,12 @@ class NotebookContractTest(unittest.TestCase):
                         self.assertIsNone(cell["execution_count"])
                         self.assertEqual(cell["outputs"], [])
 
-    def test_notebooks_clone_a_fixed_release(self) -> None:
+    def test_notebooks_clone_a_fixed_commit(self) -> None:
         for name, source in self.sources.items():
             with self.subTest(notebook=name):
                 self.assertIn(f"REPO_REF = '{RELEASE_REF}'", source)
-                self.assertIn("git', 'clone', '--branch', REPO_REF", source)
+                self.assertIn("git', 'clone', '--no-checkout'", source)
+                self.assertIn("'checkout', '--detach', REPO_REF", source)
 
     def test_inference_notebook_reuses_production_code_and_hash(self) -> None:
         source = self.sources["inference"]
