@@ -13,6 +13,7 @@ from typing import Any
 import numpy as np
 import torch
 import yaml
+import mlflow
 
 from polysight_seg.data.dataset import build_dataloader, load_data_config
 from polysight_seg.evaluation.artifacts import write_evaluation_artifacts
@@ -20,6 +21,11 @@ from polysight_seg.evaluation.checkpoint import load_selected_checkpoint
 from polysight_seg.evaluation.engine import evaluate_segmentation
 from polysight_seg.evaluation.qualitative import generate_qualitative_panels
 from polysight_seg.models import build_model, load_model_config
+from polysight_seg.training.tracking import (
+    ExperimentTracker,
+    ManagedMlflowServer,
+    flatten_parameters,
+)
 
 
 def _load_yaml(path: Path) -> dict[str, Any]:
@@ -61,6 +67,7 @@ def run_evaluation(
     references = evaluation_config["references"]
     data_config = load_data_config(project_root / references["data_config"])
     model_config = load_model_config(project_root / references["model_config"])
+    tracking_config = _load_yaml(project_root / references["tracking_config"])
     model_config = copy.deepcopy(model_config)
     model_config["model"]["encoder_weights"] = None
 
@@ -97,6 +104,17 @@ def run_evaluation(
     dataloader = build_dataloader(data_config, split, seed)
     prediction = evaluation_config["prediction"]
     amp = evaluation_config["runtime"]["mixed_precision"]
+    run_mode = "full_test_evaluation" if split == "test" else "smoke_validation"
+    output_base = project_root / evaluation_config["outputs"]["directory"]
+    if run_mode == "smoke_validation":
+        output_root = output_base / "smoke" / os.environ.get("SLURM_JOB_ID", "local")
+    else:
+        output_root = output_base / "test"
+    if run_mode == "full_test_evaluation" and output_root.exists():
+        raise RuntimeError(
+            "El directorio final de test ya existe; no se repetirá la evaluación"
+        )
+
     result = evaluate_segmentation(
         model,
         dataloader,
@@ -111,10 +129,6 @@ def run_evaluation(
         max_batches=max_batches,
     )
 
-    run_mode = "full_test_evaluation" if split == "test" else "smoke_validation"
-    output_root = project_root / evaluation_config["outputs"]["directory"]
-    if run_mode == "smoke_validation":
-        output_root = output_root / "smoke" / os.environ.get("SLURM_JOB_ID", "local")
     paths = write_evaluation_artifacts(result, output_root, evaluation_config["outputs"])
     qualitative = evaluation_config["qualitative_analysis"]
     selection_path = generate_qualitative_panels(
@@ -126,7 +140,7 @@ def run_evaluation(
         median_cases=int(qualitative["median_cases"]),
         worst_cases=int(qualitative["worst_cases"]),
     )
-    summary = {
+    summary: dict[str, Any] = {
         "run_mode": run_mode,
         "split": split,
         "sample_count": result.aggregate["sample_count"],
@@ -138,5 +152,40 @@ def run_evaluation(
         "metrics_path": str(paths.metrics),
         "qualitative_selection_path": str(selection_path),
     }
+    slurm_job_id = os.environ.get("SLURM_JOB_ID", "no-slurm")
+    tags = {
+        "code_commit": subprocess.run(
+            ("git", "rev-parse", "HEAD"), cwd=project_root,
+            check=True, capture_output=True, text=True
+        ).stdout.strip(),
+        "slurm_job_id": slurm_job_id,
+        "model_name": model_config["model"]["name"],
+        "dataset_name": data_config["dataset"]["name"],
+        "run_mode": run_mode,
+        "evaluation_split": split,
+        "source_training_run_id": checkpoint["source_run_id"],
+        "checkpoint_sha256": checkpoint["sha256"],
+    }
+    tracker = ExperimentTracker(tracking_config)
+    with ManagedMlflowServer(tracking_config["server"], project_root):
+        tracker.configure()
+        with tracker.start_run(
+            run_name=f"{evaluation_config['run']['name']}-{run_mode}-job{slurm_job_id}",
+            tags=tags,
+        ) as active_run:
+            tracker.validate_artifact_uri(active_run.info.artifact_uri)
+            mlflow.log_params(flatten_parameters(evaluation_config, prefix="evaluation"))
+            mlflow.log_metrics(
+                {
+                    f"test_{name}" if split == "test" else f"smoke_val_{name}": float(value)
+                    for name, value in result.aggregate.items()
+                },
+                synchronous=True,
+            )
+            mlflow.log_artifact(str(evaluation_config_path), artifact_path="configs")
+            mlflow.log_artifacts(str(output_root), artifact_path="evaluation")
+            summary["mlflow_run_id"] = active_run.info.run_id
+            mlflow.log_dict(summary, "evaluation/run-summary.json")
+            mlflow.set_tags(tags)
     print(json.dumps(summary, indent=2, sort_keys=True))
     return summary
