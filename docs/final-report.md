@@ -64,6 +64,42 @@ precisión no coincide con el de Dice, IoU y recall. La diferencia entre los res
 centrales y los mínimos demuestra que el buen desempeño agregado no elimina fallos
 severos en muestras particulares.
 
+## Métricas complementarias y evidencia visual
+
+### Panel cualitativo de segmentación
+
+Cada panel presenta, de izquierda a derecha, la imagen endoscópica, la máscara real,
+el mapa de probabilidad, la predicción binaria con umbral `0.5` y el overlay sobre la
+imagen. Se muestran casos seleccionados de forma determinista por Dice para evitar que
+la evaluación visual se limite a un ejemplo favorable.
+
+**Mejor caso — Dice `0.9890`, IoU `0.9783`**
+
+![Mejor caso de segmentación: imagen, máscara real, probabilidad, predicción y overlay](assets/test/best-case.png)
+
+La predicción reproduce casi por completo la extensión y el contorno de la máscara
+real, con errores pequeños en el borde.
+
+**Caso cercano a la mediana — Dice `0.9546`, IoU `0.9131`**
+
+![Caso mediano de segmentación: imagen, máscara real, probabilidad, predicción y overlay](assets/test/median-case.png)
+
+Este caso representa mejor el comportamiento habitual que el máximo: existe buen
+solapamiento, aunque aparecen pequeñas regiones adicionales y diferencias de contorno.
+
+**Peor caso — Dice `0.0775`, IoU `0.0403`**
+
+![Peor caso de segmentación: imagen, máscara real, probabilidad, predicción y overlay](assets/test/worst-case.png)
+
+El modelo identifica solo una fracción pequeña del pólipo. Su precisión es alta
+(`0.9410`) porque los pocos píxeles positivos son mayormente correctos, pero el recall
+de `0.0404` evidencia una omisión severa de la región real.
+
+Estos paneles son evidencia cualitativa y no reemplazan la evaluación sobre las 150
+imágenes. Para el póster, el caso mediano comunica el rendimiento típico y el peor caso
+expone la principal limitación; el mejor caso sirve como referencia del potencial del
+modelo.
+
 ## Variabilidad y análisis de errores
 
 El Dice por imagen tuvo mediana `0.954879509971524`, media

@@ -14,9 +14,9 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 
 - [x] Crear tabla resumen con métricas globales y distribución por imagen
 - [x] Publicar la tabla resumen en el reporte técnico final
-- [ ] Crear boxplot de Dice e IoU por imagen
+- [x] Descartar el boxplot de Dice e IoU por redundancia y falta de espacio en el póster
 - [ ] Crear gráfico de Dice frente al tamaño real del pólipo
-- [ ] Consolidar paneles cualitativos de casos mejores, medianos y peores
+- [x] Consolidar paneles cualitativos de casos mejores, medianos y peores
 - [ ] Presentar la matriz de confusión binaria explícitamente como matriz por píxel
 
 ---
@@ -29,3 +29,7 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
   con pólipos grandes y puede ocultar casos individuales deficientes.
 - El peor caso se define como el mínimo de cada métrica, por lo que no necesariamente
   corresponde al mismo UUID en todas las filas.
+- La tabla ya comunica mediana y P25–P75; se descarta el boxplot para priorizar en el
+  póster evidencia espacial que pueda interpretarse rápidamente.
+- Los paneles conservan el mapa de probabilidad además de las cuatro vistas mínimas,
+  porque permite observar incertidumbre antes de aplicar el umbral.

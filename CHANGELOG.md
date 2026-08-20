@@ -2,6 +2,25 @@
 
 ---
 
+## 2026-08-19 22:51 -0500 — Fase 11: panel cualitativo para el reporte
+
+**Hecho:**
+- Añadida una sección de métricas complementarias y evidencia visual al reporte final.
+- Integrados los paneles del mejor caso, caso cercano a la mediana y peor caso.
+- Documentados Dice, IoU y la interpretación espacial de cada selección.
+
+**Decisiones:**
+- Se descarta el boxplot porque la tabla ya contiene mediana y P25–P75 y el espacio del
+  póster se aprovecha mejor mostrando resultados espaciales.
+- Se presentan tres niveles de rendimiento para evitar seleccionar solo evidencia
+  favorable; el mapa de probabilidad se conserva como quinta vista informativa.
+
+**Pendiente / carry-over:**
+- Crear el gráfico de Dice frente al tamaño real del pólipo.
+- Presentar la matriz de confusión explícitamente como matriz binaria por píxel.
+
+---
+
 ## 2026-08-19 22:31 -0500 — Fase 11: consolidación de la tabla del reporte
 
 **Hecho:**
