@@ -2,6 +2,34 @@
 
 ---
 
+## 2026-08-20 03:36 -0500 — Fase 11: réplicas enviadas a CEDIA
+
+**Hecho:**
+- Publicada y sincronizada en CEDIA la rama `chore/metricas-segmentacion` en el commit
+  `1f178c06612a5dc27abd3ff2dcedd6d10edebf56`.
+- Enviado el job `23457` para la semilla `20260818`; Slurm lo asignó a `compute-0-1`
+  con una A100-SXM4-40GB.
+- Enviado el job `23458` para la semilla `20260819` con dependencia `afterok:23457`.
+- Confirmado en el log que el primer job recibió
+  `configs/training/unet-resnet34-seed-20260818.yaml`.
+
+**Decisiones:**
+- Los entrenamientos se ejecutan secuencialmente para evitar escrituras concurrentes en
+  MLflow/SQLite y para que la segunda réplica no consuma GPU si falla la primera.
+- Se ejecuta un commit exacto y publicado para conservar trazabilidad entre código,
+  configuración, jobs y futuros runs MLflow.
+
+**Estado:**
+- `23457`: `RUNNING`.
+- `23458`: `PENDING (Dependency)`.
+
+**Pendiente / carry-over:**
+- Verificar finalización, mejor época, Dice de validation, run MLflow y checkpoint del
+  job `23457`; después repetir la verificación para `23458`.
+- Diseñar la evaluación conjunta sobre test sin seleccionar solo la mejor semilla.
+
+---
+
 ## 2026-08-20 03:30 -0500 — Fase 11: réplicas por semilla preparadas
 
 **Hecho:**

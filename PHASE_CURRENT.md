@@ -23,8 +23,8 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 - [x] Explicar la elección y los límites de los hiperparámetros del baseline
 - [x] Crear configuraciones de réplica que difieren únicamente en la semilla
 - [x] Preparar envío Slurm encadenado mediante dependencia `afterok`
-- [~] Sincronizar el commit aprobado en CEDIA y enviar ambos entrenamientos
-- [ ] Verificar el entrenamiento con semilla `20260818`
+- [x] Sincronizar el commit aprobado en CEDIA y enviar ambos entrenamientos
+- [~] Verificar el entrenamiento con semilla `20260818` — job `23457`
 - [ ] Verificar el entrenamiento con semilla `20260819`
 - [ ] Evaluar y resumir las tres semillas sin seleccionar solo la mejor
 - [ ] Presentar la matriz de confusión binaria explícitamente como matriz por píxel
@@ -61,3 +61,6 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
   el baseline y permite como única diferencia `run.seed`.
 - El segundo job usa `afterok` respecto del primero para evitar escrituras concurrentes
   en MLflow y no consumir GPU si falla la primera réplica.
+- CEDIA ejecuta el commit `1f178c06612a5dc27abd3ff2dcedd6d10edebf56`.
+- El job `23457` está en ejecución con la semilla `20260818`; el job `23458` permanece
+  pendiente con dependencia `afterok:23457` y usará la semilla `20260819`.
