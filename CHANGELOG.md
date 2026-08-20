@@ -2,6 +2,28 @@
 
 ---
 
+## 2026-08-20 06:10 -0500 — Fase 11: reintento controlado del fold 04
+
+**Hecho:**
+- Confirmados los jobs `23465`, `23466` y `23467` como `COMPLETED (0:0)`.
+- Diagnosticado `23468`: recibió `SIGKILL` a los 28 segundos, con ~1,7 GiB de RAM y
+  sin alcanzar timeout ni producir checkpoints.
+- Verificado que no quedaron procesos MLflow ni archivos parciales del fold 04.
+- Reenviado únicamente el fold 04 como `23474` y cambiada la dependencia de `23469` a
+  `afterok:23474`.
+- Verificado `23474` en ejecución con configuración fold 04 y puerto MLflow `38474`.
+
+**Decisiones:**
+- No se atribuye el fallo a OOM: el job solicitó 16 GiB y los folds completos consumieron
+  ~3,7–3,9 GiB; la evidencia corresponde a una terminación externa o transitoria.
+- No se repiten los folds 01–03 y se conserva el job original del fold 05.
+
+**Pendiente / carry-over:**
+- Confirmar que `23474` finalice correctamente y que `23469` se ejecute después.
+- Fijar los cinco checkpoints antes de preparar evaluaciones externas.
+
+---
+
 ## 2026-08-20 05:48 -0500 — Fase 11: entrenamientos CV enviados
 
 **Hecho:**

@@ -94,3 +94,7 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
   de fijar los cinco checkpoints mediante run, época, Dice y SHA-256.
 - La cadena enviada es `23465 → 23466 → 23467 → 23468 → 23469`. El fold 01 inició en
   `compute-0-1` con su configuración correcta y el puerto MLflow `38465`.
+- Los folds 01–03 terminaron correctamente. `23468` recibió `SIGKILL` a los 28 segundos
+  con ~1,7 GiB de RAM, sin timeout, OOM, checkpoint ni proceso MLflow remanente; se trata
+  como terminación externa transitoria. El fold 04 se reenvió como `23474` y la
+  dependencia de `23469` se actualizó a `afterok:23474`.
