@@ -25,6 +25,10 @@ evaluar y ejecutar inferencia. Las cargas que importen PyTorch se ejecutarán en
   entrenamiento para los cinco folds.
 - `submit_cross_validation_training.sh`: genera los folds y encadena sus cinco
   entrenamientos mediante dependencias `afterok`.
+- `generate_cross_validation_evaluation_configs.py`: deriva cinco evaluaciones
+  inmutables desde el inventario auditado de checkpoints.
+- `submit_cross_validation_evaluations.sh`: encadena las cinco evaluaciones externas
+  mediante `afterok` una vez fijados los checkpoints.
 
 ## Curvas del entrenamiento
 

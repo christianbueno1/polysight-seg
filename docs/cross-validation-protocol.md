@@ -52,6 +52,14 @@ fold el run MLflow, la época seleccionada, el Dice de validation y el SHA-256 d
 se envían las cinco evaluaciones mediante otra cadena `afterok`. Esta pausa impide
 evaluar un checkpoint no auditado o elegirlo después de mirar el fold externo.
 
+Los checkpoints ya fijados se encuentran en
+[`results/cross-validation/training-runs.csv`](results/cross-validation/training-runs.csv).
+Las cinco evaluaciones se envían con:
+
+```bash
+scripts/submit_cross_validation_evaluations.sh
+```
+
 ## Protección de MLflow
 
 Los jobs continúan serializados para evitar escritores concurrentes sobre `mlflow.db`.

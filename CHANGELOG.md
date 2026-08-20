@@ -2,6 +2,30 @@
 
 ---
 
+## 2026-08-20 06:20 -0500 — Fase 11: checkpoints CV fijados y evaluación preparada
+
+**Hecho:**
+- Confirmados los cinco entrenamientos como `COMPLETED (0:0)`.
+- Creado un inventario canónico con job, run, época seleccionada, Dice de validation,
+  época de parada, ruta y SHA-256 de los cinco checkpoints.
+- Generadas cinco configuraciones de evaluación externa inmutables y aisladas por fold.
+- Preparado un envío serial de evaluaciones mediante `afterok` y puertos MLflow por job.
+- Añadido un contrato que compara cada evaluación contra el inventario auditado.
+
+**Resultados de validation:**
+- Épocas seleccionadas: 23, 21, 19, 19 y 13.
+- Dice de validation: `0.904296`, `0.913945`, `0.890212`, `0.908378` y `0.921156`.
+
+**Decisiones:**
+- Estos valores solo fijan checkpoints; no se resumen como rendimiento externo.
+- Se evaluarán los cinco folds y no se seleccionará solamente el más favorable.
+
+**Pendiente / carry-over:**
+- Publicar, sincronizar y enviar las cinco evaluaciones externas.
+- Consolidar métricas *out of fold* después de verificar todos los artefactos.
+
+---
+
 ## 2026-08-20 06:10 -0500 — Fase 11: reintento controlado del fold 04
 
 **Hecho:**

@@ -61,3 +61,12 @@ servidor huérfano; SQLite continúa protegido porque nunca hay dos escritores C
 
 Esta es la etapa 1. Al terminar, se fijan run, época, Dice de validation y SHA-256 de
 cada checkpoint. Solo después se versionan y encadenan las cinco evaluaciones externas.
+
+Con los cinco checkpoints fijados, la etapa 2 se envía con:
+
+```bash
+scripts/submit_cross_validation_evaluations.sh
+```
+
+Las evaluaciones también usan una cadena `afterok`, puertos MLflow por job y directorios
+de salida independientes por fold.

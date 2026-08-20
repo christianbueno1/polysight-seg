@@ -16,6 +16,8 @@ y evaluación. No se guardarán secretos ni rutas personales.
   cada partición de la validación cruzada.
 - `training/unet-resnet34-cv-fold-*.yaml`: cinco entrenamientos con arquitectura,
   hiperparámetros y semilla fijos; solo cambian datos, nombre y salida del fold.
+- `evaluation/unet-resnet34-cv-fold-*.yaml`: evaluaciones externas fijadas por run,
+  época, Dice de validation, ruta y SHA-256 de cada checkpoint.
 
 La configuración del modelo conserva `activation: null`: la red devuelve logits y la
 sigmoid con umbral se aplica solamente durante métricas o inferencia.

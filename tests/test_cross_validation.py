@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import os
 import unittest
 from pathlib import Path
@@ -54,6 +55,31 @@ class CrossValidationContractTest(unittest.TestCase):
         with patch.dict(os.environ, {"POLYSIGHT_MLFLOW_PORT": "80"}):
             with self.assertRaises(ValueError):
                 apply_mlflow_environment(config)
+
+    def test_external_evaluations_are_fixed_to_audited_checkpoints(self) -> None:
+        with (ROOT / "docs/results/cross-validation/training-runs.csv").open(
+            newline="", encoding="utf-8"
+        ) as stream:
+            rows = list(csv.DictReader(stream))
+        self.assertEqual([int(row["fold"]) for row in rows], [1, 2, 3, 4, 5])
+        outputs = set()
+        for row in rows:
+            suffix = f"{int(row['fold']):02d}"
+            with (
+                ROOT / f"configs/evaluation/unet-resnet34-cv-fold-{suffix}.yaml"
+            ).open(encoding="utf-8") as stream:
+                config = yaml.safe_load(stream)
+            checkpoint = config["checkpoint"]
+            self.assertEqual(config["run"]["split"], "test")
+            self.assertEqual(config["prediction"]["threshold"], 0.5)
+            self.assertEqual(checkpoint["path"], row["checkpoint_path"])
+            self.assertEqual(checkpoint["source_run_id"], row["run_id"])
+            self.assertEqual(checkpoint["selected_epoch"], int(row["selected_epoch"]))
+            self.assertEqual(checkpoint["selection_value"], float(row["best_val_dice"]))
+            self.assertEqual(checkpoint["sha256"], row["checkpoint_sha256"])
+            self.assertEqual(len(checkpoint["sha256"]), hashlib.sha256().digest_size * 2)
+            outputs.add(config["outputs"]["directory"])
+        self.assertEqual(len(outputs), 5)
 
 
 if __name__ == "__main__":

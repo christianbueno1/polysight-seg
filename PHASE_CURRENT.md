@@ -35,8 +35,9 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 - [x] Integrar la estabilidad de tres semillas en la guía oral y la figura del póster
 - [x] Preparar validación cruzada de cinco folds con jobs seriales y puertos MLflow por job
 - [x] Sincronizar en CEDIA y enviar los cinco entrenamientos mediante `afterok`
-- [~] Verificar los cinco entrenamientos y fijar sus checkpoints
-- [ ] Preparar evaluaciones externas después de fijar los cinco checkpoints
+- [x] Verificar los cinco entrenamientos y fijar sus checkpoints
+- [x] Preparar evaluaciones externas después de fijar los cinco checkpoints
+- [~] Ejecutar y verificar las cinco evaluaciones externas encadenadas
 - [ ] Presentar la matriz de confusión binaria explícitamente como matriz por píxel
 
 ---
@@ -98,3 +99,6 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
   con ~1,7 GiB de RAM, sin timeout, OOM, checkpoint ni proceso MLflow remanente; se trata
   como terminación externa transitoria. El fold 04 se reenvió como `23474` y la
   dependencia de `23469` se actualizó a `afterok:23474`.
+- Los cinco checkpoints quedaron fijados en `docs/results/cross-validation/training-runs.csv`;
+  las épocas seleccionadas fueron 23, 21, 19, 19 y 13, con Dice de validation entre
+  `0.8902119542398623` y `0.92115585618545`.

@@ -1,0 +1,89 @@
+schema_version: 1
+run:
+  name: unet-resnet34-cv-fold-02-external
+  seed: 20260817
+  split: test
+references:
+  data_config: configs/data/kvasir-seg-cv-fold-02.yaml
+  model_config: configs/models/unet-resnet34.yaml
+  tracking_config: configs/tracking/mlflow.yaml
+checkpoint:
+  path: checkpoints/cross-validation/fold-02/99b74c96e55648f3a7552629eb0bcaa2/best.pt
+  sha256: 775789795b5426fa1d3a2d2cd8197e3d697dc19b516385098a2f0208259d3868
+  source_run_id: 99b74c96e55648f3a7552629eb0bcaa2
+  selected_epoch: 21
+  selection_metric: val_dice
+  selection_value: 0.913945437876816
+runtime:
+  device: cuda
+  mixed_precision:
+    enabled: true
+    dtype: float16
+  reproducibility:
+    deterministic_algorithms: true
+    deterministic_warn_only: false
+    cudnn_benchmark: false
+    cublas_workspace_config: :4096:8
+prediction:
+  threshold: 0.5
+  preserve_probability_maps: true
+  probability_dtype: float16
+  compression: compressed_npz
+metrics:
+  aggregate:
+  - dice
+  - iou
+  - precision
+  - recall
+  - tp
+  - fp
+  - fn
+  - tn
+  per_image:
+  - dice
+  - iou
+  - precision
+  - recall
+  - tp
+  - fp
+  - fn
+  - tn
+  - foreground_fraction
+threshold_analysis:
+  enabled: true
+  purpose: descriptive_only
+  changes_operational_threshold: false
+  values:
+  - 0.1
+  - 0.2
+  - 0.3
+  - 0.4
+  - 0.5
+  - 0.6
+  - 0.7
+  - 0.8
+  - 0.9
+qualitative_analysis:
+  best_cases: 5
+  median_cases: 5
+  worst_cases: 5
+  panels:
+  - image
+  - ground_truth
+  - probability_map
+  - predicted_mask
+  - overlay
+outputs:
+  directory: evaluation/cross-validation/fold-02
+  metrics: metrics.json
+  per_image_metrics: per-image-metrics.csv
+  confusion_counts: confusion-matrix-counts.csv
+  confusion_normalized_true: confusion-matrix-normalized-true.csv
+  threshold_curve: threshold-curve.csv
+  probability_maps_directory: probability-maps
+  plots_directory: plots
+  qualitative_directory: qualitative
+tracking:
+  create_separate_run: true
+  source_training_run_tag: source_training_run_id
+  run_mode: cross_validation_external_evaluation
