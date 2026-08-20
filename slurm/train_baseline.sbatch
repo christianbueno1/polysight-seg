@@ -21,4 +21,10 @@ export PYTHONPATH="${VIRTUAL_ENV}/lib/python3.11/site-packages:${PYTHONPATH:-}:s
 export NO_ALBUMENTATIONS_UPDATE=1
 
 nvidia-smi
-srun python scripts/train.py
+training_config="${TRAINING_CONFIG:-configs/training/unet-resnet34-baseline.yaml}"
+if [[ ! -f "${training_config}" ]]; then
+  echo "No existe la configuración de entrenamiento: ${training_config}" >&2
+  exit 2
+fi
+echo "TRAINING_CONFIG=${training_config}"
+srun python scripts/train.py --config "${training_config}"

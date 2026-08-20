@@ -2,6 +2,26 @@
 
 ---
 
+## 2026-08-20 03:30 -0500 — Fase 11: réplicas por semilla preparadas
+
+**Hecho:**
+- Creadas configuraciones para semillas `20260818` y `20260819`.
+- Añadido un contrato que prueba que cada réplica difiere del baseline solo en la semilla.
+- Adaptado el job de entrenamiento para recibir una configuración explícita.
+- Preparado un comando que envía ambas réplicas en cadena mediante `afterok`.
+
+**Decisiones:**
+- La segunda réplica solo comienza si la primera finaliza correctamente; esto evita
+  concurrencia sobre SQLite/MLflow y desperdicio de GPU tras un fallo previo.
+- Se mantienen nombre del run, split, arquitectura, augmentations e hiperparámetros.
+- Test continúa desactivado durante el entrenamiento.
+
+**Pendiente / carry-over:**
+- Publicar y sincronizar el commit aprobado en CEDIA, enviar los jobs y registrar IDs.
+- Verificar ambos entrenamientos antes de preparar su evaluación sobre test.
+
+---
+
 ## 2026-08-20 03:24 -0500 — Fase 11: justificación de hiperparámetros
 
 **Hecho:**

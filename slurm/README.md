@@ -21,3 +21,18 @@ trabajos reproducibles en CEDIA HPC.
 - `smoke_evaluation_gpu.sbatch`: prueba `best.pt` y dos batches reales de validation
   antes de habilitar la evaluación única sobre test.
 - `evaluate_test.sbatch`: evalúa una sola vez `best.pt` sobre las 150 imágenes de test.
+- `train_baseline.sbatch`: entrena la configuración indicada mediante la variable
+  `TRAINING_CONFIG`; usa el baseline original si no se define.
+
+## Réplicas encadenadas por semilla
+
+Desde la raíz del proyecto en CEDIA:
+
+```bash
+scripts/submit_seed_replicates.sh
+```
+
+El comando envía primero la semilla `20260818` y crea la semilla `20260819` con
+dependencia `afterok`. La segunda solo puede comenzar si la primera termina con éxito.
+Ambas usan el mismo split e hiperparámetros del baseline; un contrato local verifica que
+la única diferencia de configuración sea `run.seed`.

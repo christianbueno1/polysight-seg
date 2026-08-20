@@ -21,6 +21,12 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 - [x] Redactar viñetas y explicación corta de resultados para el póster
 - [x] Redactar la sección de solución para la sustentación del póster
 - [x] Explicar la elección y los límites de los hiperparámetros del baseline
+- [x] Crear configuraciones de réplica que difieren únicamente en la semilla
+- [x] Preparar envío Slurm encadenado mediante dependencia `afterok`
+- [~] Sincronizar el commit aprobado en CEDIA y enviar ambos entrenamientos
+- [ ] Verificar el entrenamiento con semilla `20260818`
+- [ ] Verificar el entrenamiento con semilla `20260819`
+- [ ] Evaluar y resumir las tres semillas sin seleccionar solo la mejor
 - [ ] Presentar la matriz de confusión binaria explícitamente como matriz por píxel
 
 ---
@@ -51,3 +57,7 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
   como óptimos demostrados mediante una búsqueda que no se realizó.
 - Dos semillas adicionales son válidas como análisis posterior de estabilidad si solo
   cambia la semilla y se reportan las tres ejecuciones completas.
+- Las réplicas usan `20260818` y `20260819`; un contrato compara el YAML completo con
+  el baseline y permite como única diferencia `run.seed`.
+- El segundo job usa `afterok` respecto del primero para evitar escrituras concurrentes
+  en MLflow y no consumir GPU si falla la primera réplica.

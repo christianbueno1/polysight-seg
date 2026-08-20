@@ -13,6 +13,7 @@ for local_test in \
     test_project_metadata.py \
     test_splits.py \
     test_training_config.py \
+    test_seed_replicates.py \
     test_evaluation_config.py \
     test_documentation_consistency.py \
     test_markdown_links.py \
@@ -31,6 +32,7 @@ local_safe_paths=(
     tests/test_project_metadata.py
     tests/test_splits.py
     tests/test_training_config.py
+    tests/test_seed_replicates.py
     tests/test_evaluation_config.py
     tests/test_documentation_consistency.py
     tests/test_markdown_links.py
