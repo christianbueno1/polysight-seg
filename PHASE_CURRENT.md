@@ -34,6 +34,9 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 - [x] Crear reporte de estabilidad con runs, métricas y limitaciones
 - [x] Integrar la estabilidad de tres semillas en la guía oral y la figura del póster
 - [x] Preparar validación cruzada de cinco folds con jobs seriales y puertos MLflow por job
+- [x] Sincronizar en CEDIA y enviar los cinco entrenamientos mediante `afterok`
+- [~] Verificar los cinco entrenamientos y fijar sus checkpoints
+- [ ] Preparar evaluaciones externas después de fijar los cinco checkpoints
 - [ ] Presentar la matriz de confusión binaria explícitamente como matriz por píxel
 
 ---
@@ -89,3 +92,5 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 - Los entrenamientos se ejecutarán en cadena `afterok`. Cada job deriva un puerto MLflow
   de su ID y SQLite conserva un único escritor; las evaluaciones se preparan solo después
   de fijar los cinco checkpoints mediante run, época, Dice y SHA-256.
+- La cadena enviada es `23465 → 23466 → 23467 → 23468 → 23469`. El fold 01 inició en
+  `compute-0-1` con su configuración correcta y el puerto MLflow `38465`.

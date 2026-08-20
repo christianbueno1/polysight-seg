@@ -2,6 +2,26 @@
 
 ---
 
+## 2026-08-20 05:48 -0500 — Fase 11: entrenamientos CV enviados
+
+**Hecho:**
+- Sincronizado CEDIA en el commit `b7dfc89d73733225532dbf8821768dc0ee352045`.
+- Regenerados y validados los cinco folds en CEDIA: `700/100/200` por iteración y
+  cobertura externa exacta de las 1.000 imágenes.
+- Enviada la cadena Slurm `23465 → 23466 → 23467 → 23468 → 23469` mediante `afterok`.
+- Verificado el inicio de `23465` en `compute-0-1` con fold 01 y puerto MLflow `38465`.
+
+**Decisiones:**
+- Se conserva una sola cadena serial para proteger SQLite y detener los folds posteriores
+  si falla un entrenamiento anterior.
+- No se preparan evaluaciones hasta fijar los cinco checkpoints seleccionados.
+
+**Pendiente / carry-over:**
+- Verificar finalización, run, época, Dice de validation y SHA-256 de cada fold.
+- Preparar y encadenar las evaluaciones externas cuando los cinco checkpoints estén fijos.
+
+---
+
 ## 2026-08-20 05:46 -0500 — Fase 11: compatibilidad del envío CV en CEDIA
 
 **Hecho:**
