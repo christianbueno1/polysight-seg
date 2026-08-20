@@ -738,6 +738,91 @@ para construir una solución mejor.”
 
 ---
 
+## Conclusiones
+
+### Ideas clave para la diapositiva o el póster
+
+- U-Net con encoder ResNet-34 logró segmentar pólipos con **Dice externo
+  `0,8972 ± 0,0047`** en cinco folds.
+- Cada una de las **1.000 imágenes** fue evaluada una vez fuera de su entrenamiento.
+- Las tres semillas obtuvieron Dice `0,9171 ± 0,0031` sobre el split original, lo que
+  muestra baja sensibilidad inicial al azar del entrenamiento.
+- La mediana Dice por imagen fue `0,9463`, pero el mínimo fue `0`: un promedio estable
+  no elimina fallos completos en casos individuales.
+- El baseline es reproducible y consistente dentro de Kvasir-SEG, pero todavía no tiene
+  validación externa ni clínica.
+
+### Cómo contarlo al público
+
+“¿Qué podemos concluir después de entrenar, repetir y cambiar los datos? Primero, que el
+modelo aprendió algo útil: cuando una imagen se dejó fuera de su entrenamiento, la
+superposición promedio se mantuvo cerca de `0,90`.
+
+Segundo, que el resultado no parece una coincidencia. Cambiamos la semilla tres veces y
+después cambiamos la composición de los datos en cinco folds. En ambos experimentos la
+variación fue pequeña. Es como comprobar un puente primero haciendo pasar varias veces
+el mismo vehículo y luego usando cargas distribuidas de otra manera: cada prueba responde
+una duda diferente sobre su estabilidad.
+
+Pero la tercera conclusión es la que nos obliga a ser responsables: estabilidad no
+significa perfección. La imagen típica alcanzó un Dice cercano a `0,95`, mientras al
+menos un caso no tuvo solapamiento. Por eso no presentamos este modelo como herramienta
+clínica terminada. Lo presentamos como un baseline sólido, medido con transparencia y
+con fallos concretos que ya sabemos dónde buscar.”
+
+### Frase final de conclusión
+
+> “El modelo es consistente en promedio; nuestro siguiente reto es convertir esa
+> consistencia en seguridad también para los casos difíciles.”
+
+---
+
+## Nuestra contribución
+
+### ¿Qué aportamos con este proyecto?
+
+1. **Un pipeline reproducible de segmentación.** Construimos el recorrido completo desde
+   Kvasir-SEG hasta la máscara predicha: validación de imágenes, binarización consistente,
+   splits trazables, entrenamiento, selección de checkpoints, evaluación y artefactos.
+2. **Un baseline técnico claramente definido.** Documentamos U-Net/ResNet-34, pesos
+   ImageNet, AdamW, BCE + Dice, scheduler, early stopping y umbral `0,5`, evitando que el
+   resultado dependa de decisiones implícitas.
+3. **Evidencia de estabilidad en dos dimensiones.** Las tres semillas estudian el azar
+   del entrenamiento; los cinco folds estudian la composición del dataset. Reportamos
+   todas las ejecuciones, no solamente la más favorable.
+4. **Trazabilidad experimental.** Cada run conserva configuración, métricas, entorno,
+   checkpoint y SHA-256 en MLflow. Los jobs encadenados y los puertos por ejecución
+   reducen conflictos operativos sin borrar el historial de incidentes.
+5. **Una evaluación que no esconde los fallos.** Combinamos métricas globales,
+   distribución por imagen y paneles cualitativos. El caso con Dice `0` permanece como
+   evidencia y como objetivo de mejora.
+6. **Una base justa para el siguiente experimento.** Los mismos cinco folds permiten
+   comparar ResNet-34 con EfficientNet-B0 de manera pareada y atribuir mejor las
+   diferencias al encoder.
+
+### Cómo explicarla sin sonar como una lista de archivos
+
+“Nuestra principal contribución no es afirmar que inventamos U-Net o ResNet-34. Estas
+arquitecturas ya existen. Nuestro aporte está en convertirlas en un experimento completo,
+trazable y honesto para este problema.
+
+Construimos una línea de evidencia: definimos cómo interpretar las máscaras, evitamos
+que duplicados cruzaran particiones, registramos cada entrenamiento, repetimos con
+semillas distintas y finalmente hicimos que las 1.000 imágenes pasaran una vez por una
+evaluación externa al entrenamiento.
+
+En otras palabras, no entregamos solamente un modelo; entregamos una forma de saber de
+dónde salió cada número, bajo qué condiciones puede repetirse y en qué casos todavía no
+debemos confiar. Esa base nos permite hacer la siguiente comparación —ResNet-34 frente a
+EfficientNet-B0— sin empezar de cero y sin mover las reglas después de ver el resultado.”
+
+### Mensaje de contribución en una sola frase
+
+> “Nuestra contribución es un baseline de segmentación reproducible, auditado y evaluado
+> con estabilidad, que convierte un buen resultado en una base verificable para mejorar.”
+
+---
+
 ## Texto recomendado para describir los resultados en el póster
 
 ### Resumen en viñetas

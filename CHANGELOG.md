@@ -2,6 +2,25 @@
 
 ---
 
+## 2026-08-20 07:28 -0500 — Fase 11: conclusiones y contribución para sustentación
+
+**Hecho:**
+- Añadidas a `docs/presentacion.md` las secciones `Conclusiones` y `Nuestra contribución`.
+- Preparadas versiones en viñetas, guion oral y frases breves para cierre o póster.
+- Conectados rendimiento, estabilidad, fallos extremos, trazabilidad y siguiente encoder.
+
+**Decisiones:**
+- La conclusión distingue un baseline interno consistente de una herramienta clínicamente
+  validada.
+- La contribución no reclama como propias las arquitecturas existentes; destaca el
+  pipeline reproducible, la auditoría, los experimentos y la comunicación de fallos.
+
+**Pendiente / carry-over:**
+- Adaptar la figura principal del póster para mostrar la validación cruzada consolidada.
+- Analizar visualmente los casos *out of fold* con Dice `0`.
+
+---
+
 ## 2026-08-20 07:10 -0500 — Fase 11: guion integral de sustentación
 
 **Hecho:**

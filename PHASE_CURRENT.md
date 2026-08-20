@@ -40,6 +40,7 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 - [x] Ejecutar y verificar las cinco evaluaciones externas encadenadas
 - [x] Consolidar los cinco folds sin seleccionar solamente el mejor
 - [x] Integrar método, barreras, validación cruzada y siguiente encoder en el guion oral
+- [x] Añadir conclusiones y contribución del proyecto al guion de sustentación
 - [ ] Presentar la matriz de confusión binaria explícitamente como matriz por píxel
 
 ---
@@ -111,3 +112,5 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 - El guion presenta semillas y folds como preguntas complementarias, explica AdamW y
   BCE + Dice mediante analogías, y propone EfficientNet-B0 como comparación pareada por
   fold sin afirmar por anticipado que será superior.
+- Las conclusiones separan consistencia interna de validación clínica; la contribución se
+  formula como pipeline, trazabilidad y evidencia experimental, no como autoría de U-Net.
