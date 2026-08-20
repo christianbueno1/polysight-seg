@@ -13,6 +13,7 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 ### Tareas
 
 - [x] Crear tabla resumen con métricas globales y distribución por imagen
+- [x] Publicar la tabla resumen en el reporte técnico final
 - [ ] Crear boxplot de Dice e IoU por imagen
 - [ ] Crear gráfico de Dice frente al tamaño real del pólipo
 - [ ] Consolidar paneles cualitativos de casos mejores, medianos y peores

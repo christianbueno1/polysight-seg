@@ -2,6 +2,22 @@
 
 ---
 
+## 2026-08-19 22:28 -0500 — Fase 11: tabla integrada al reporte final
+
+**Hecho:**
+- Añadida al reporte técnico una sección que compara métricas globales y por imagen.
+- Incluidos mediana, P25–P75, mínimo y UUID del peor caso para las cuatro métricas.
+
+**Decisiones:**
+- Se explica explícitamente que la agregación global pondera píxeles y que las
+  estadísticas distributivas otorgan el mismo peso a cada imagen.
+- Se conserva el UUID del mínimo para que cada peor resultado pueda auditarse.
+
+**Pendiente / carry-over:**
+- Crear el boxplot de Dice e IoU por imagen.
+
+---
+
 ## 2026-08-19 22:19 -0500 — Fase 11: tabla resumen de segmentación
 
 **Hecho:**

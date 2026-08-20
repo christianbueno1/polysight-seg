@@ -55,6 +55,25 @@ y el `98.62 %` de los píxeles de fondo. A umbral `0.5`, la precisión fue liger
 mayor que el recall: el modelo omitió más píxeles de pólipo de los que agregó como
 falsos positivos.
 
+## Resumen global y distribución por imagen
+
+La agregación global y la distribución por imagen responden preguntas distintas. El
+valor global se calcula acumulando los píxeles de las 150 imágenes, mientras que la
+mediana, los percentiles y el peor caso otorgan a cada imagen el mismo peso.
+
+| Métrica | Global por píxel | Mediana por imagen | P25–P75 por imagen | Peor caso | UUID del peor caso |
+|---|---:|---:|---:|---:|---|
+| Dice | 0.9184 | 0.9549 | 0.9134–0.9693 | 0.0775 | `64e6b365-c78e-4a80-ac17-b644012859f6` |
+| IoU | 0.8491 | 0.9137 | 0.8407–0.9404 | 0.0403 | `64e6b365-c78e-4a80-ac17-b644012859f6` |
+| Precisión | 0.9237 | 0.9681 | 0.9315–0.9825 | 0.2113 | `6f583a87-7ed4-415e-a867-2ab3405389ba` |
+| Recall | 0.9131 | 0.9648 | 0.9232–0.9790 | 0.0404 | `64e6b365-c78e-4a80-ac17-b644012859f6` |
+
+Los percentiles se calcularon mediante interpolación lineal sobre las métricas por
+imagen. El peor caso es el mínimo independiente de cada fila; por ello, el UUID de
+precisión no coincide con el de Dice, IoU y recall. La diferencia entre los resultados
+centrales y los mínimos demuestra que el buen desempeño agregado no elimina fallos
+severos en muestras particulares.
+
 ## Variabilidad y análisis de errores
 
 El Dice por imagen tuvo mediana `0.954879509971524`, media
