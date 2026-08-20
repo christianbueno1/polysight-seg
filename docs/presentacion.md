@@ -396,14 +396,24 @@ rendimiento en otros equipos, hospitales o poblaciones.
 - El tamaño no explica por sí solo los errores: la mediana Dice fue `0,9411` en pólipos
   pequeños, `0,9630` en medianos y `0,9608` en grandes; el peor caso fue grande.
 
-### Explicación corta
+### Explicación corta en tono de exposición
 
-El U-Net con encoder ResNet-34 logró una segmentación global sólida sobre Kvasir-SEG,
-con Dice `0,9184` e IoU `0,8491` en test. La mediana Dice por imagen de `0,9549` indica
-que el comportamiento habitual fue alto; sin embargo, el peor resultado de `0,0775`
-demuestra que el promedio puede ocultar omisiones severas. El tamaño del pólipo influye,
-pero no determina por sí solo el rendimiento. Estos resultados respaldan el modelo como
-baseline experimental reproducible, no como una herramienta clínicamente validada.
+“La pregunta no era solamente si el modelo podía dibujar una máscara, sino qué tan bien
+podía encontrar el pólipo en imágenes que nunca había visto. Para comprobarlo, dejamos
+150 imágenes completamente fuera del entrenamiento y las usamos una sola vez al final.
+El resultado global fue un Dice de `0,9184`: en términos simples, la predicción y la
+región real del pólipo tuvieron una superposición alta.
+
+Pero aquí aparece la parte más importante de la historia: un promedio alto no significa
+que todos los casos sean fáciles. En una imagen típica, el Dice llegó aproximadamente a
+`0,95`; sin embargo, en el peor caso cayó a `0,0775` porque el modelo detectó apenas una
+pequeña parte de la lesión. También observamos algo que rompe una explicación sencilla:
+ese fallo no ocurrió con el pólipo más pequeño, sino dentro del grupo de pólipos grandes.
+
+Entonces, ¿qué nos llevamos de este experimento? El modelo es un baseline sólido y
+reproducible, pero todavía puede fallar de manera importante. Por eso mostramos tanto
+el caso típico como el peor caso: nuestro objetivo no es esconder el error detrás de un
+buen promedio, sino entenderlo antes de pensar en una aplicación clínica.”
 
 Para acompañar este texto se recomienda usar la
 [comparación cualitativa preparada para el póster](assets/poster/01-qualitative-comparison.svg),

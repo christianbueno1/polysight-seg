@@ -2,6 +2,23 @@
 
 ---
 
+## 2026-08-20 01:57 -0500 — Fase 11: guion oral de resultados
+
+**Hecho:**
+- Reescrita la explicación corta del póster como un guion para exposición oral.
+- Organizado el relato alrededor de una pregunta inicial, el resultado típico, el fallo
+  extremo y una conclusión responsable.
+
+**Decisiones:**
+- El speech conserva solo las cifras necesarias para sostener la historia y evita
+  recitar todas las métricas que ya aparecen en las viñetas.
+- El peor caso funciona como giro narrativo para explicar por qué el promedio no basta.
+
+**Pendiente / carry-over:**
+- Ajustar la duración del guion cuando se conozca el tiempo asignado a la exposición.
+
+---
+
 ## 2026-08-20 01:27 -0500 — Fase 11: texto de resultados para el póster
 
 **Hecho:**

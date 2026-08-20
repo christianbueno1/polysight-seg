@@ -41,3 +41,5 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
   resumen cuantitativo y del análisis de Dice frente al tamaño.
 - El texto del póster combina el resultado global con la mediana y el mínimo para
   comunicar rendimiento y limitaciones sin depender de un único promedio.
+- La explicación oral usa la secuencia pregunta, evidencia, giro y conclusión para
+  contar los resultados sin recitar todas las métricas del resumen escrito.
