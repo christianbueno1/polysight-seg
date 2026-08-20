@@ -37,7 +37,8 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 - [x] Sincronizar en CEDIA y enviar los cinco entrenamientos mediante `afterok`
 - [x] Verificar los cinco entrenamientos y fijar sus checkpoints
 - [x] Preparar evaluaciones externas después de fijar los cinco checkpoints
-- [~] Ejecutar y verificar las cinco evaluaciones externas encadenadas
+- [x] Ejecutar y verificar las cinco evaluaciones externas encadenadas
+- [x] Consolidar los cinco folds sin seleccionar solamente el mejor
 - [ ] Presentar la matriz de confusión binaria explícitamente como matriz por píxel
 
 ---
@@ -102,3 +103,7 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 - Los cinco checkpoints quedaron fijados en `docs/results/cross-validation/training-runs.csv`;
   las épocas seleccionadas fueron 23, 21, 19, 19 y 13, con Dice de validation entre
   `0.8902119542398623` y `0.92115585618545`.
+- Las evaluaciones `23476–23480` terminaron `COMPLETED (0:0)` y cubren 1.000 UUID únicos,
+  con 1.000 mapas de probabilidad y 75 paneles cualitativos.
+- El Dice externo entre folds es `0.8972203103581422 ± 0.004712834228618429`; el Dice
+  agrupado sobre las 1.000 predicciones *out of fold* es `0.8972319282731822`.

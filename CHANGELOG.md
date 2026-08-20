@@ -2,6 +2,31 @@
 
 ---
 
+## 2026-08-20 06:39 -0500 — Fase 11: validación cruzada consolidada
+
+**Hecho:**
+- Completadas las evaluaciones `23476–23480` con cinco runs MLflow independientes.
+- Verificados 1.000 UUID externos únicos, 1.000 mapas de probabilidad y 75 paneles.
+- Versionados runs, conteos, estadísticos entre folds y métricas agrupadas *out of fold*.
+- Creado `docs/cross-validation-report.md` con protocolo, resultados y limitaciones.
+
+**Resultados:**
+- Dice por fold: `0.896130`, `0.900056`, `0.896149`, `0.903138` y `0.890629`.
+- Dice medio y desviación estándar muestral: `0.8972 ± 0.0047`.
+- Dice agrupado sobre las 1.000 predicciones: `0.897232`.
+- Mediana Dice por imagen: `0.946319`; mínimo: `0,0`.
+
+**Decisiones:**
+- La media entre folds es el resumen principal de estabilidad; la agregación por píxel y
+  la distribución por imagen se conservan como perspectivas complementarias.
+- El resultado se presenta como evidencia interna posterior, no validación externa.
+
+**Pendiente / carry-over:**
+- Integrar el resultado de validación cruzada en presentación y diseño final del póster.
+- Analizar cualitativamente los casos *out of fold* con Dice `0`.
+
+---
+
 ## 2026-08-20 06:20 -0500 — Fase 11: checkpoints CV fijados y evaluación preparada
 
 **Hecho:**

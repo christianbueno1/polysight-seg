@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import json
+import statistics
 import os
 import unittest
 from pathlib import Path
@@ -80,6 +82,24 @@ class CrossValidationContractTest(unittest.TestCase):
             self.assertEqual(len(checkpoint["sha256"]), hashlib.sha256().digest_size * 2)
             outputs.add(config["outputs"]["directory"])
         self.assertEqual(len(outputs), 5)
+
+    def test_versioned_external_summary_matches_fold_runs(self) -> None:
+        results = ROOT / "docs/results/cross-validation"
+        with (results / "evaluation-runs.csv").open(newline="", encoding="utf-8") as stream:
+            rows = list(csv.DictReader(stream))
+        summary = json.loads((results / "summary.json").read_text(encoding="utf-8"))
+        self.assertEqual(len(rows), 5)
+        self.assertEqual(sum(int(row["sample_count"]) for row in rows), 1000)
+        self.assertEqual(summary["ddof"], 1)
+        for metric in ("dice", "iou", "precision", "recall"):
+            values = [float(row[metric]) for row in rows]
+            observed = summary["fold_metrics"][metric]
+            self.assertEqual(observed["mean"], statistics.mean(values))
+            self.assertEqual(observed["sample_standard_deviation"], statistics.stdev(values))
+        counts = {name: sum(int(row[name]) for row in rows) for name in ("tp", "fp", "fn", "tn")}
+        self.assertEqual(counts, {name: summary["pooled_out_of_fold"][name] for name in counts})
+        tp, fp, fn = counts["tp"], counts["fp"], counts["fn"]
+        self.assertEqual(summary["pooled_out_of_fold"]["dice"], 2 * tp / (2 * tp + fp + fn))
 
 
 if __name__ == "__main__":
