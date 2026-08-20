@@ -36,19 +36,9 @@ checkpoint ganador fue `best.pt`, seleccionado en la época 22 por Dice de valid
 
 ## Evaluación final
 
-El job Slurm `23325` evaluó el checkpoint ganador sobre las 150 imágenes de test. Las
-métricas micro agregadas, calculadas a partir de la suma global de píxeles, fueron:
-
-| Métrica | Resultado |
-|---|---:|
-| Dice | `0.9183967352352693` |
-| IoU | `0.8491068445832013` |
-| Precisión | `0.9237401535043426` |
-| Recall | `0.913114779938238` |
-| Verdaderos positivos | `1.390.325` |
-| Falsos positivos | `114.779` |
-| Falsos negativos | `132.293` |
-| Verdaderos negativos | `8.193.003` |
+El job Slurm `23325` evaluó el checkpoint ganador sobre las 150 imágenes de test con
+umbral operativo `0.5`. La sección siguiente combina las métricas micro agregadas con
+su distribución por imagen.
 
 La matriz normalizada muestra que se identificó el `91.31 %` de los píxeles de pólipo
 y el `98.62 %` de los píxeles de fondo. A umbral `0.5`, la precisión fue ligeramente
@@ -63,10 +53,10 @@ mediana, los percentiles y el peor caso otorgan a cada imagen el mismo peso.
 
 | Métrica | Global por píxel | Mediana por imagen | P25–P75 por imagen | Peor caso | UUID del peor caso |
 |---|---:|---:|---:|---:|---|
-| Dice | 0.9184 | 0.9549 | 0.9134–0.9693 | 0.0775 | `64e6b365-c78e-4a80-ac17-b644012859f6` |
-| IoU | 0.8491 | 0.9137 | 0.8407–0.9404 | 0.0403 | `64e6b365-c78e-4a80-ac17-b644012859f6` |
-| Precisión | 0.9237 | 0.9681 | 0.9315–0.9825 | 0.2113 | `6f583a87-7ed4-415e-a867-2ab3405389ba` |
-| Recall | 0.9131 | 0.9648 | 0.9232–0.9790 | 0.0404 | `64e6b365-c78e-4a80-ac17-b644012859f6` |
+| Dice | 0.9183967352352693 | 0.9549 | 0.9134–0.9693 | 0.0775 | `64e6b365-c78e-4a80-ac17-b644012859f6` |
+| IoU | 0.8491068445832013 | 0.9137 | 0.8407–0.9404 | 0.0403 | `64e6b365-c78e-4a80-ac17-b644012859f6` |
+| Precisión | 0.9237401535043426 | 0.9681 | 0.9315–0.9825 | 0.2113 | `6f583a87-7ed4-415e-a867-2ab3405389ba` |
+| Recall | 0.913114779938238 | 0.9648 | 0.9232–0.9790 | 0.0404 | `64e6b365-c78e-4a80-ac17-b644012859f6` |
 
 Los percentiles se calcularon mediante interpolación lineal sobre las métricas por
 imagen. El peor caso es el mínimo independiente de cada fila; por ello, el UUID de

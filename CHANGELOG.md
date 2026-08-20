@@ -2,6 +2,21 @@
 
 ---
 
+## 2026-08-19 22:31 -0500 — Fase 11: consolidación de la tabla del reporte
+
+**Hecho:**
+- Eliminada del reporte final la tabla básica de métricas y conteos por píxel.
+- Conservada la tabla comparativa con valores globales, distribución y peores casos.
+
+**Decisiones:**
+- Una sola tabla robusta evita duplicar Dice, IoU, precisión y recall en secciones
+  consecutivas; la interpretación de la matriz por píxel permanece en el texto.
+
+**Pendiente / carry-over:**
+- Crear el boxplot de Dice e IoU por imagen.
+
+---
+
 ## 2026-08-19 22:28 -0500 — Fase 11: tabla integrada al reporte final
 
 **Hecho:**
