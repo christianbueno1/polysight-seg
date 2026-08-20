@@ -2,6 +2,24 @@
 
 ---
 
+## 2026-08-20 02:08 -0500 — Fase 11: solución para la sustentación
+
+**Hecho:**
+- Añadida antes de los resultados una sección de solución en formato de exposición.
+- Explicados composición y división de Kvasir-SEG, preparación de datos, arquitectura
+  U-Net/ResNet-34, flujo de inferencia y protocolo de entrenamiento.
+- Incluido un diagrama textual desde la imagen RGB hasta la máscara binaria.
+
+**Decisiones:**
+- La solución se presenta antes de las métricas para construir la secuencia narrativa
+  problema–método–resultado.
+- Se usa lenguaje oral y analogías funcionales sin omitir las cifras técnicas auditables.
+
+**Pendiente / carry-over:**
+- Ajustar la longitud de esta sección al tiempo definitivo de sustentación.
+
+---
+
 ## 2026-08-20 01:57 -0500 — Fase 11: guion oral de resultados
 
 **Hecho:**

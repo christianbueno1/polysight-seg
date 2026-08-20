@@ -19,6 +19,7 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 - [x] Consolidar paneles cualitativos de casos mejores, medianos y peores
 - [x] Preparar y ordenar tres figuras autónomas para elegir una en el póster
 - [x] Redactar viñetas y explicación corta de resultados para el póster
+- [x] Redactar la sección de solución para la sustentación del póster
 - [ ] Presentar la matriz de confusión binaria explícitamente como matriz por píxel
 
 ---
@@ -43,3 +44,5 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
   comunicar rendimiento y limitaciones sin depender de un único promedio.
 - La explicación oral usa la secuencia pregunta, evidencia, giro y conclusión para
   contar los resultados sin recitar todas las métricas del resumen escrito.
+- La sección de solución conecta dataset, arquitectura y protocolo antes de revelar los
+  resultados, siguiendo el orden narrativo problema–solución–evidencia.

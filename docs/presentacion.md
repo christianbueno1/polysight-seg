@@ -335,6 +335,74 @@ vez para obtener la medición final.
 
 ---
 
+## Solución
+
+### Cómo presentarla durante la sustentación
+
+“Nuestra solución toma una imagen de colonoscopia y produce una máscara que señala,
+píxel por píxel, dónde se encuentra el pólipo. No buscamos clasificar toda la imagen
+con una sola etiqueta: queremos conservar la forma y la ubicación de la lesión para que
+el resultado pueda inspeccionarse visualmente.”
+
+### ¿Con qué datos construimos la solución?
+
+Trabajamos con **Kvasir-SEG**, un dataset público compuesto por **1.000 imágenes
+endoscópicas**, cada una acompañada por una máscara de referencia dibujada sobre el
+pólipo. Esta correspondencia imagen–máscara permite enseñar al modelo no solo que hay
+una lesión, sino exactamente qué región debe segmentar.
+
+La división experimental fue:
+
+- **700 imágenes de entrenamiento:** el modelo aprende sus parámetros.
+- **150 imágenes de validation:** se selecciona la mejor época sin consultar test.
+- **150 imágenes de test:** se realiza una única evaluación final.
+
+Los tres conjuntos se estratificaron por el tamaño relativo del pólipo y contienen
+casos pequeños, medianos y grandes. También se agruparon duplicados exactos antes de
+dividir los datos para reducir el riesgo de *data leakage*. Las imágenes se ajustan a
+`256 × 256` píxeles y las máscaras se convierten de forma reproducible a valores
+binarios: fondo o pólipo.
+
+### ¿Qué arquitectura utilizamos?
+
+La solución combina dos componentes:
+
+- **ResNet-34 como encoder:** analiza la imagen y aprende características visuales en
+  distintos niveles, desde bordes y texturas hasta patrones más complejos.
+- **U-Net como decoder:** recupera progresivamente la resolución espacial y construye
+  la máscara final. Sus conexiones de salto reutilizan detalles del encoder para
+  localizar mejor los bordes del pólipo.
+
+El modelo recibe una imagen RGB y devuelve un mapa de probabilidad del mismo tamaño. Al
+aplicar un umbral de `0,5`, cada píxel se convierte en fondo o pólipo. La arquitectura
+contiene `24.436.369` parámetros entrenables y parte de pesos ImageNet para aprovechar
+características visuales aprendidas previamente.
+
+```text
+Imagen RGB 256 × 256
+        ↓
+ResNet-34: extrae características
+        ↓  conexiones de salto
+U-Net: recupera forma y ubicación
+        ↓
+Probabilidad por píxel
+        ↓  umbral 0,5
+Máscara binaria del pólipo
+```
+
+### ¿Cómo aprende y cómo evitamos elegir el resultado a conveniencia?
+
+Durante el entrenamiento combinamos **Binary Cross-Entropy**, que corrige cada píxel,
+con **Dice loss**, que premia la superposición de la región completa. El entrenamiento
+podía llegar a 50 épocas, pero se detuvo en la 32 mediante *early stopping*. El
+checkpoint elegido fue el de la época 22 porque obtuvo el mejor Dice en validation.
+
+“En resumen, nuestra solución une datos trazables, una arquitectura diseñada para
+segmentación y un protocolo que separa aprendizaje, selección y evaluación. Solo después
+de congelar estas decisiones abrimos test para medir el resultado final.”
+
+---
+
 ## Evaluación final sobre test
 
 ### Cómo explicarlo durante la exposición
