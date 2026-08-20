@@ -1,34 +1,30 @@
 # PHASE_CURRENT
 
-## Fase 10 — Ejemplos trazables para clasificación y segmentación
+## Fase 11 — Visualización del rendimiento de segmentación
 
-**Objetivo:** Versionar un conjunto pequeño de imágenes que permita comprobar de forma
-inmediata el clasificador `main16` y el segmentador sin descargar los datasets completos.
+**Objetivo:** Preparar tablas y visualizaciones que comuniquen el rendimiento del
+U-Net/ResNet-34 sin ocultar la variabilidad entre imágenes ni los fallos espaciales.
 
-**Contexto:** Las imágenes proceden de los dos ZIP locales de HyperKvasir. Son fixtures
-funcionales y visuales, no un conjunto para calcular métricas ni reemplazar los splits
-experimentales.
+**Contexto:** Los resultados canónicos proceden de `docs/results/test/` y corresponden
+a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 
 ---
 
 ### Tareas
 
-- [x] Seleccionar una imagen representativa por cada clase de `main16`
-- [x] Seleccionar tres imágenes de `validation` de segmentación con sus máscaras
-- [x] Registrar etiquetas, procedencia y SHA-256 en un manifest
-- [x] Documentar uso, alcance y atribución de los ejemplos
-- [x] Validar formato, hashes, dimensiones y exclusión de `test`
-- [x] Integrar un ejemplo como entrada predeterminada del notebook de inferencia
+- [x] Crear tabla resumen con métricas globales y distribución por imagen
+- [ ] Crear boxplot de Dice e IoU por imagen
+- [ ] Crear gráfico de Dice frente al tamaño real del pólipo
+- [ ] Consolidar paneles cualitativos de casos mejores, medianos y peores
+- [ ] Presentar la matriz de confusión binaria explícitamente como matriz por píxel
 
 ---
 
 ### Notas y decisiones
 
-- Clasificación cubre las 16 salidas reales del perfil `main16`; una sola imagen por
-  clase sirve como prueba funcional, no como estimación de calidad.
-- Segmentación usa únicamente `validation`, nunca `test`, e incluye imagen y máscara.
-- La selección es determinista para que pueda reconstruirse desde los ZIP originales.
-- El conjunto completo ocupa 6,2 MiB y contiene 16 imágenes de clasificación y tres
-  pares imagen–máscara de segmentación.
-- Los notebooks fijan el commit `c46d252b174546782291d9970b87190ce1ab0da1`, que ya
-  contiene la imagen de demostración usada como entrada predeterminada.
+- La columna global usa los conteos agregados de todos los píxeles; mediana, P25–P75 y
+  peor caso se calculan sobre las 150 métricas individuales.
+- Se reportan ambas perspectivas porque la agregación micro pondera más las imágenes
+  con pólipos grandes y puede ocultar casos individuales deficientes.
+- El peor caso se define como el mínimo de cada métrica, por lo que no necesariamente
+  corresponde al mismo UUID en todas las filas.

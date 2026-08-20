@@ -251,3 +251,38 @@ Aquí hay una mejora clara pendiente: registrar explícitamente en MLflow:
 
 Así aparecería directamente en el resumen y no habría que buscar el máximo dentro de la curva. Actualmente el checkpoint ganador sí existe y está íntegro, pero está
 registrado únicamente como artefacto.
+
+---
+
+## Métricas y visualizaciones recomendadas para segmentación
+
+Para comunicar el rendimiento del U-Net/ResNet-34 se recomienda usar en conjunto:
+
+1. Una tabla resumen con Dice, IoU, precisión y recall globales, junto con su
+   distribución por imagen.
+2. Un boxplot de Dice e IoU por imagen.
+3. Un gráfico de dispersión de Dice frente a la fracción real de pólipo, diferenciado
+   por estratos de tamaño cuando estén disponibles.
+4. Paneles cualitativos de casos mejores, medianos y peores con imagen, máscara real,
+   mapa de probabilidad, predicción binaria y overlay.
+5. La matriz de confusión binaria por píxel, en conteos absolutos y normalizada.
+
+La matriz de confusión es evidencia complementaria: el fondo domina el número de
+píxeles y puede producir una impresión demasiado optimista si se presenta sola.
+
+### 1. Tabla resumen del conjunto de test
+
+| Métrica | Global por píxel | Mediana por imagen | P25–P75 por imagen | Peor caso | UUID del peor caso |
+|---|---:|---:|---:|---:|---|
+| Dice | 0.9184 | 0.9549 | 0.9134–0.9693 | 0.0775 | `64e6b365-c78e-4a80-ac17-b644012859f6` |
+| IoU | 0.8491 | 0.9137 | 0.8407–0.9404 | 0.0403 | `64e6b365-c78e-4a80-ac17-b644012859f6` |
+| Precisión | 0.9237 | 0.9681 | 0.9315–0.9825 | 0.2113 | `6f583a87-7ed4-415e-a867-2ab3405389ba` |
+| Recall | 0.9131 | 0.9648 | 0.9232–0.9790 | 0.0404 | `64e6b365-c78e-4a80-ac17-b644012859f6` |
+
+**Lectura:** `Global por píxel` es la métrica micro calculada con TP, FP, FN y TN
+acumulados en las 150 imágenes. Las demás columnas describen la distribución de las
+150 métricas individuales. Los percentiles usan interpolación lineal y el peor caso es
+el mínimo de cada métrica; por eso precisión tiene un UUID distinto.
+
+**Fuentes canónicas:** `docs/results/test/metrics.json` y
+`docs/results/test/per-image-metrics.csv`. Evaluación con umbral `0.5`.

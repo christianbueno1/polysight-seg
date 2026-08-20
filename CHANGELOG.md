@@ -2,6 +2,25 @@
 
 ---
 
+## 2026-08-19 22:19 -0500 — Fase 11: tabla resumen de segmentación
+
+**Hecho:**
+- Registradas cinco métricas y visualizaciones recomendadas para comunicar el rendimiento.
+- Creada la tabla resumen de Dice, IoU, precisión y recall sobre las 150 imágenes de test.
+- Incluidos valor micro global, mediana, rango P25–P75, mínimo y UUID del peor caso.
+
+**Decisiones:**
+- Se separa el agregado por píxel de la distribución por imagen para no ocultar fallos
+  individuales ni el efecto del tamaño de los pólipos.
+- El peor caso se calcula independientemente para cada métrica y los percentiles usan
+  interpolación lineal.
+- `metrics.json` y `per-image-metrics.csv` permanecen como fuentes canónicas.
+
+**Pendiente / carry-over:**
+- Crear el boxplot de Dice e IoU por imagen como segunda visualización recomendada.
+
+---
+
 ## 2026-08-18 05:39 -0500 — Fase 10: ejemplos para probar ambos modelos
 
 **Hecho:**
