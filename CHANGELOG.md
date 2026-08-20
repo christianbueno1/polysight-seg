@@ -2,6 +2,28 @@
 
 ---
 
+## 2026-08-20 03:24 -0500 — Fase 11: justificación de hiperparámetros
+
+**Hecho:**
+- Añadida a la solución una tabla para sustentar resolución, batch, inicialización,
+  optimizador, learning rate, regularización, pérdida, augmentations y parada.
+- Documentada la diferencia entre una configuración baseline razonada y un óptimo
+  obtenido mediante búsqueda sistemática.
+- Explicado el uso correcto de dos semillas adicionales como análisis de estabilidad.
+
+**Decisiones:**
+- No se atribuye optimalidad a valores que no fueron comparados experimentalmente.
+- Las réplicas deben conservar split e hiperparámetros y reportarse completas mediante
+  media y desviación estándar, sin seleccionar solamente la mejor semilla.
+- Como test ya fue observado, las réplicas se describirán como análisis posterior y no
+  como una nueva validación ciega.
+
+**Pendiente / carry-over:**
+- Si se aprueban las réplicas, preparar configuraciones con semillas `20260818` y
+  `20260819` sin modificar ningún otro parámetro.
+
+---
+
 ## 2026-08-20 02:08 -0500 — Fase 11: solución para la sustentación
 
 **Hecho:**

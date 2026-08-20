@@ -397,6 +397,42 @@ con **Dice loss**, que premia la superposición de la región completa. El entre
 podía llegar a 50 épocas, pero se detuvo en la 32 mediante *early stopping*. El
 checkpoint elegido fue el de la época 22 porque obtuvo el mejor Dice en validation.
 
+### ¿Por qué elegimos estos hiperparámetros?
+
+“Los hiperparámetros no se eligieron para perseguir el mejor número en test. Definimos
+un baseline conservador antes de la evaluación final y mantuvimos test fuera de todas
+las decisiones. Cada valor cumple una función concreta dentro del experimento.”
+
+| Elección | Valor | Razón de uso |
+|---|---:|---|
+| Resolución | `256 × 256` | Conserva suficiente estructura del pólipo con un coste manejable para entrenar y repetir el experimento. |
+| Batch size | `8` | Mantiene batches reales completos y dejó un margen amplio en la A100; además evita depender de un batch excesivamente grande para un dataset pequeño. |
+| Pesos iniciales | ImageNet | Aprovechan características visuales generales y reducen la necesidad de aprender desde cero con solo 700 imágenes de train. |
+| Optimizador | AdamW | Ofrece actualizaciones adaptativas y separa el weight decay de la actualización del gradiente. Es una opción estable para establecer el baseline. |
+| Learning rate | `1 × 10⁻⁴` | Es un inicio conservador para ajustar un encoder preentrenado sin modificar sus representaciones de forma demasiado brusca. |
+| Weight decay | `1 × 10⁻⁴` | Introduce regularización moderada para limitar el sobreajuste sin dominar la optimización. |
+| Pérdida | BCE + Dice, pesos `1,0 + 1,0` | BCE corrige píxeles individuales y Dice prioriza el solapamiento; pesos iguales evitan favorecer una componente sin evidencia previa. |
+| Augmentations | flips, rotación `±15°`, brillo y contraste | Simulan variaciones plausibles de orientación e iluminación sin deformar agresivamente la anatomía. Solo se aplican en train. |
+| Scheduler | ReduceLROnPlateau | Reduce el learning rate a la mitad tras tres épocas sin mejora y permite ajustes más finos cuando validation se estanca. |
+| Máximo de épocas | `50` | Establece un presupuesto suficiente, mientras early stopping evita consumirlo si el modelo deja de mejorar. |
+| Early stopping | paciencia `10` | Da margen para fluctuaciones de validation, pero detiene el entrenamiento antes de prolongar el sobreajuste. |
+| Selección | mayor Dice de validation | Dice mide directamente el solapamiento y es más informativo que accuracy cuando el fondo domina los píxeles. |
+| Umbral | `0,5` | Es el umbral binario inicial natural y quedó fijado antes de test para evitar ajustarlo sobre la evaluación final. |
+
+Estas razones hacen que la configuración sea **defendible y reproducible**, pero no
+demuestran que cada valor sea óptimo. No se ejecutó una búsqueda sistemática de
+hiperparámetros. Por eso el resultado debe presentarse como el rendimiento de un baseline
+bien controlado, no como el máximo rendimiento posible de U-Net/ResNet-34.
+
+#### ¿Es correcto ejecutar dos semillas adicionales?
+
+Sí. Mantener todos los hiperparámetros y el mismo split, cambiando únicamente la semilla,
+permitiría medir si el resultado depende demasiado de la inicialización y del orden de
+los batches. Se reportarían las tres ejecuciones completas mediante media y desviación
+estándar, sin seleccionar u ocultar la menos favorable. Como test ya fue observado, este
+trabajo debe describirse como un análisis posterior de estabilidad, no como una nueva
+validación ciega ni como ajuste de hiperparámetros.
+
 “En resumen, nuestra solución une datos trazables, una arquitectura diseñada para
 segmentación y un protocolo que separa aprendizaje, selección y evaluación. Solo después
 de congelar estas decisiones abrimos test para medir el resultado final.”

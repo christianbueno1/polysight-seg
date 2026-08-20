@@ -20,6 +20,7 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 - [x] Preparar y ordenar tres figuras autónomas para elegir una en el póster
 - [x] Redactar viñetas y explicación corta de resultados para el póster
 - [x] Redactar la sección de solución para la sustentación del póster
+- [x] Explicar la elección y los límites de los hiperparámetros del baseline
 - [ ] Presentar la matriz de confusión binaria explícitamente como matriz por píxel
 
 ---
@@ -46,3 +47,7 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
   contar los resultados sin recitar todas las métricas del resumen escrito.
 - La sección de solución conecta dataset, arquitectura y protocolo antes de revelar los
   resultados, siguiendo el orden narrativo problema–solución–evidencia.
+- Los hiperparámetros se presentan como elecciones conservadoras y reproducibles, no
+  como óptimos demostrados mediante una búsqueda que no se realizó.
+- Dos semillas adicionales son válidas como análisis posterior de estabilidad si solo
+  cambia la semilla y se reportan las tres ejecuciones completas.
