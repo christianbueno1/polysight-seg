@@ -2,6 +2,30 @@
 
 ---
 
+## 2026-08-20 04:00 -0500 — Fase 11: incidente MLflow en evaluación `23460`
+
+**Hecho:**
+- Confirmado `23459` como `COMPLETED (0:0)` para la semilla `20260818`.
+- Diagnosticado `23460`: la inferencia terminó y escribió todos los artefactos, pero el
+  job falló al iniciar MLflow porque `127.0.0.1:5000` estaba ocupado.
+- Verificadas ambas evaluaciones con 150 filas por imagen, 150 mapas de probabilidad y
+  15 paneles cualitativos cada una.
+
+**Resultados:**
+- Semilla `20260818`: Dice test `0.9193148418895515`, IoU `0.8506777714028673`.
+- Semilla `20260819`: Dice test `0.9135446010175953`, IoU `0.8408486918774933`.
+
+**Decisiones:**
+- No se elimina la salida ni se repite test: el fallo ocurrió después de inferencia y
+  los artefactos son completos.
+- Se recuperará únicamente el registro MLflow de `20260819` desde la evidencia existente.
+
+**Pendiente / carry-over:**
+- Implementar un registro post hoc auditable que no vuelva a ejecutar el modelo.
+- Consolidar media y desviación estándar de las tres semillas.
+
+---
+
 ## 2026-08-20 03:51 -0500 — Fase 11: entrenamientos verificados y evaluación preparada
 
 **Hecho:**
