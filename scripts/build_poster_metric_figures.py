@@ -75,6 +75,9 @@ def _qualitative(assets: Path) -> str:
     body = f'''
   <text x="70" y="64" class="title">¿Qué segmenta el modelo?</text>
   <text x="70" y="101" class="subtitle">Imagen → máscara real → probabilidad → predicción → superposición</text>
+  <rect x="1130" y="25" width="415" height="88" rx="18" fill="#172033"/>
+  <text x="1155" y="57" font-size="16" font-weight="700" class="inverse-muted">3 EJECUCIONES · MISMO TEST</text>
+  <text x="1155" y="92" font-size="27" font-weight="800" class="inverse">Dice 0.9171 ± 0.0031</text>
   <rect x="55" y="130" width="1490" height="340" rx="18" fill="#f5f8ff" stroke="#cdd8ee"/>
   <text x="80" y="168" class="section">Caso típico · Dice 0.9546 · IoU 0.9131</text>
   <image x="80" y="188" width="1440" height="260" preserveAspectRatio="xMidYMid meet" href="{median}"/>
@@ -84,7 +87,7 @@ def _qualitative(assets: Path) -> str:
   <rect x="55" y="860" width="1490" height="92" rx="16" fill="#172033"/>
   <text x="80" y="899" font-size="20" font-weight="700" class="inverse">Lectura:</text>
   <text x="165" y="899" font-size="19" class="inverse">el rendimiento habitual es alto, pero existen omisiones severas en casos particulares.</text>
-  <text x="80" y="930" font-size="16" class="inverse-muted">Test: 150 imágenes · umbral 0.5 · uso experimental, no clínico</text>'''
+  <text x="80" y="930" font-size="16" class="inverse-muted">Paneles: run original · estabilidad: 3 semillas sobre las mismas 150 imágenes · umbral 0.5</text>'''
     return _svg(
         body, 1600, 1000, "Comparación cualitativa de segmentación",
         "Caso cercano a la mediana y peor caso con imagen, máscara, probabilidad, predicción y overlay.",

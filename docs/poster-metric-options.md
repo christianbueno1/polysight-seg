@@ -7,8 +7,8 @@ comprensión inmediata de una audiencia general sin ocultar las limitaciones del
 
 1. **Comparación cualitativa — recomendada.** Contrasta un caso cercano a la mediana
    con el peor caso y muestra imagen, máscara real, probabilidad, predicción y overlay.
-   Permite entender en segundos qué hace el modelo y cómo puede fallar. Incluye Dice,
-   IoU, recall, tamaño del test y umbral.
+   Permite entender en segundos qué hace el modelo y cómo puede fallar. Además, un sello
+   comunica la estabilidad de los tres runs: Dice `0.9171 ± 0.0031`.
 2. **Resumen cuantitativo.** Presenta Dice global como resultado principal, acompañado
    de IoU, precisión, recall y variabilidad por imagen. Es la opción más compacta y
    rigurosa cuando el diseño exige principalmente cifras.
@@ -25,6 +25,6 @@ comprensión inmediata de una audiencia general sin ocultar las limitaciones del
 Los tres SVG son autónomos y escalables. La primera figura incrusta sus imágenes en el
 propio archivo, por lo que no depende de rutas externas al exportar el póster.
 
-La comparación cualitativa es evidencia visual, no una métrica agregada. Sus cifras
-proceden de casos reales de test y deben acompañarse verbalmente con el Dice global
-`0.9184` si el espacio permite una línea adicional.
+La comparación cualitativa usa casos reales del run original y su sello resume las tres
+semillas sobre las mismas 150 imágenes de test. Así, una sola figura combina evidencia
+visual y estabilidad cuantitativa sin sugerir que se evaluaron 450 casos independientes.

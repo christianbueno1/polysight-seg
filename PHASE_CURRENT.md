@@ -32,6 +32,7 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 - [x] Recuperar en MLflow el registro de la semilla `20260819` sin repetir inferencia
 - [x] Resumir las tres semillas sin seleccionar solo la mejor
 - [x] Crear reporte de estabilidad con runs, métricas y limitaciones
+- [x] Integrar la estabilidad de tres semillas en la guía oral y la figura del póster
 - [ ] Presentar la matriz de confusión binaria explícitamente como matriz por píxel
 
 ---
@@ -80,3 +81,5 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
   `2ec54777437b4ee2a0c84235e9275bdb` con `inference_repeated=false`.
 - Las tres semillas obtuvieron Dice test `0.9170853927141387 ± 0.0031005861277978437`
   usando desviación estándar muestral; se conservan además todos los valores individuales.
+- El póster mantiene la comparación cualitativa por su lectura inmediata y añade un sello
+  con Dice `0.9171 ± 0.0031` para comunicar en una sola figura calidad y estabilidad.

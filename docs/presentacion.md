@@ -426,11 +426,11 @@ bien controlado, no como el máximo rendimiento posible de U-Net/ResNet-34.
 
 #### ¿Es correcto ejecutar dos semillas adicionales?
 
-Sí. Mantener todos los hiperparámetros y el mismo split, cambiando únicamente la semilla,
-permitiría medir si el resultado depende demasiado de la inicialización y del orden de
-los batches. Se reportarían las tres ejecuciones completas mediante media y desviación
-estándar, sin seleccionar u ocultar la menos favorable. Como test ya fue observado, este
-trabajo debe describirse como un análisis posterior de estabilidad, no como una nueva
+Sí. Ejecutamos dos semillas adicionales manteniendo todos los hiperparámetros y el mismo
+split; únicamente cambió la semilla, que afecta la inicialización y el orden de los
+batches. Reportamos las tres ejecuciones completas mediante media y desviación estándar,
+sin seleccionar u ocultar la menos favorable. Como test ya había sido observado, este
+trabajo se describe como un análisis posterior de estabilidad, no como una nueva
 validación ciega ni como ajuste de hiperparámetros.
 
 “En resumen, nuestra solución une datos trazables, una arquitectura diseñada para
@@ -485,16 +485,96 @@ rendimiento en otros equipos, hospitales o poblaciones.
 
 ---
 
+## Estabilidad del resultado en tres ejecuciones
+
+### Gancho para iniciar esta parte
+
+“Hasta aquí tenemos un buen resultado, pero queda una pregunta incómoda: ¿fue mérito del
+modelo o tuvimos suerte con una ejecución? Para comprobarlo hicimos algo parecido a
+preparar tres veces la misma receta: conservamos los ingredientes, las cantidades y el
+horno; solo cambió el orden inicial de la preparación.”
+
+En el experimento, la “receta” fue la arquitectura U-Net/ResNet-34, el split
+`700/150/150`, la resolución, las augmentations, la pérdida, el optimizador, el *early
+stopping* y el umbral `0,5`. Lo único que cambió fue la semilla. Cada réplica eligió su
+checkpoint usando exclusivamente validation y luego se evaluó sobre las mismas 150
+imágenes de test.
+
+### La evidencia que conviene mostrar
+
+| Semilla | Dice test | Cómo decirlo |
+|---:|---:|---|
+| `20260817` | `0,9184` | Ejecución original |
+| `20260818` | `0,9193` | Réplica con el resultado más alto |
+| `20260819` | `0,9135` | Réplica con el resultado más bajo |
+| **Resumen** | **`0,9171 ± 0,0031`** | Media ± desviación estándar muestral |
+
+“Las tres preparaciones no salieron idénticas, porque una red neuronal siempre tiene
+algo de azar. Sin embargo, quedaron muy cerca: entre el Dice más alto y el más bajo hay
+solo `0,0058`. La cifra `0,9171 ± 0,0031` resume precisamente eso: el centro del resultado
+y cuánto se movió entre las tres ejecuciones.”
+
+La conclusión defendible es que el baseline muestra **estabilidad inicial ante el cambio
+de semilla bajo este protocolo**. No conviene decir que “el modelo siempre obtendrá
+0,9171” ni que ya está clínicamente validado. Las tres ejecuciones utilizaron las mismas
+150 imágenes de test: siguen siendo 150 casos, no 450 casos independientes. Además,
+`n=3` permite una primera comprobación de estabilidad, pero no reemplaza validación
+cruzada ni evaluación externa.
+
+### Guion breve para contarlo sin recitar una tabla
+
+“Piensen en el primer Dice de `0,9184` como una fotografía. Se ve bien, pero una sola
+fotografía no nos dice si el resultado se repetirá. Por eso tomamos dos fotografías más
+con la misma cámara y bajo las mismas condiciones, cambiando únicamente la semilla.
+
+¿Qué ocurrió? Obtuvimos `0,9184`, `0,9193` y `0,9135`. No elegimos la mejor para decorar
+el póster; mostramos las tres. Al resumirlas, el Dice fue `0,9171 ± 0,0031`. La variación
+es pequeña, así que el buen resultado no parece depender de una única ejecución
+afortunada.
+
+Ahora bien, estabilidad no es lo mismo que universalidad. Probamos tres veces el mismo
+protocolo sobre los mismos 150 casos. El siguiente nivel de evidencia sería cambiar los
+casos mediante validación cruzada y, después, evaluar datos de otros centros. Nuestro
+resultado no cierra la historia: nos dice que vale la pena continuarla.”
+
+### Respuestas rápidas para preguntas del público
+
+#### ¿Qué es una semilla?
+
+Es el punto de partida que controla componentes aleatorios, como la inicialización y el
+orden de los batches. Cambiarla permite comprobar si el resultado era demasiado frágil.
+
+#### ¿Qué significa el símbolo ±?
+
+El `0,9171` es la media de las tres ejecuciones y el `0,0031` es su desviación estándar
+muestral. No representa un margen de error clínico ni un intervalo de confianza.
+
+#### ¿Por qué no reportar solo el mejor run?
+
+Porque elegirlo después de ver test exageraría el rendimiento. La estabilidad se evalúa
+mostrando también la réplica menos favorable.
+
+#### ¿Tres runs equivalen a 450 imágenes de test?
+
+No. Son tres evaluaciones de modelos entrenados con semillas distintas sobre las mismas
+150 imágenes. Miden sensibilidad al entrenamiento aleatorio, no diversidad adicional de
+pacientes o centros.
+
+---
+
 ## Texto recomendado para describir los resultados en el póster
 
 ### Resumen en viñetas
 
-- Evaluación final única sobre **150 imágenes de test**, aisladas durante la selección
-  del modelo y procesadas con umbral `0,5`.
-- Rendimiento global: **Dice `0,9184`** e **IoU `0,8491`**, lo que indica una alta
-  superposición entre las máscaras predichas y las reales.
+- Tres ejecuciones que difieren únicamente en la semilla, evaluadas sobre las mismas
+  **150 imágenes de test** y con umbral fijo `0,5`.
+- Rendimiento consolidado: **Dice `0,9171 ± 0,0031`**; la baja dispersión sugiere que el
+  resultado no depende de una única ejecución afortunada.
+- Los Dice individuales fueron **`0,9184`, `0,9193` y `0,9135`**; se reportan todos y no
+  se selecciona solamente el mejor.
 - Balance de errores: **precisión `0,9237`** y **recall `0,9131`**; el modelo mantiene
-  resultados similares entre regiones añadidas incorrectamente y pólipo omitido.
+  resultados similares en la evaluación original entre regiones añadidas
+  incorrectamente y pólipo omitido.
 - El desempeño típico fue superior al agregado: **mediana Dice `0,9549`**, pero el
   mínimo de `0,0775` revela que todavía existen fallos severos en casos particulares.
 - El tamaño no explica por sí solo los errores: la mediana Dice fue `0,9411` en pólipos
@@ -502,11 +582,11 @@ rendimiento en otros equipos, hospitales o poblaciones.
 
 ### Explicación corta en tono de exposición
 
-“La pregunta no era solamente si el modelo podía dibujar una máscara, sino qué tan bien
-podía encontrar el pólipo en imágenes que nunca había visto. Para comprobarlo, dejamos
-150 imágenes completamente fuera del entrenamiento y las usamos una sola vez al final.
-El resultado global fue un Dice de `0,9184`: en términos simples, la predicción y la
-región real del pólipo tuvieron una superposición alta.
+“La pregunta no era solamente si el modelo podía dibujar una máscara, sino si el buen
+resultado sobreviviría al repetir el entrenamiento. Usamos la misma receta tres veces y
+cambiamos únicamente la semilla. Los Dice fueron `0,9184`, `0,9193` y `0,9135`; al
+resumirlos obtuvimos `0,9171 ± 0,0031`. En términos simples, las predicciones mantuvieron
+una superposición alta y el resultado cambió poco entre ejecuciones.
 
 Pero aquí aparece la parte más importante de la historia: un promedio alto no significa
 que todos los casos sean fáciles. En una imagen típica, el Dice llegó aproximadamente a
@@ -514,11 +594,14 @@ que todos los casos sean fáciles. En una imagen típica, el Dice llegó aproxim
 pequeña parte de la lesión. También observamos algo que rompe una explicación sencilla:
 ese fallo no ocurrió con el pólipo más pequeño, sino dentro del grupo de pólipos grandes.
 
-Entonces, ¿qué nos llevamos de este experimento? El modelo es un baseline sólido y
-reproducible, pero todavía puede fallar de manera importante. Por eso mostramos tanto
-el caso típico como el peor caso: nuestro objetivo no es esconder el error detrás de un
-buen promedio, sino entenderlo antes de pensar en una aplicación clínica.”
+Entonces, ¿qué nos llevamos de este experimento? El baseline ofrece una primera señal de
+estabilidad, pero todavía puede fallar de manera importante. Por eso mostramos tanto el
+resultado consolidado como el caso típico y el peor caso: nuestro objetivo no es esconder
+la variación ni el error detrás de un buen promedio, sino entenderlos antes de pensar en
+una aplicación clínica.”
 
 Para acompañar este texto se recomienda usar la
 [comparación cualitativa preparada para el póster](assets/poster/01-qualitative-comparison.svg),
 porque muestra simultáneamente un resultado típico y la principal limitación observada.
+Su sello **“3 ejecuciones · Dice `0,9171 ± 0,0031`”** añade la evidencia de estabilidad
+sin obligar al público a interpretar otro gráfico.

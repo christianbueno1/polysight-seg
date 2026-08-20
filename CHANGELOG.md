@@ -2,6 +2,26 @@
 
 ---
 
+## 2026-08-20 04:54 -0500 — Fase 11: estabilidad integrada en presentación y póster
+
+**Hecho:**
+- Añadida a `docs/presentacion.md` una guía oral sobre las tres semillas, con analogía,
+  cifras individuales, resultado consolidado, límites y respuestas para la audiencia.
+- Actualizado el texto breve del póster para reportar Dice `0.9171 ± 0.0031` sin elegir
+  solamente el mejor run.
+- Añadido a la comparación cualitativa un sello de estabilidad de tres ejecuciones.
+
+**Decisiones:**
+- Se conserva la comparación cualitativa como figura principal porque comunica la tarea
+  y el fallo en segundos; el sello agrega la estabilidad sin exigir una segunda figura.
+- Se aclara que las tres semillas usan las mismas 150 imágenes y no equivalen a 450 casos.
+- La dispersión se presenta como evidencia inicial, no como validación clínica o externa.
+
+**Pendiente / carry-over:**
+- Presentar la matriz de confusión binaria explícitamente como matriz por píxel.
+
+---
+
 ## 2026-08-20 04:15 -0500 — Fase 11: estabilidad consolidada en tres runs
 
 **Hecho:**
