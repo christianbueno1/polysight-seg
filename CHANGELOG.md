@@ -2,6 +2,24 @@
 
 ---
 
+## 2026-08-20 01:27 -0500 — Fase 11: texto de resultados para el póster
+
+**Hecho:**
+- Añadido al final de la presentación un resumen de resultados listo para el póster.
+- Preparadas versiones en viñetas y en explicación corta para distintos espacios.
+- Enlazada la comparación cualitativa recomendada como soporte visual del texto.
+
+**Decisiones:**
+- El resumen combina métricas globales, variabilidad por imagen y rendimiento por tamaño
+  para evitar que una sola cifra oculte los fallos severos.
+- Se conserva explícitamente el carácter experimental y no clínicamente validado.
+
+**Pendiente / carry-over:**
+- Elegir la longitud final del texto según la maqueta definitiva del póster.
+- Presentar la matriz de confusión explícitamente como matriz binaria por píxel.
+
+---
+
 ## 2026-08-20 01:00 -0500 — Fase 11: opciones autónomas para el póster
 
 **Hecho:**

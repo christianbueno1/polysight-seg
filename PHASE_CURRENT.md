@@ -18,6 +18,7 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 - [x] Crear gráfico de Dice frente al tamaño real del pólipo
 - [x] Consolidar paneles cualitativos de casos mejores, medianos y peores
 - [x] Preparar y ordenar tres figuras autónomas para elegir una en el póster
+- [x] Redactar viñetas y explicación corta de resultados para el póster
 - [ ] Presentar la matriz de confusión binaria explícitamente como matriz por píxel
 
 ---
@@ -38,3 +39,5 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
   0.9608 para pólipos pequeños, medianos y grandes, y el peor caso es grande.
 - Para una audiencia general se prioriza la comparación cualitativa, seguida del
   resumen cuantitativo y del análisis de Dice frente al tamaño.
+- El texto del póster combina el resultado global con la mediana y el mínimo para
+  comunicar rendimiento y limitaciones sin depender de un único promedio.

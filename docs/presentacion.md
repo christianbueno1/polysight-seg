@@ -378,3 +378,33 @@ Los datos fuente permanecen en [`results/test/`](results/test/) y el run MLflow 
 `73876309ec7c45e09023574a02a47475`. Estos resultados describen el desempeño sobre
 Kvasir-SEG; no constituyen por sí solos una validación clínica ni garantizan el mismo
 rendimiento en otros equipos, hospitales o poblaciones.
+
+---
+
+## Texto recomendado para describir los resultados en el póster
+
+### Resumen en viñetas
+
+- Evaluación final única sobre **150 imágenes de test**, aisladas durante la selección
+  del modelo y procesadas con umbral `0,5`.
+- Rendimiento global: **Dice `0,9184`** e **IoU `0,8491`**, lo que indica una alta
+  superposición entre las máscaras predichas y las reales.
+- Balance de errores: **precisión `0,9237`** y **recall `0,9131`**; el modelo mantiene
+  resultados similares entre regiones añadidas incorrectamente y pólipo omitido.
+- El desempeño típico fue superior al agregado: **mediana Dice `0,9549`**, pero el
+  mínimo de `0,0775` revela que todavía existen fallos severos en casos particulares.
+- El tamaño no explica por sí solo los errores: la mediana Dice fue `0,9411` en pólipos
+  pequeños, `0,9630` en medianos y `0,9608` en grandes; el peor caso fue grande.
+
+### Explicación corta
+
+El U-Net con encoder ResNet-34 logró una segmentación global sólida sobre Kvasir-SEG,
+con Dice `0,9184` e IoU `0,8491` en test. La mediana Dice por imagen de `0,9549` indica
+que el comportamiento habitual fue alto; sin embargo, el peor resultado de `0,0775`
+demuestra que el promedio puede ocultar omisiones severas. El tamaño del pólipo influye,
+pero no determina por sí solo el rendimiento. Estos resultados respaldan el modelo como
+baseline experimental reproducible, no como una herramienta clínicamente validada.
+
+Para acompañar este texto se recomienda usar la
+[comparación cualitativa preparada para el póster](assets/poster/01-qualitative-comparison.svg),
+porque muestra simultáneamente un resultado típico y la principal limitación observada.
