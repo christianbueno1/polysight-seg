@@ -3,6 +3,9 @@
 from __future__ import annotations
 
 import copy
+import csv
+import json
+import statistics
 import unittest
 from pathlib import Path
 
@@ -80,6 +83,30 @@ class SeedReplicateConfigurationTest(unittest.TestCase):
                 self.assertEqual(config["prediction"]["threshold"], 0.5)
                 output_directories.add(config["outputs"]["directory"])
         self.assertEqual(len(output_directories), 2)
+
+    def test_versioned_stability_summary_matches_individual_runs(self) -> None:
+        results = PROJECT_ROOT / "docs/results/seed-stability"
+        with (results / "runs.csv").open(newline="", encoding="utf-8") as stream:
+            rows = list(csv.DictReader(stream))
+        summary = json.loads((results / "summary.json").read_text(encoding="utf-8"))
+        self.assertEqual(len(rows), 3)
+        self.assertEqual({int(row["seed"]) for row in rows}, {20260817, 20260818, 20260819})
+        self.assertEqual(summary["ddof"], 1)
+        fields = {
+            "best_val_dice": "best_val_dice",
+            "test_dice": "test_dice",
+            "test_iou": "test_iou",
+            "test_precision": "test_precision",
+            "test_recall": "test_recall",
+        }
+        for summary_name, csv_name in fields.items():
+            with self.subTest(metric=summary_name):
+                values = [float(row[csv_name]) for row in rows]
+                observed = summary["metrics"][summary_name]
+                self.assertEqual(observed["mean"], statistics.mean(values))
+                self.assertEqual(
+                    observed["sample_standard_deviation"], statistics.stdev(values)
+                )
 
 
 if __name__ == "__main__":

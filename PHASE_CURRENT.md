@@ -29,8 +29,9 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 - [x] Fijar checkpoints de ambas réplicas mediante run, época, Dice y SHA-256
 - [x] Evaluar en cadena ambas réplicas sobre test con umbral fijo `0.5`
 - [x] Verificar integridad de métricas, mapas y paneles de ambas evaluaciones
-- [ ] Recuperar en MLflow el registro de la semilla `20260819` sin repetir inferencia
-- [~] Resumir las tres semillas sin seleccionar solo la mejor
+- [x] Recuperar en MLflow el registro de la semilla `20260819` sin repetir inferencia
+- [x] Resumir las tres semillas sin seleccionar solo la mejor
+- [x] Crear reporte de estabilidad con runs, métricas y limitaciones
 - [ ] Presentar la matriz de confusión binaria explícitamente como matriz por píxel
 
 ---
@@ -73,5 +74,9 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
   y escriben en directorios separados por semilla.
 - La evaluación `23459` terminó correctamente. `23460` completó inferencia y artefactos,
   pero falló al iniciar MLflow porque el puerto `127.0.0.1:5000` seguía ocupado.
-- Ambas salidas contienen 150 métricas por imagen, 150 mapas y 15 paneles; test no debe
-  repetirse. Solo falta registrar en MLflow la evidencia ya existente de `20260819`.
+- Ambas salidas contienen 150 métricas por imagen, 150 mapas y 15 paneles; test no se
+  repitió durante la recuperación del registro MLflow de `20260819`.
+- El job CPU `23461` registró los artefactos existentes en el run MLflow
+  `2ec54777437b4ee2a0c84235e9275bdb` con `inference_repeated=false`.
+- Las tres semillas obtuvieron Dice test `0.9170853927141387 ± 0.0031005861277978437`
+  usando desviación estándar muestral; se conservan además todos los valores individuales.

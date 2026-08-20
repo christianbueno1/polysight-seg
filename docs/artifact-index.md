@@ -29,6 +29,8 @@ El checkpoint seleccionado es `best.pt` de la época 22. Su SHA-256 es
 | ¿Cómo se construye la matriz? | [`results/test/confusion-matrix-counts.csv`](results/test/confusion-matrix-counts.csv) | TP, FP, FN y TN organizados como matriz |
 | ¿Qué proporción se acertó por clase real? | [`results/test/confusion-matrix-normalized-true.csv`](results/test/confusion-matrix-normalized-true.csv) | Matriz normalizada por clase real |
 | ¿Cómo cambian las métricas con el umbral? | [`results/test/threshold-curve.csv`](results/test/threshold-curve.csv) | Análisis descriptivo de nueve umbrales; no reajusta `0.5` |
+| ¿Cómo varía el baseline entre semillas? | [`results/seed-stability/runs.csv`](results/seed-stability/runs.csv) | Runs, checkpoints y métricas de las tres ejecuciones |
+| ¿Cuál es la media y dispersión entre semillas? | [`results/seed-stability/summary.json`](results/seed-stability/summary.json) | Media y desviación estándar muestral |
 
 Los JSON, CSV y YAML anteriores tienen prioridad si un resumen o una figura no coincide
 con ellos.
@@ -56,6 +58,7 @@ tabulares que las originan.
 |---|---|
 | [`../README.md`](../README.md) | Entrada breve al proyecto y resultado principal |
 | [`final-report.md`](final-report.md) | Protocolo, resultados, análisis de errores y conclusión |
+| [`seed-stability-report.md`](seed-stability-report.md) | Comparación y estabilidad de tres semillas |
 | [`model-card.md`](model-card.md) | Uso previsto, límites, riesgos y procedencia del modelo |
 | [`presentacion.md`](presentacion.md) | Explicación para exposición y material visual |
 | [`artifact-recovery.md`](artifact-recovery.md) | Sincronización y verificación de la evidencia externa |

@@ -2,6 +2,33 @@
 
 ---
 
+## 2026-08-20 04:15 -0500 — Fase 11: estabilidad consolidada en tres runs
+
+**Hecho:**
+- Ejecutado el job CPU `23461`, que registró en MLflow la evaluación existente de
+  `20260819` sin repetir inferencia.
+- Creado `seed-stability-report.md` con runs, checkpoints, resultados individuales,
+  media, desviación estándar, incidente y conclusión para el póster.
+- Versionados CSV y JSON canónicos y añadido un contrato que recalcula sus estadísticos.
+
+**Resultados:**
+- Run de evaluación recuperado: `2ec54777437b4ee2a0c84235e9275bdb`.
+- Dice test de las tres semillas: `0.918397`, `0.919315` y `0.913545`.
+- Media y desviación estándar muestral de Dice: `0.9171 ± 0.0031`.
+- Media y desviación estándar muestral de IoU: `0.8469 ± 0.0053`.
+
+**Decisiones:**
+- Se reportan las tres ejecuciones completas y no se selecciona solamente la mejor.
+- La dispersión usa desviación estándar muestral (`n-1`) y se interpreta como evidencia
+  inicial porque solo existen tres semillas sobre el mismo conjunto de test.
+- Las réplicas permanecen identificadas como análisis posterior, no validación ciega.
+
+**Pendiente / carry-over:**
+- Decidir si la cifra `Dice 0.9171 ± 0.0031` reemplazará o acompañará el resultado de la
+  evaluación original en el diseño final del póster.
+
+---
+
 ## 2026-08-20 04:00 -0500 — Fase 11: incidente MLflow en evaluación `23460`
 
 **Hecho:**

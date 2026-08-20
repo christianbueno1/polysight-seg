@@ -1,0 +1,30 @@
+{
+  "ddof": 1,
+  "metrics": {
+    "best_val_dice": {
+      "mean": 0.8986492278141095,
+      "sample_standard_deviation": 0.004914065439301066
+    },
+    "test_dice": {
+      "mean": 0.9170853927141387,
+      "sample_standard_deviation": 0.0031005861277978437
+    },
+    "test_iou": {
+      "mean": 0.846877769287854,
+      "sample_standard_deviation": 0.005280083671995841
+    },
+    "test_precision": {
+      "mean": 0.9311879060811332,
+      "sample_standard_deviation": 0.006994343801860935
+    },
+    "test_recall": {
+      "mean": 0.9034811532943041,
+      "sample_standard_deviation": 0.008882658599492083
+    }
+  },
+  "run_count": 3,
+  "seeds": [20260817, 20260818, 20260819],
+  "split_assignment_changed": false,
+  "test_sample_count_per_run": 150,
+  "test_was_already_observed_before_replicates": true
+}
