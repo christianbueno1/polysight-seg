@@ -18,18 +18,24 @@ for fold in 01 02 03 04 05; do
     echo "No existe el archivo requerido para fold ${fold}" >&2
     exit 2
   fi
-  dependency=()
-  if [[ -n "${previous_job_id}" ]]; then
-    dependency=(--dependency="afterok:${previous_job_id}")
+  if [[ -z "${previous_job_id}" ]]; then
+    submission="$(
+      sbatch --parsable \
+        --job-name="polysight-cv-${fold}" \
+        --output="slurm-polysight-cv-${fold}-%j.out" \
+        --export="ALL,TRAINING_CONFIG=${config}" \
+        "${job_script}"
+    )"
+  else
+    submission="$(
+      sbatch --parsable \
+        --dependency="afterok:${previous_job_id}" \
+        --job-name="polysight-cv-${fold}" \
+        --output="slurm-polysight-cv-${fold}-%j.out" \
+        --export="ALL,TRAINING_CONFIG=${config}" \
+        "${job_script}"
+    )"
   fi
-  submission="$(
-    sbatch --parsable \
-      "${dependency[@]}" \
-      --job-name="polysight-cv-${fold}" \
-      --output="slurm-polysight-cv-${fold}-%j.out" \
-      --export="ALL,TRAINING_CONFIG=${config}" \
-      "${job_script}"
-  )"
   previous_job_id="${submission%%;*}"
   job_ids+=("${previous_job_id}")
 done

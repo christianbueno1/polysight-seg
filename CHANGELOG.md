@@ -2,6 +2,21 @@
 
 ---
 
+## 2026-08-20 05:46 -0500 — Fase 11: compatibilidad del envío CV en CEDIA
+
+**Hecho:**
+- Corregido el envío del primer fold para Bash antiguo con `set -u`.
+- Confirmado que el intento fallido terminó antes de ejecutar `sbatch` y no creó jobs.
+
+**Decisiones:**
+- El primer job y los jobs dependientes usan ramas explícitas; así no se expande un
+  arreglo vacío y se conserva la cadena estricta `afterok`.
+
+**Pendiente / carry-over:**
+- Sincronizar el arreglo en CEDIA y reenviar los cinco entrenamientos.
+
+---
+
 ## 2026-08-20 05:32 -0500 — Fase 11: validación cruzada preparada
 
 **Hecho:**
