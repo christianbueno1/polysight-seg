@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">Resumen cuantitativo de segmentación</title>
+  <desc id="desc">Dice, IoU, precisión, recall y distribución por imagen.</desc>
+  <style>
+    text { font-family: Inter, Arial, sans-serif; fill: #172033; }
+    .title { font-size: 38px; font-weight: 750; }
+    .subtitle { font-size: 21px; fill: #526077; }
+    .section { font-size: 25px; font-weight: 700; }
+    .value { font-size: 52px; font-weight: 800; }
+    .label { font-size: 19px; font-weight: 650; }
+    .body { font-size: 18px; }
+    .small { font-size: 16px; fill: #526077; }
+    .inverse { fill: #ffffff; }
+    .inverse-muted { fill: #cbd5e1; }
+    .grid { stroke: #dce2ea; stroke-width: 1; }
+    .axis { stroke: #728096; stroke-width: 1.5; }
+  </style>
+  <rect width="100%" height="100%" rx="22" fill="#ffffff"/>
+  
+  <text x="65" y="68" class="title">Rendimiento del modelo en test</text>
+  <text x="65" y="107" class="subtitle">U-Net/ResNet-34 · segmentación binaria · 150 imágenes · umbral 0.5</text>
+  <rect x="65" y="145" width="1270" height="145" rx="22" fill="#172033"/>
+  <text x="100" y="190" font-size="22" font-weight="700" class="inverse-muted">DICE GLOBAL</text>
+  <text x="100" y="260" font-size="66" font-weight="800" class="inverse">0.9184</text>
+  <text x="390" y="213" font-size="21" class="inverse">Mide el solapamiento entre la máscara real y la predicción.</text>
+  <text x="390" y="250" font-size="18" class="inverse-muted">1.0 = coincidencia perfecta · 0.0 = sin solapamiento</text>
+  <rect x="65" y="325" width="400" height="185" rx="20" fill="#f5f8ff" stroke="#cdd8ee"/><text x="93" y="370" class="label">IoU</text><text x="93" y="435" class="value">0.8491</text><text x="93" y="480" class="small">Solapamiento respecto a la unión</text><rect x="500" y="325" width="400" height="185" rx="20" fill="#f5f8ff" stroke="#cdd8ee"/><text x="528" y="370" class="label">Precisión</text><text x="528" y="435" class="value">0.9237</text><text x="528" y="480" class="small">De lo marcado, cuánto era pólipo</text><rect x="935" y="325" width="400" height="185" rx="20" fill="#f5f8ff" stroke="#cdd8ee"/><text x="963" y="370" class="label">Recall</text><text x="963" y="435" class="value">0.9131</text><text x="963" y="480" class="small">Del pólipo real, cuánto se detectó</text>
+  <text x="65" y="565" class="section">Variabilidad entre imágenes</text>
+  <rect x="65" y="600" width="1270" height="155" rx="20" fill="#fff8e8" stroke="#ead7a6"/>
+  <text x="105" y="648" class="label">Mediana Dice</text><text x="105" y="710" class="value">0.9549</text>
+  <text x="470" y="648" class="label">50% central (P25–P75)</text><text x="470" y="710" class="value">0.9134–0.9693</text>
+  <text x="1030" y="648" class="label">Peor caso</text><text x="1030" y="710" class="value" fill="#be123c">0.0775</text>
+  <text x="65" y="815" class="body">Conclusión: el resultado agregado es fuerte, pero el mínimo confirma fallos severos que el promedio no muestra.</text>
+  <text x="65" y="855" class="small">Fuente: evaluación única del checkpoint ganador sobre Kvasir-SEG test. Uso experimental, no clínico.</text>
+</svg>

@@ -2,6 +2,29 @@
 
 ---
 
+## 2026-08-20 01:00 -0500 — Fase 11: opciones autónomas para el póster
+
+**Hecho:**
+- Generadas tres figuras SVG listas para póster: comparación cualitativa, resumen
+  cuantitativo y Dice frente al tamaño del pólipo.
+- Incluidos títulos, definiciones, tamaño del test, umbral y conclusiones dentro de las
+  propias figuras para que puedan interpretarse de manera autónoma.
+- Documentados el orden recomendado, el generador reproducible y los nuevos artefactos.
+
+**Decisiones:**
+- Se recomienda primero la comparación cualitativa porque comunica tarea, resultado y
+  limitación con menor carga de lectura para una audiencia general.
+- El resumen cuantitativo ocupa el segundo lugar por su rigor y compacidad; el análisis
+  por tamaño queda tercero porque exige interpretar ejes, puntos y estratos.
+- Los paneles PNG se incrustan como datos en el SVG cualitativo para evitar dependencias
+  externas al mover o exportar el póster.
+
+**Pendiente / carry-over:**
+- Elegir cuál de las tres figuras entra en el diseño definitivo del póster.
+- Presentar la matriz de confusión explícitamente como matriz binaria por píxel.
+
+---
+
 ## 2026-08-20 00:41 -0500 — Fase 11: Dice frente al tamaño del pólipo
 
 **Hecho:**

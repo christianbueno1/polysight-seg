@@ -43,6 +43,9 @@ con ellos.
 | [`assets/test/best-case.png`](assets/test/best-case.png) | Métricas, probabilidades e imagen | Ejemplo cualitativo de mayor Dice |
 | [`assets/test/median-case.png`](assets/test/median-case.png) | Métricas, probabilidades e imagen | Ejemplo cercano a la mediana |
 | [`assets/test/worst-case.png`](assets/test/worst-case.png) | Métricas, probabilidades e imagen | Ejemplo cualitativo de menor Dice |
+| [`assets/poster/01-qualitative-comparison.svg`](assets/poster/01-qualitative-comparison.svg) | Paneles cualitativos de test | Opción principal para el póster |
+| [`assets/poster/02-metrics-summary.svg`](assets/poster/02-metrics-summary.svg) | Métricas globales y por imagen | Resumen cuantitativo autónomo |
+| [`assets/poster/03-dice-by-polyp-size.svg`](assets/poster/03-dice-by-polyp-size.svg) | Métricas por imagen y splits | Análisis autónomo por tamaño |
 
 Las figuras ayudan a interpretar el resultado, pero no sustituyen los archivos
 tabulares que las originan.

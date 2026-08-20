@@ -15,6 +15,8 @@ evaluar y ejecutar inferencia. Las cargas que importen PyTorch se ejecutarán en
   historial CSV versionado.
 - `plot_dice_by_polyp_size.py`: genera el gráfico editable de Dice frente a la fracción
   real de pólipo y colorea cada punto por estrato de tamaño.
+- `build_poster_metric_figures.py`: genera tres figuras SVG autónomas y preparadas para
+  comparar opciones de evaluación en el póster.
 - `evaluate.py`: ejecuta un smoke limitado sobre validation o la evaluación completa y
   no fraccionable sobre test.
 
@@ -43,3 +45,17 @@ python scripts/plot_dice_by_polyp_size.py \
   data/processed/kvasir-seg/splits.csv \
   docs/assets/test/dice-by-polyp-size.svg
 ```
+
+## Figuras de evaluación para el póster
+
+```bash
+python scripts/build_poster_metric_figures.py \
+  docs/results/test/per-image-metrics.csv \
+  data/processed/kvasir-seg/splits.csv \
+  docs/assets/test \
+  docs/assets/poster
+```
+
+El comando produce una comparación cualitativa, un resumen cuantitativo y un gráfico
+de Dice frente al tamaño. Los SVG incluyen títulos, definiciones, contexto y conclusión
+para poder interpretarse sin consultar el reporte.
