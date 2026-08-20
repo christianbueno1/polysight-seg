@@ -24,9 +24,11 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 - [x] Crear configuraciones de réplica que difieren únicamente en la semilla
 - [x] Preparar envío Slurm encadenado mediante dependencia `afterok`
 - [x] Sincronizar el commit aprobado en CEDIA y enviar ambos entrenamientos
-- [~] Verificar el entrenamiento con semilla `20260818` — job `23457`
-- [ ] Verificar el entrenamiento con semilla `20260819`
-- [ ] Evaluar y resumir las tres semillas sin seleccionar solo la mejor
+- [x] Verificar el entrenamiento con semilla `20260818` — job `23457`
+- [x] Verificar el entrenamiento con semilla `20260819` — job `23458`
+- [x] Fijar checkpoints de ambas réplicas mediante run, época, Dice y SHA-256
+- [~] Evaluar en cadena ambas réplicas sobre test con umbral fijo `0.5`
+- [ ] Resumir las tres semillas sin seleccionar solo la mejor
 - [ ] Presentar la matriz de confusión binaria explícitamente como matriz por píxel
 
 ---
@@ -62,5 +64,8 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 - El segundo job usa `afterok` respecto del primero para evitar escrituras concurrentes
   en MLflow y no consumir GPU si falla la primera réplica.
 - CEDIA ejecuta el commit `1f178c06612a5dc27abd3ff2dcedd6d10edebf56`.
-- El job `23457` está en ejecución con la semilla `20260818`; el job `23458` permanece
-  pendiente con dependencia `afterok:23457` y usará la semilla `20260819`.
+- Ambos jobs terminaron `COMPLETED (0:0)`: semilla `20260818` seleccionó la época 32
+  con val Dice `0.9039459519026185`; semilla `20260819` seleccionó la época 25 con val
+  Dice `0.8942383180146468`.
+- Las evaluaciones conservan test completo, umbral `0.5`, métricas y análisis cualitativo,
+  y escriben en directorios separados por semilla.

@@ -21,4 +21,10 @@ export PYTHONPATH="${VIRTUAL_ENV}/lib/python3.11/site-packages:${PYTHONPATH:-}:s
 export NO_ALBUMENTATIONS_UPDATE=1
 
 nvidia-smi
-srun python scripts/evaluate.py
+evaluation_config="${EVALUATION_CONFIG:-configs/evaluation/unet-resnet34-baseline.yaml}"
+if [[ ! -f "${evaluation_config}" ]]; then
+  echo "No existe la configuración de evaluación: ${evaluation_config}" >&2
+  exit 2
+fi
+echo "EVALUATION_CONFIG=${evaluation_config}"
+srun python scripts/evaluate.py --config "${evaluation_config}"

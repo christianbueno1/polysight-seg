@@ -36,3 +36,12 @@ El comando envía primero la semilla `20260818` y crea la semilla `20260819` con
 dependencia `afterok`. La segunda solo puede comenzar si la primera termina con éxito.
 Ambas usan el mismo split e hiperparámetros del baseline; un contrato local verifica que
 la única diferencia de configuración sea `run.seed`.
+
+Cuando ambos entrenamientos terminen y sus checkpoints estén fijados por SHA-256, las
+evaluaciones completas de test se envían también en cadena:
+
+```bash
+scripts/submit_seed_evaluations.sh
+```
+
+Cada semilla escribe en un directorio de evaluación separado y conserva el umbral `0.5`.

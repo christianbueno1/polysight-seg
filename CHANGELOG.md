@@ -2,6 +2,29 @@
 
 ---
 
+## 2026-08-20 03:51 -0500 — Fase 11: entrenamientos verificados y evaluación preparada
+
+**Hecho:**
+- Verificados `23457` y `23458` como `COMPLETED (0:0)` tras 42 y 35 épocas.
+- Fijado el checkpoint de semilla `20260818`: run `5be446e9eabd40e4ba92d4d2873d333e`,
+  época 32, val Dice `0.9039459519026185`, SHA-256 `e4d8121d...8fa772`.
+- Fijado el checkpoint de semilla `20260819`: run `59a6e9f0b6124001a1af360b4f22dea2`,
+  época 25, val Dice `0.8942383180146468`, SHA-256 `318c2ccd...a277d`.
+- Preparadas configuraciones y envío encadenado para evaluar ambos checkpoints en test.
+
+**Decisiones:**
+- Se evalúan ambas semillas, no solo la de mejor validation, con umbral fijo `0.5`.
+- Cada evaluación usa un directorio propio para conservar evidencia independiente y
+  evitar la protección que impide sobrescribir una evaluación final existente.
+- Los contratos fijan run, época, valor de selección y hash antes de abrir los resultados.
+
+**Pendiente / carry-over:**
+- Sincronizar el commit de evaluación en CEDIA y enviar ambos jobs encadenados.
+- Consolidar las tres ejecuciones mediante media, desviación estándar y resultados
+  individuales completos.
+
+---
+
 ## 2026-08-20 03:36 -0500 — Fase 11: réplicas enviadas a CEDIA
 
 **Hecho:**
