@@ -19,6 +19,7 @@ cd "${SLURM_SUBMIT_DIR}"
 source .venv-cluster/bin/activate
 export PYTHONPATH="${VIRTUAL_ENV}/lib/python3.11/site-packages:${PYTHONPATH:-}:src"
 export NO_ALBUMENTATIONS_UPDATE=1
+export POLYSIGHT_MLFLOW_PORT="${POLYSIGHT_MLFLOW_PORT:-$((15000 + SLURM_JOB_ID % 40000))}"
 
 nvidia-smi
 evaluation_config="${EVALUATION_CONFIG:-configs/evaluation/unet-resnet34-baseline.yaml}"
@@ -27,4 +28,5 @@ if [[ ! -f "${evaluation_config}" ]]; then
   exit 2
 fi
 echo "EVALUATION_CONFIG=${evaluation_config}"
+echo "POLYSIGHT_MLFLOW_PORT=${POLYSIGHT_MLFLOW_PORT}"
 srun python scripts/evaluate.py --config "${evaluation_config}"

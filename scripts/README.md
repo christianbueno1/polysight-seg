@@ -19,6 +19,12 @@ evaluar y ejecutar inferencia. Las cargas que importen PyTorch se ejecutarán en
   comparar opciones de evaluación en el póster.
 - `evaluate.py`: ejecuta un smoke limitado sobre validation o la evaluación completa y
   no fraccionable sobre test.
+- `generate_cross_validation.py`: crea cinco folds externos reproducibles de 200 casos,
+  cada uno con 700 casos de train y 100 de validation interna.
+- `generate_cross_validation_configs.py`: deriva del baseline los YAML de datos y
+  entrenamiento para los cinco folds.
+- `submit_cross_validation_training.sh`: genera los folds y encadena sus cinco
+  entrenamientos mediante dependencias `afterok`.
 
 ## Curvas del entrenamiento
 

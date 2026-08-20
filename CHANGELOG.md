@@ -2,6 +2,31 @@
 
 ---
 
+## 2026-08-20 05:32 -0500 — Fase 11: validación cruzada preparada
+
+**Hecho:**
+- Implementado un generador determinista de cinco folds con `700/100/200` muestras y
+  cobertura externa exacta de las 1.000 imágenes.
+- Creadas configuraciones aisladas de datos, entrenamiento y checkpoints por fold.
+- Preparado el envío serial de cinco entrenamientos mediante dependencias `afterok`.
+- Añadido un puerto MLflow derivado del job y aplicado coherentemente al servidor y al
+  cliente para evitar reutilizar el puerto fijo `5000`.
+- Documentado el protocolo en dos etapas y añadidos contratos locales.
+
+**Decisiones:**
+- Se mantiene una semilla fija para que la variación entre folds mida principalmente el
+  efecto de cambiar los datos, complementando el análisis previo de semillas.
+- Las evaluaciones no se generan hasta fijar cada checkpoint por run, época, Dice y hash.
+- Los jobs permanecen seriales porque los cinco runs escriben en el mismo SQLite.
+- El experimento se declara posterior y no se presenta como nueva validación ciega.
+
+**Pendiente / carry-over:**
+- Publicar y sincronizar el commit en CEDIA antes de enviar la cadena de entrenamientos.
+- Tras los cinco entrenamientos, fijar checkpoints y preparar evaluaciones encadenadas.
+- Presentar la matriz de confusión binaria explícitamente como matriz por píxel.
+
+---
+
 ## 2026-08-20 04:54 -0500 — Fase 11: estabilidad integrada en presentación y póster
 
 **Hecho:**

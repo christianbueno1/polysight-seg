@@ -1,0 +1,61 @@
+schema_version: 1
+run:
+  name: unet-resnet34-cv-fold-05
+  seed: 20260817
+  max_epochs: 50
+references:
+  data_config: configs/data/kvasir-seg-cv-fold-05.yaml
+  model_config: configs/models/unet-resnet34.yaml
+  tracking_config: configs/tracking/mlflow.yaml
+runtime:
+  device: cuda
+  devices: 1
+  mixed_precision:
+    enabled: true
+    dtype: float16
+    gradient_scaling: true
+  reproducibility:
+    deterministic_algorithms: true
+    deterministic_warn_only: false
+    cudnn_benchmark: false
+    cublas_workspace_config: :4096:8
+optimizer:
+  name: adamw
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  betas:
+  - 0.9
+  - 0.999
+  epsilon: 1.0e-08
+scheduler:
+  name: reduce_lr_on_plateau
+  factor: 0.5
+  patience_epochs: 3
+  threshold: 0.0001
+  threshold_mode: abs
+  cooldown_epochs: 0
+  min_learning_rate: 1.0e-06
+training:
+  gradient_accumulation_steps: 1
+  gradient_clip_max_norm: 1.0
+  zero_grad_set_to_none: true
+validation:
+  every_n_epochs: 1
+  split: validation
+selection:
+  metric: val_dice
+  mode: max
+  min_delta: 0.0001
+early_stopping:
+  enabled: true
+  patience_epochs: 10
+checkpointing:
+  directory: checkpoints/cross-validation/fold-05
+  save_last: true
+  save_best: true
+  last_filename: last.pt
+  best_filename: best.pt
+  resume_from: null
+test:
+  enabled: false
+  phase: 11

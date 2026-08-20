@@ -33,6 +33,7 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 - [x] Resumir las tres semillas sin seleccionar solo la mejor
 - [x] Crear reporte de estabilidad con runs, métricas y limitaciones
 - [x] Integrar la estabilidad de tres semillas en la guía oral y la figura del póster
+- [x] Preparar validación cruzada de cinco folds con jobs seriales y puertos MLflow por job
 - [ ] Presentar la matriz de confusión binaria explícitamente como matriz por píxel
 
 ---
@@ -83,3 +84,8 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
   usando desviación estándar muestral; se conservan además todos los valores individuales.
 - El póster mantiene la comparación cualitativa por su lectura inmediata y añade un sello
   con Dice `0.9171 ± 0.0031` para comunicar en una sola figura calidad y estabilidad.
+- La validación cruzada usa cinco folds externos de 200 casos; cada iteración conserva
+  700 para train y 100 para validation, con una sola semilla para aislar el efecto del split.
+- Los entrenamientos se ejecutarán en cadena `afterok`. Cada job deriva un puerto MLflow
+  de su ID y SQLite conserva un único escritor; las evaluaciones se preparan solo después
+  de fijar los cinco checkpoints mediante run, época, Dice y SHA-256.

@@ -21,6 +21,7 @@ from polysight_seg.evaluation.checkpoint import load_selected_checkpoint
 from polysight_seg.evaluation.engine import evaluate_segmentation
 from polysight_seg.evaluation.qualitative import generate_qualitative_panels
 from polysight_seg.models import build_model, load_model_config
+from polysight_seg.tracking_config import apply_mlflow_environment
 from polysight_seg.training.tracking import (
     ExperimentTracker,
     ManagedMlflowServer,
@@ -67,7 +68,9 @@ def run_evaluation(
     references = evaluation_config["references"]
     data_config = load_data_config(project_root / references["data_config"])
     model_config = load_model_config(project_root / references["model_config"])
-    tracking_config = _load_yaml(project_root / references["tracking_config"])
+    tracking_config = apply_mlflow_environment(
+        _load_yaml(project_root / references["tracking_config"])
+    )
     model_config = copy.deepcopy(model_config)
     model_config["model"]["encoder_weights"] = None
 

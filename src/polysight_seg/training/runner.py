@@ -22,12 +22,16 @@ import yaml
 from polysight_seg.data.dataset import build_dataloader, load_data_config
 from polysight_seg.losses import build_loss
 from polysight_seg.models import build_model, load_model_config
+from polysight_seg.tracking_config import apply_mlflow_environment
 from polysight_seg.training.checkpointing import (
     load_training_checkpoint,
     save_epoch_checkpoints,
 )
 from polysight_seg.training.engine import train_one_epoch, validate_one_epoch
-from polysight_seg.training.tracking import ExperimentTracker, ManagedMlflowServer
+from polysight_seg.training.tracking import (
+    ExperimentTracker,
+    ManagedMlflowServer,
+)
 
 
 def _load_yaml(path: Path) -> dict[str, Any]:
@@ -163,7 +167,7 @@ def _resolve_configs(
     tracking_path = (project_root / references["tracking_config"]).resolve()
     data_config = load_data_config(data_path)
     model_config = load_model_config(model_path)
-    tracking_config = _load_yaml(tracking_path)
+    tracking_config = apply_mlflow_environment(_load_yaml(tracking_path))
     if training_config["test"]["enabled"]:
         raise ValueError("Test debe permanecer deshabilitado durante la Fase 5")
     if training_config["validation"]["split"] != "validation":

@@ -45,3 +45,19 @@ scripts/submit_seed_evaluations.sh
 ```
 
 Cada semilla escribe en un directorio de evaluación separado y conserva el umbral `0.5`.
+
+## Validación cruzada de cinco folds
+
+El entrenamiento se prepara y envía desde CEDIA con:
+
+```bash
+scripts/submit_cross_validation_training.sh
+```
+
+El script regenera los folds y envía cinco jobs seriales. Cada job depende con `afterok`
+del anterior, usa un directorio de checkpoints independiente y recibe un puerto MLflow
+derivado de su `SLURM_JOB_ID`. El puerto por job evita reutilizar `5000` si quedó un
+servidor huérfano; SQLite continúa protegido porque nunca hay dos escritores CV activos.
+
+Esta es la etapa 1. Al terminar, se fijan run, época, Dice de validation y SHA-256 de
+cada checkpoint. Solo después se versionan y encadenan las cinco evaluaciones externas.
