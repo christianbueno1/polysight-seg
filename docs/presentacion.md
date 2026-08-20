@@ -397,6 +397,20 @@ con **Dice loss**, que premia la superposición de la región completa. El entre
 podía llegar a 50 épocas, pero se detuvo en la 32 mediante *early stopping*. El
 checkpoint elegido fue el de la época 22 porque obtuvo el mejor Dice en validation.
 
+Una forma sencilla de contarlo es esta:
+
+“Imaginen que tenemos dos profesores corrigiendo al modelo. BCE revisa píxel por píxel:
+‘aquí marcaste fondo, aquí marcaste pólipo’. Dice se aleja un poco y observa el dibujo
+completo: ‘¿la región predicha realmente coincide con la lesión?’. Usamos ambos porque
+necesitamos precisión local sin perder la forma global.”
+
+El algoritmo que actualiza los pesos es **AdamW**, con *learning rate* inicial
+`1 × 10⁻⁴` y *weight decay* `1 × 10⁻⁴`. AdamW adapta el tamaño de cada actualización y
+separa la regularización de la actualización del gradiente. Cuando validation deja de
+mejorar durante tres épocas, **ReduceLROnPlateau** reduce el *learning rate* a la mitad:
+es como pasar de movimientos grandes a ajustes finos cuando ya estamos cerca de una
+buena solución.
+
 ### ¿Por qué elegimos estos hiperparámetros?
 
 “Los hiperparámetros no se eligieron para perseguir el mejor número en test. Definimos
@@ -533,9 +547,10 @@ es pequeña, así que el buen resultado no parece depender de una única ejecuci
 afortunada.
 
 Ahora bien, estabilidad no es lo mismo que universalidad. Probamos tres veces el mismo
-protocolo sobre los mismos 150 casos. El siguiente nivel de evidencia sería cambiar los
-casos mediante validación cruzada y, después, evaluar datos de otros centros. Nuestro
-resultado no cierra la historia: nos dice que vale la pena continuarla.”
+protocolo sobre los mismos 150 casos. Por eso el siguiente nivel de evidencia fue cambiar
+los casos mediante validación cruzada; después todavía será necesario evaluar datos de
+otros centros. Nuestro resultado no cierra la historia: nos dice que vale la pena
+continuarla.”
 
 ### Respuestas rápidas para preguntas del público
 
@@ -562,37 +577,195 @@ pacientes o centros.
 
 ---
 
+## Validación cruzada: cambiar los casos, no solo la suerte
+
+### Gancho para conectar con el público
+
+“Repetir la receta tres veces respondió una pregunta: el resultado no parecía depender
+de una semilla afortunada. Pero todavía estábamos cocinando con la misma caja de
+ingredientes. Entonces hicimos una prueba más exigente: cambiamos qué imágenes se usan
+para aprender y cuáles se dejan fuera.”
+
+Construimos **cinco folds externos**. En cada recorrido usamos 700 imágenes para train,
+100 para validation y 200 como evaluación externa. Los folds externos no se solapan:
+cada una de las 1.000 imágenes de Kvasir-SEG fue evaluada exactamente una vez por un
+modelo que no la utilizó para entrenar. Mantuvimos fija la arquitectura U-Net/ResNet-34,
+AdamW, BCE + Dice, augmentations, semilla y umbral `0,5`; de esta manera, la variable que
+queríamos observar era la composición de los datos.
+
+### Resultado que conviene revelar primero
+
+> **Dice externo en cinco folds: `0,8972 ± 0,0047`.**
+
+| Fold | Dice externo | Lectura para el presentador |
+|---:|---:|---|
+| 1 | `0,8961` | Cercano al promedio |
+| 2 | `0,9001` | Ligeramente superior |
+| 3 | `0,8961` | Prácticamente igual al fold 1 |
+| 4 | `0,9031` | Resultado más alto |
+| 5 | `0,8906` | Resultado más bajo |
+
+“Lo interesante no es escoger el `0,9031` y esconder el resto. Lo importante es que los
+cinco resultados permanecieron en una franja estrecha. Entre el mayor y el menor hay
+aproximadamente `0,0125`. Eso nos dice que el baseline conserva un comportamiento
+relativamente estable cuando cambiamos los casos que le toca aprender.”
+
+Al agrupar los píxeles de las 1.000 predicciones *out of fold*, el Dice fue `0,8972`,
+prácticamente igual a la media entre folds. Por imagen, la mediana fue `0,9463`: un caso
+típico rindió mejor que el valor agregado. Sin embargo, el mínimo fue `0,0`, lo que
+significa que al menos una imagen quedó completamente sin solapamiento.
+
+### El giro de la historia
+
+“Aquí aparece una lección importante: un modelo puede ser estable en promedio y aun
+fallar por completo en un caso particular. Es parecido a un estudiante que mantiene una
+buena calificación durante cinco exámenes, pero deja una pregunta en blanco. El promedio
+nos habla de consistencia; la pregunta en blanco nos muestra dónde debemos investigar.”
+
+El Dice `0,8972 ± 0,0047` de validación cruzada y el `0,9171 ± 0,0031` de las tres
+semillas responden preguntas distintas y no deben tratarse como una competencia directa.
+Las semillas repitieron el mismo split de 150 casos; los cinco folds cambiaron la
+composición y cubrieron las 1.000 imágenes. La validación cruzada es una prueba interna
+más amplia, aunque sigue usando un solo dataset público.
+
+### Guion oral breve
+
+“Primero comprobamos que el modelo no dependiera de una sola semilla. Después elevamos
+la dificultad: construimos cinco particiones y conseguimos que cada imagen fuera
+evaluada fuera de su propio entrenamiento. El Dice fue `0,8972 ± 0,0047`. En otras
+palabras, el resultado se mantuvo cercano aunque cambiáramos los casos.
+
+Pero no queremos contar solamente la parte cómoda. La mediana por imagen fue alta,
+`0,9463`, mientras el peor caso obtuvo Dice `0`. Esa distancia entre el caso típico y el
+fallo extremo marca nuestra siguiente tarea: no basta con mejorar el promedio; debemos
+entender qué características hacen que una lesión desaparezca para el modelo.”
+
+---
+
+## Barreras que encontramos y cómo las resolvimos
+
+### Cómo introducir esta parte
+
+“Entrenar una red fue solo una parte del trabajo. La otra fue construir un experimento
+en el que pudiéramos confiar. Las barreras no fueron adornos del proyecto: cada una podía
+cambiar el resultado o impedir reproducirlo.”
+
+#### 1. Las máscaras parecían binarias, pero no lo eran
+
+Kvasir-SEG almacena las máscaras como JPEG. La compresión introduce valores intermedios
+en los bordes. Definimos una binarización única con umbral `128`, conservamos los
+originales y aplicamos la misma regla en train, validation y evaluación.
+
+**Cómo decirlo:** “Antes de enseñar al modelo dónde estaba el pólipo, tuvimos que
+asegurarnos de que todos habláramos el mismo idioma para definir sus bordes.”
+
+#### 2. El fondo domina la imagen
+
+Solo alrededor del `15,64 %` de los píxeles pertenece globalmente al pólipo. Accuracy
+podría verse bien aunque el modelo ignorara parte de la lesión. Por eso usamos Dice e IoU
+como métricas y combinamos BCE con Dice loss durante el aprendizaje.
+
+#### 3. Un split conveniente podía engañarnos
+
+Estratificamos por tamaño y mantuvimos juntos los duplicados exactos. Después repetimos
+con tres semillas y finalmente usamos cinco folds externos. Cada paso atacó una fuente
+distinta de incertidumbre: azar del entrenamiento y composición del dataset.
+
+#### 4. MLflow podía competir consigo mismo
+
+Una evaluación terminó la inferencia, pero falló al registrar artefactos porque el puerto
+`5000` seguía ocupado. No repetimos la inferencia: verificamos los archivos y recuperamos
+el registro de manera auditable. Para los experimentos posteriores encadenamos los jobs
+y asignamos un puerto MLflow derivado de cada `SLURM_JOB_ID`, manteniendo un solo escritor
+sobre SQLite.
+
+**Analogía:** “Era como tener dos personas intentando escribir al mismo tiempo en el
+mismo cuaderno. Organizamos una fila y dimos a cada conversación su propia puerta.”
+
+#### 5. Un job recibió una terminación externa
+
+El primer intento del fold 4 recibió `SIGKILL` a los 28 segundos. La memoria usada era
+aproximadamente `1,7 GiB` de los `16 GiB` solicitados y no había timeout ni checkpoint;
+por eso no lo etiquetamos como OOM sin evidencia. Conservamos los folds completos,
+reenviamos únicamente el cuarto y redirigimos la dependencia del quinto. Ambos terminaron
+correctamente.
+
+**Mensaje clave:** “Reproducibilidad también significa saber recuperarse sin borrar la
+historia, sin repetir lo que ya era válido y sin convertir una sospecha en una causa.”
+
+---
+
+## ¿Cuál es el siguiente paso para mejorar el modelo?
+
+### Gancho de transición
+
+“Ya respondimos si el baseline es repetible. La siguiente pregunta no es cómo decorar
+el mismo número, sino qué cambio concreto puede mejorar la representación visual del
+pólipo.”
+
+El siguiente experimento recomendado es comparar el encoder actual **ResNet-34** con
+**EfficientNet-B0**, manteniendo U-Net como decoder y congelando el resto del protocolo.
+EfficientNet-B0 escala profundidad, anchura y resolución de forma equilibrada y puede
+ofrecer características competitivas con un uso eficiente de parámetros. Esto es una
+hipótesis que debemos probar, no una mejora que podamos afirmar por anticipado.
+
+### Cómo hacer una comparación justa
+
+- Mantener los mismos folds, resolución `256 × 256`, augmentations y máscaras.
+- Conservar BCE + Dice, AdamW, scheduler, early stopping y umbral `0,5`.
+- Inicializar ambos encoders con pesos ImageNet.
+- Elegir cada checkpoint únicamente por validation.
+- Evaluar ambos modelos sobre los mismos folds externos.
+- Reportar los cinco pares de resultados, coste de entrenamiento, parámetros y memoria.
+- Analizar especialmente los casos donde ResNet-34 obtuvo Dice bajo o `0`.
+
+La comparación debe ser **pareada por fold**: para cada conjunto externo observamos si
+EfficientNet-B0 mejora o empeora respecto a ResNet-34. Así evitamos atribuir al encoder
+una diferencia causada por haber usado imágenes distintas.
+
+### Cierre sugerido de la presentación
+
+“Nuestro resultado no es solamente un Dice. Es una cadena de decisiones verificables:
+datos preparados con una regla común, U-Net/ResNet-34 para conservar contexto y
+localización, AdamW para optimizar, BCE + Dice para equilibrar píxeles y región, y cinco
+folds para comprobar estabilidad.
+
+El modelo es consistente, pero no infalible. El siguiente paso será enfrentar
+ResNet-34 con EfficientNet-B0 bajo exactamente las mismas condiciones y preguntarnos no
+solo quién obtiene el promedio más alto, sino quién rescata mejor los casos que hoy se
+nos escapan. Ahí es donde una métrica deja de ser un número y se convierte en una pista
+para construir una solución mejor.”
+
+---
+
 ## Texto recomendado para describir los resultados en el póster
 
 ### Resumen en viñetas
 
-- Tres ejecuciones que difieren únicamente en la semilla, evaluadas sobre las mismas
-  **150 imágenes de test** y con umbral fijo `0,5`.
-- Rendimiento consolidado: **Dice `0,9171 ± 0,0031`**; la baja dispersión sugiere que el
-  resultado no depende de una única ejecución afortunada.
-- Los Dice individuales fueron **`0,9184`, `0,9193` y `0,9135`**; se reportan todos y no
-  se selecciona solamente el mejor.
-- Balance de errores: **precisión `0,9237`** y **recall `0,9131`**; el modelo mantiene
-  resultados similares en la evaluación original entre regiones añadidas
-  incorrectamente y pólipo omitido.
-- El desempeño típico fue superior al agregado: **mediana Dice `0,9549`**, pero el
-  mínimo de `0,0775` revela que todavía existen fallos severos en casos particulares.
-- El tamaño no explica por sí solo los errores: la mediana Dice fue `0,9411` en pólipos
-  pequeños, `0,9630` en medianos y `0,9608` en grandes; el peor caso fue grande.
+- Validación cruzada de **cinco folds**: cada una de las 1.000 imágenes fue evaluada una
+  vez fuera de su entrenamiento.
+- Rendimiento externo: **Dice `0,8972 ± 0,0047`**, con valores por fold entre `0,8906`
+  y `0,9031`.
+- Tres semillas sobre el split original obtuvieron **Dice `0,9171 ± 0,0031`**; este
+  resultado complementa los folds al medir sensibilidad al azar del entrenamiento.
+- Sobre las 1.000 predicciones *out of fold*: **precisión `0,9093`** y **recall
+  `0,8855`** agrupados por píxel.
+- El desempeño típico fue superior al agregado: **mediana Dice `0,9463`**, pero el
+  mínimo de `0` revela al menos un fallo completo de solapamiento.
+- En el análisis del split original, el tamaño no explicó por sí solo los errores: el
+  peor caso perteneció al grupo de pólipos grandes.
 
 ### Explicación corta en tono de exposición
 
 “La pregunta no era solamente si el modelo podía dibujar una máscara, sino si el buen
-resultado sobreviviría al repetir el entrenamiento. Usamos la misma receta tres veces y
-cambiamos únicamente la semilla. Los Dice fueron `0,9184`, `0,9193` y `0,9135`; al
-resumirlos obtuvimos `0,9171 ± 0,0031`. En términos simples, las predicciones mantuvieron
-una superposición alta y el resultado cambió poco entre ejecuciones.
+resultado sobreviviría al cambiar los casos. En cinco folds, cada una de las 1.000
+imágenes fue evaluada fuera de su entrenamiento. Obtuvimos Dice `0,8972 ± 0,0047`: el
+resultado cambió poco entre particiones y ofrece una señal de estabilidad interna.
 
 Pero aquí aparece la parte más importante de la historia: un promedio alto no significa
-que todos los casos sean fáciles. En una imagen típica, el Dice llegó aproximadamente a
-`0,95`; sin embargo, en el peor caso cayó a `0,0775` porque el modelo detectó apenas una
-pequeña parte de la lesión. También observamos algo que rompe una explicación sencilla:
-ese fallo no ocurrió con el pólipo más pequeño, sino dentro del grupo de pólipos grandes.
+que todos los casos sean fáciles. En las predicciones *out of fold*, la mediana por
+imagen fue `0,9463`, pero el peor caso cayó a `0`: estabilidad global y ausencia total de
+solapamiento pueden coexistir.
 
 Entonces, ¿qué nos llevamos de este experimento? El baseline ofrece una primera señal de
 estabilidad, pero todavía puede fallar de manera importante. Por eso mostramos tanto el
@@ -604,4 +777,7 @@ Para acompañar este texto se recomienda usar la
 [comparación cualitativa preparada para el póster](assets/poster/01-qualitative-comparison.svg),
 porque muestra simultáneamente un resultado típico y la principal limitación observada.
 Su sello **“3 ejecuciones · Dice `0,9171 ± 0,0031`”** añade la evidencia de estabilidad
-sin obligar al público a interpretar otro gráfico.
+ante semillas sin obligar al público a interpretar otro gráfico. Como ahora existe
+validación cruzada, el texto principal del póster debe destacar **“5 folds · Dice
+`0,8972 ± 0,0047` · 1.000 predicciones out of fold”**; el sello de tres ejecuciones puede
+quedar como evidencia secundaria.

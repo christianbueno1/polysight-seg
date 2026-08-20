@@ -39,6 +39,7 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 - [x] Preparar evaluaciones externas después de fijar los cinco checkpoints
 - [x] Ejecutar y verificar las cinco evaluaciones externas encadenadas
 - [x] Consolidar los cinco folds sin seleccionar solamente el mejor
+- [x] Integrar método, barreras, validación cruzada y siguiente encoder en el guion oral
 - [ ] Presentar la matriz de confusión binaria explícitamente como matriz por píxel
 
 ---
@@ -107,3 +108,6 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
   con 1.000 mapas de probabilidad y 75 paneles cualitativos.
 - El Dice externo entre folds es `0.8972203103581422 ± 0.004712834228618429`; el Dice
   agrupado sobre las 1.000 predicciones *out of fold* es `0.8972319282731822`.
+- El guion presenta semillas y folds como preguntas complementarias, explica AdamW y
+  BCE + Dice mediante analogías, y propone EfficientNet-B0 como comparación pareada por
+  fold sin afirmar por anticipado que será superior.

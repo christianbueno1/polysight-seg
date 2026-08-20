@@ -2,6 +2,31 @@
 
 ---
 
+## 2026-08-20 07:10 -0500 — Fase 11: guion integral de sustentación
+
+**Hecho:**
+- Integrada la validación cruzada en `docs/presentacion.md` mediante un relato que conecta
+  las tres semillas con el cambio posterior de composición de datos.
+- Explicados en modo oral U-Net/ResNet-34, AdamW, ReduceLROnPlateau y BCE + Dice.
+- Añadidas las barreras de máscaras JPEG, desbalance, splits, puerto MLflow y `SIGKILL`,
+  junto con la respuesta aplicada en cada caso.
+- Incorporado un cierre y un experimento siguiente comparando ResNet-34 con
+  EfficientNet-B0 sobre los mismos folds.
+- Actualizado el texto del póster para priorizar Dice `0.8972 ± 0.0047` y 1.000
+  predicciones *out of fold*.
+
+**Decisiones:**
+- Semillas y folds se presentan como pruebas complementarias y no como cifras rivales.
+- EfficientNet-B0 se formula como hipótesis; la comparación será pareada y conservará
+  pérdida, optimizador, datos, selección y umbral.
+- El guion muestra fallos extremos además del promedio para evitar una lectura triunfalista.
+
+**Pendiente / carry-over:**
+- Adaptar la figura principal del póster para mostrar la validación cruzada consolidada.
+- Analizar visualmente los casos *out of fold* con Dice `0`.
+
+---
+
 ## 2026-08-20 06:39 -0500 — Fase 11: validación cruzada consolidada
 
 **Hecho:**
