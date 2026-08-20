@@ -2,6 +2,25 @@
 
 ---
 
+## 2026-08-20 00:41 -0500 — Fase 11: Dice frente al tamaño del pólipo
+
+**Hecho:**
+- Creado un gráfico SVG reproducible con las 150 métricas individuales de test.
+- Diferenciados los 50 casos pequeños, medianos y grandes mediante los splits canónicos.
+- Integrados el gráfico, las medianas por estrato y su interpretación al reporte final.
+- Documentado el generador y añadido el SVG al índice de artefactos.
+
+**Decisiones:**
+- El eje horizontal usa la fracción real de primer plano, una medida continua del tamaño.
+- Se evita concluir que los pólipos pequeños explican todos los fallos: el estrato
+  mediano tiene la mejor mediana, pero el peor caso observado pertenece al estrato grande.
+- El SVG se genera solo con la biblioteca estándar para mantenerlo editable y reproducible.
+
+**Pendiente / carry-over:**
+- Presentar la matriz de confusión explícitamente como matriz binaria por píxel.
+
+---
+
 ## 2026-08-19 22:51 -0500 — Fase 11: panel cualitativo para el reporte
 
 **Hecho:**

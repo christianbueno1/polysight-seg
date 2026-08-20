@@ -100,6 +100,26 @@ imágenes. Para el póster, el caso mediano comunica el rendimiento típico y el
 expone la principal limitación; el mejor caso sirve como referencia del potencial del
 modelo.
 
+### Dice frente al tamaño real del pólipo
+
+![Dice por imagen frente a la fracción real de pólipo, diferenciado por estrato de tamaño](assets/test/dice-by-polyp-size.svg)
+
+Cada punto corresponde a una de las 150 imágenes de test. El eje horizontal representa
+la fracción de píxeles ocupada por la máscara real y el color conserva los estratos
+reproducibles usados al crear los splits, con 50 casos por grupo.
+
+| Estrato | Casos | Mediana Dice |
+|---|---:|---:|
+| Pequeño | 50 | 0.9411 |
+| Mediano | 50 | 0.9630 |
+| Grande | 50 | 0.9608 |
+
+Los pólipos medianos alcanzan la mayor mediana y los pequeños presentan una mediana
+algo menor. Sin embargo, el peor fallo pertenece al estrato grande: el tamaño por sí
+solo no explica todos los errores. La dispersión sugiere revisar también contraste,
+apariencia, iluminación y cambio de dominio antes de atribuir el rendimiento únicamente
+al área del pólipo.
+
 ## Variabilidad y análisis de errores
 
 El Dice por imagen tuvo mediana `0.954879509971524`, media
@@ -123,6 +143,7 @@ comportamientos sin resumirlos en un único promedio.
 - Métricas canónicas: [`results/test/metrics.json`](results/test/metrics.json).
 - Métricas por imagen: [`results/test/per-image-metrics.csv`](results/test/per-image-metrics.csv).
 - Curva de entrenamiento: [`assets/unet-resnet34-training-curves.svg`](assets/unet-resnet34-training-curves.svg).
+- Dice frente al tamaño: [`assets/test/dice-by-polyp-size.svg`](assets/test/dice-by-polyp-size.svg).
 - Casos cualitativos: [`assets/test/`](assets/test/).
 
 ## Límites y conclusión

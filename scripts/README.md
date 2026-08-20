@@ -13,6 +13,8 @@ evaluar y ejecutar inferencia. Las cargas que importen PyTorch se ejecutarán en
   solo para smokes y se omiten durante el entrenamiento completo.
 - `plot_training_history.py`: genera las curvas editables de pérdida y Dice desde el
   historial CSV versionado.
+- `plot_dice_by_polyp_size.py`: genera el gráfico editable de Dice frente a la fracción
+  real de pólipo y colorea cada punto por estrato de tamaño.
 - `evaluate.py`: ejecuta un smoke limitado sobre validation o la evaluación completa y
   no fraccionable sobre test.
 
@@ -29,3 +31,15 @@ python scripts/plot_training_history.py \
 
 El script calcula la mejor época directamente desde `val_dice` y la marca en ambos
 paneles; el CSV continúa siendo la fuente canónica de la figura.
+
+## Dice frente al tamaño del pólipo
+
+`plot_dice_by_polyp_size.py` cruza las métricas por imagen con la asignación reproducible
+de splits y genera un SVG usando únicamente la biblioteca estándar:
+
+```bash
+python scripts/plot_dice_by_polyp_size.py \
+  docs/results/test/per-image-metrics.csv \
+  data/processed/kvasir-seg/splits.csv \
+  docs/assets/test/dice-by-polyp-size.svg
+```

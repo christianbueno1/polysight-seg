@@ -39,6 +39,7 @@ con ellos.
 |---|---|---|
 | [`assets/unet-resnet34-training-curves.svg`](assets/unet-resnet34-training-curves.svg) | Historial de entrenamiento | Curva editable para documentación |
 | [`assets/unet-resnet34-training-curves.png`](assets/unet-resnet34-training-curves.png) | Historial de entrenamiento | Exportación raster para presentaciones |
+| [`assets/test/dice-by-polyp-size.svg`](assets/test/dice-by-polyp-size.svg) | Métricas por imagen y splits | Relación entre Dice y tamaño real del pólipo |
 | [`assets/test/best-case.png`](assets/test/best-case.png) | Métricas, probabilidades e imagen | Ejemplo cualitativo de mayor Dice |
 | [`assets/test/median-case.png`](assets/test/median-case.png) | Métricas, probabilidades e imagen | Ejemplo cercano a la mediana |
 | [`assets/test/worst-case.png`](assets/test/worst-case.png) | Métricas, probabilidades e imagen | Ejemplo cualitativo de menor Dice |

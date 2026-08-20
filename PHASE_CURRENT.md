@@ -15,7 +15,7 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
 - [x] Crear tabla resumen con métricas globales y distribución por imagen
 - [x] Publicar la tabla resumen en el reporte técnico final
 - [x] Descartar el boxplot de Dice e IoU por redundancia y falta de espacio en el póster
-- [ ] Crear gráfico de Dice frente al tamaño real del pólipo
+- [x] Crear gráfico de Dice frente al tamaño real del pólipo
 - [x] Consolidar paneles cualitativos de casos mejores, medianos y peores
 - [ ] Presentar la matriz de confusión binaria explícitamente como matriz por píxel
 
@@ -33,3 +33,5 @@ a una única evaluación de 150 imágenes de test con umbral binario `0.5`.
   póster evidencia espacial que pueda interpretarse rápidamente.
 - Los paneles conservan el mapa de probabilidad además de las cuatro vistas mínimas,
   porque permite observar incertidumbre antes de aplicar el umbral.
+- El tamaño no explica por sí solo los fallos: las medianas son 0.9411, 0.9630 y
+  0.9608 para pólipos pequeños, medianos y grandes, y el peor caso es grande.

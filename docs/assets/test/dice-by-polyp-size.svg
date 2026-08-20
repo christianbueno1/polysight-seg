@@ -1,0 +1,199 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Dice frente al tamaño real del pólipo en test</title>
+  <desc id="desc">Gráfico de dispersión de 150 imágenes. Cada punto relaciona Dice con la fracción de píxeles de la máscara real y el color identifica el estrato de tamaño.</desc>
+  <style>
+    text { font-family: Inter, system-ui, sans-serif; fill: #172033; }
+    .title { font-size: 25px; font-weight: 700; }
+    .axis-label { font-size: 17px; font-weight: 600; }
+    .tick { font-size: 14px; fill: #526077; }
+    .legend { font-size: 15px; }
+    .grid { stroke: #dce2ea; stroke-width: 1; }
+    .axis { stroke: #728096; stroke-width: 1.5; }
+  </style>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <text x="105" y="42" class="title">Dice frente al tamaño real del pólipo</text>
+  <text x="625.0" y="632" class="axis-label" text-anchor="middle">Fracción de la imagen ocupada por el pólipo real</text>
+  <text x="28" y="335.0" class="axis-label" text-anchor="middle" transform="rotate(-90 28 335.0)">Dice por imagen</text>
+  <line x1="105" y1="585.00" x2="1145" y2="585.00" class="grid"/>
+  <text x="89" y="590.00" class="tick" text-anchor="end">0.0</text>
+  <line x1="105" y1="485.00" x2="1145" y2="485.00" class="grid"/>
+  <text x="89" y="490.00" class="tick" text-anchor="end">0.2</text>
+  <line x1="105" y1="385.00" x2="1145" y2="385.00" class="grid"/>
+  <text x="89" y="390.00" class="tick" text-anchor="end">0.4</text>
+  <line x1="105" y1="285.00" x2="1145" y2="285.00" class="grid"/>
+  <text x="89" y="290.00" class="tick" text-anchor="end">0.6</text>
+  <line x1="105" y1="185.00" x2="1145" y2="185.00" class="grid"/>
+  <text x="89" y="190.00" class="tick" text-anchor="end">0.8</text>
+  <line x1="105" y1="85.00" x2="1145" y2="85.00" class="grid"/>
+  <text x="89" y="90.00" class="tick" text-anchor="end">1.0</text>
+  <line x1="105.00" y1="585" x2="105.00" y2="592" class="axis"/>
+  <text x="105.00" y="615" class="tick" text-anchor="middle">0%</text>
+  <line x1="313.00" y1="585" x2="313.00" y2="592" class="axis"/>
+  <text x="313.00" y="615" class="tick" text-anchor="middle">15%</text>
+  <line x1="521.00" y1="585" x2="521.00" y2="592" class="axis"/>
+  <text x="521.00" y="615" class="tick" text-anchor="middle">30%</text>
+  <line x1="729.00" y1="585" x2="729.00" y2="592" class="axis"/>
+  <text x="729.00" y="615" class="tick" text-anchor="middle">45%</text>
+  <line x1="937.00" y1="585" x2="937.00" y2="592" class="axis"/>
+  <text x="937.00" y="615" class="tick" text-anchor="middle">60%</text>
+  <line x1="1145.00" y1="585" x2="1145.00" y2="592" class="axis"/>
+  <text x="1145.00" y="615" class="tick" text-anchor="middle">75%</text>
+  <line x1="105" y1="85" x2="105" y2="585" class="axis"/>
+  <line x1="105" y1="585" x2="1145" y2="585" class="axis"/>
+  <circle cx="287.22" cy="105.27" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>00f98835-8fd8-43fe-960d-f4a1159c30f1: Dice 0.9595, pólipo 13.14%</title></circle>
+  <circle cx="595.97" cy="109.76" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>07fc8584-f6cd-4b4e-8380-59da422e9c81: Dice 0.9505, pólipo 35.41%</title></circle>
+  <circle cx="169.83" cy="117.19" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>08687f33-8195-41ca-8239-929967535ec5: Dice 0.9356, pólipo 4.68%</title></circle>
+  <circle cx="138.98" cy="159.65" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>0b2079eb-a468-4c8c-85ce-dc190e8fc703: Dice 0.8507, pólipo 2.45%</title></circle>
+  <circle cx="467.77" cy="91.70" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>0d622b13-8a9e-4599-9ea5-f8c4a83f50ca: Dice 0.9866, pólipo 26.16%</title></circle>
+  <circle cx="148.78" cy="160.83" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>1020f3b4-12fa-406c-aa42-83d75d221005: Dice 0.8483, pólipo 3.16%</title></circle>
+  <circle cx="203.26" cy="99.15" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>14552594-a205-4c89-a9e9-ee8ee07d4f7e: Dice 0.9717, pólipo 7.09%</title></circle>
+  <circle cx="219.13" cy="100.45" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>16e47baf-7641-4361-bb48-2f301e6105eb: Dice 0.9691, pólipo 8.23%</title></circle>
+  <circle cx="229.24" cy="99.14" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>18b7ab44-17b7-48c8-b400-44ca5b2574da: Dice 0.9717, pólipo 8.96%</title></circle>
+  <circle cx="312.55" cy="102.29" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>1b55a7d6-c016-40a8-865d-5e4bfa30a341: Dice 0.9654, pólipo 14.97%</title></circle>
+  <circle cx="222.90" cy="96.19" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>1eb6a959-2ea6-4beb-9587-ab708003dfe4: Dice 0.9776, pólipo 8.50%</title></circle>
+  <circle cx="315.32" cy="107.60" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>1ee5cb1d-1908-44d7-9863-15d86a9b2ce5: Dice 0.9548, pólipo 15.17%</title></circle>
+  <circle cx="465.86" cy="468.34" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>1f055f84-7ee0-4109-b149-107abb1dd1f2: Dice 0.2333, pólipo 26.02%</title></circle>
+  <circle cx="595.91" cy="97.64" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>2062287f-8e93-48d0-8aca-f5b60a5974ee: Dice 0.9747, pólipo 35.40%</title></circle>
+  <circle cx="228.38" cy="107.96" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>2378852e-c9f4-4497-b966-284a11f044a5: Dice 0.9541, pólipo 8.90%</title></circle>
+  <circle cx="195.01" cy="142.46" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>25302157-fdd2-4401-a3c7-a31c34f2b928: Dice 0.8851, pólipo 6.49%</title></circle>
+  <circle cx="237.84" cy="100.65" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>25b9a7cf-d598-40d3-b086-ffdfbe0faad7: Dice 0.9687, pólipo 9.58%</title></circle>
+  <circle cx="180.41" cy="148.25" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>26d70a20-501c-47b8-95db-adf1deb13502: Dice 0.8735, pólipo 5.44%</title></circle>
+  <circle cx="160.35" cy="104.69" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>27123bd8-2e97-43aa-a3b6-35d01000cfcd: Dice 0.9606, pólipo 3.99%</title></circle>
+  <circle cx="169.72" cy="181.15" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>2aeff7a7-4cec-4aa9-87aa-54319fd93681: Dice 0.8077, pólipo 4.67%</title></circle>
+  <circle cx="386.33" cy="106.44" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>2da4f381-1e70-464b-9451-6ff796f8e1b8: Dice 0.9571, pólipo 20.29%</title></circle>
+  <circle cx="260.28" cy="94.14" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>2dadc75e-8fca-4411-88a0-65a3f1cc92be: Dice 0.9817, pólipo 11.20%</title></circle>
+  <circle cx="152.97" cy="114.67" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>2f022888-753e-45e3-88ba-ab9dc9385ab6: Dice 0.9407, pólipo 3.46%</title></circle>
+  <circle cx="278.95" cy="125.62" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>2ffbf4ba-ac2c-4766-9f61-408d06502751: Dice 0.9188, pólipo 12.54%</title></circle>
+  <circle cx="394.62" cy="113.40" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>329ece01-c812-49dc-8204-697cc4b726ce: Dice 0.9432, pólipo 20.89%</title></circle>
+  <circle cx="180.69" cy="135.96" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>32c6a569-c860-43a5-bacc-4e72a533f4fd: Dice 0.8981, pólipo 5.46%</title></circle>
+  <circle cx="326.00" cy="243.81" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>34bd5926-c88b-4e7b-b56a-aa113b770aba: Dice 0.6824, pólipo 15.94%</title></circle>
+  <circle cx="258.47" cy="201.91" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>350107cd-232f-46c7-9751-07178a0d4f49: Dice 0.7662, pólipo 11.07%</title></circle>
+  <circle cx="145.84" cy="112.25" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>35597c12-5c6e-43b6-b64f-28dd0e01bd84: Dice 0.9455, pólipo 2.94%</title></circle>
+  <circle cx="137.61" cy="103.08" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>37797b5d-67c4-4ad7-8b4f-dccaaa4e2b00: Dice 0.9638, pólipo 2.35%</title></circle>
+  <circle cx="297.16" cy="131.06" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>39ab53ac-5b71-40de-bf32-4f020211ac73: Dice 0.9079, pólipo 13.86%</title></circle>
+  <circle cx="143.49" cy="107.61" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>3c4b1a17-bb6a-4646-9c8a-bd0fad0ae62f: Dice 0.9548, pólipo 2.78%</title></circle>
+  <circle cx="512.77" cy="94.95" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>3efbd8ca-c325-4124-ab3d-2d4367e03041: Dice 0.9801, pólipo 29.41%</title></circle>
+  <circle cx="286.39" cy="100.44" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>3f9bff57-8fcb-4a90-bd2c-34ecf4c2d127: Dice 0.9691, pólipo 13.08%</title></circle>
+  <circle cx="283.83" cy="133.31" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>403f5d8f-e3a3-4b51-976f-b69a279b215c: Dice 0.9034, pólipo 12.90%</title></circle>
+  <circle cx="407.51" cy="101.17" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>440b1be6-2629-4506-8c55-656cdbe971b0: Dice 0.9677, pólipo 21.82%</title></circle>
+  <circle cx="310.90" cy="117.72" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>446b6a3e-6aac-4011-9912-f2dade891ecc: Dice 0.9346, pólipo 14.85%</title></circle>
+  <circle cx="443.06" cy="179.35" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>44be479a-354c-4a0c-82f0-3d728ce44d43: Dice 0.8113, pólipo 24.38%</title></circle>
+  <circle cx="255.44" cy="107.72" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>44d19905-4686-4778-966b-8795ab90cd37: Dice 0.9546, pólipo 10.85%</title></circle>
+  <circle cx="142.05" cy="186.82" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>454b7d17-08da-4a67-8982-7ed04ead6e2b: Dice 0.7964, pólipo 2.67%</title></circle>
+  <circle cx="607.25" cy="104.42" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>46d0232d-3012-4d8b-b220-10d5070bd3fa: Dice 0.9612, pólipo 36.22%</title></circle>
+  <circle cx="300.08" cy="112.47" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>4c768129-8d87-4422-94c1-b085ebd682d1: Dice 0.9451, pólipo 14.07%</title></circle>
+  <circle cx="155.10" cy="106.32" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>4cf65c05-5568-463f-aa07-7ad9bd4a1216: Dice 0.9574, pólipo 3.61%</title></circle>
+  <circle cx="193.04" cy="101.29" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>4d77be91-cc2f-44a1-930b-1041cc83f1b7: Dice 0.9674, pólipo 6.35%</title></circle>
+  <circle cx="1019.15" cy="94.32" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>4f1f2099-aedb-444e-a668-ae35957d98be: Dice 0.9814, pólipo 65.92%</title></circle>
+  <circle cx="267.35" cy="94.10" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>4ff33ddc-0ca4-4310-8580-9f5d708419fa: Dice 0.9818, pólipo 11.71%</title></circle>
+  <circle cx="161.66" cy="114.27" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>52a624d5-1741-4004-ac91-0269a624421e: Dice 0.9415, pólipo 4.09%</title></circle>
+  <circle cx="437.17" cy="93.98" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>54640c3b-37ee-4979-9d10-185afdd83a30: Dice 0.9820, pólipo 23.95%</title></circle>
+  <circle cx="190.23" cy="110.91" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>569a7076-3fac-4fcd-bbc6-17aafc4dbda9: Dice 0.9482, pólipo 6.15%</title></circle>
+  <circle cx="527.65" cy="108.86" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>57ae7d55-efe8-4a4d-a708-d6d885a9a285: Dice 0.9523, pólipo 30.48%</title></circle>
+  <circle cx="169.87" cy="104.56" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>57d5d73c-7cb3-488d-8bbd-b0be40dae539: Dice 0.9609, pólipo 4.68%</title></circle>
+  <circle cx="177.07" cy="106.17" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>58811a43-26fa-45e1-af82-a309ddda60c7: Dice 0.9577, pólipo 5.20%</title></circle>
+  <circle cx="1137.83" cy="164.47" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>5a50b83d-084d-4180-ba34-0c8220ab4525: Dice 0.8411, pólipo 74.48%</title></circle>
+  <circle cx="298.37" cy="216.64" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>5b587073-fa04-463c-afbb-de9bd94a61c6: Dice 0.7367, pólipo 13.95%</title></circle>
+  <circle cx="424.41" cy="155.69" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>5bbcb79e-e08f-4923-9ec9-4a8e80c1d806: Dice 0.8586, pólipo 23.03%</title></circle>
+  <circle cx="591.74" cy="99.14" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>5d8bc524-aa31-48f8-977e-738905ca62f5: Dice 0.9717, pólipo 35.10%</title></circle>
+  <circle cx="195.05" cy="102.80" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>5ea31619-f8f9-4c8f-8bc2-2fa34315df34: Dice 0.9644, pólipo 6.49%</title></circle>
+  <circle cx="546.31" cy="104.93" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>60841dc1-8e33-43c0-85cc-353d2c2bf37d: Dice 0.9601, pólipo 31.83%</title></circle>
+  <circle cx="543.33" cy="211.28" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>61667b53-2021-414b-a83a-579eae10b6e5: Dice 0.7474, pólipo 31.61%</title></circle>
+  <circle cx="479.28" cy="96.19" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>61a25359-c664-4da2-9bca-ef9d38aa3aba: Dice 0.9776, pólipo 26.99%</title></circle>
+  <circle cx="290.10" cy="155.82" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>61aaffa6-0b00-4da4-a2d7-54bdaf2ea375: Dice 0.8584, pólipo 13.35%</title></circle>
+  <circle cx="216.57" cy="99.56" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>63f72872-cb2a-43e2-a8cb-dd102068e8a5: Dice 0.9709, pólipo 8.05%</title></circle>
+  <circle cx="370.01" cy="100.85" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>6406e362-538d-44bc-aebe-9bb90f8930d7: Dice 0.9683, pólipo 19.11%</title></circle>
+  <circle cx="405.60" cy="546.26" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>64e6b365-c78e-4a80-ac17-b644012859f6: Dice 0.0775, pólipo 21.68%</title></circle>
+  <circle cx="182.76" cy="99.53" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>65b98f59-cdaf-484c-a771-8fd7b802a438: Dice 0.9709, pólipo 5.61%</title></circle>
+  <circle cx="400.19" cy="310.89" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>670501f7-43a3-4cd3-9e0f-f280d4f939e7: Dice 0.5482, pólipo 21.29%</title></circle>
+  <circle cx="385.78" cy="106.65" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>68795e26-a454-4568-84ca-405ec7f0b8b8: Dice 0.9567, pólipo 20.25%</title></circle>
+  <circle cx="482.41" cy="94.35" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>68c5badf-03f7-4b04-85d8-cf0b767ed9d3: Dice 0.9813, pólipo 27.22%</title></circle>
+  <circle cx="400.00" cy="104.79" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>6ad15e1e-0a59-4d73-a2ec-81a314682c39: Dice 0.9604, pólipo 21.27%</title></circle>
+  <circle cx="466.94" cy="112.42" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>6b78f0c7-6f33-44cf-9800-1141329a6bcc: Dice 0.9452, pólipo 26.10%</title></circle>
+  <circle cx="527.54" cy="132.42" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>6d2aad46-d393-4986-be72-eee3fc8af93f: Dice 0.9052, pólipo 30.47%</title></circle>
+  <circle cx="189.74" cy="411.19" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>6f583a87-7ed4-415e-a867-2ab3405389ba: Dice 0.3476, pólipo 6.11%</title></circle>
+  <circle cx="140.93" cy="117.04" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>706853b7-ea98-4f1c-b2cd-bfe10040cd11: Dice 0.9359, pólipo 2.59%</title></circle>
+  <circle cx="211.09" cy="102.37" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>710b999f-b47a-430a-84ff-cd4823d9d0d6: Dice 0.9653, pólipo 7.65%</title></circle>
+  <circle cx="169.87" cy="118.42" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>76a5d663-f9b0-4006-aaf4-c8d5b31a77c9: Dice 0.9332, pólipo 4.68%</title></circle>
+  <circle cx="411.70" cy="100.43" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>796a0a55-a2bf-4bcb-8aaf-3c493282490a: Dice 0.9691, pólipo 22.12%</title></circle>
+  <circle cx="395.93" cy="181.79" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>7bc8d784-37e7-4a52-a243-a8bdbf4bc204: Dice 0.8064, pólipo 20.98%</title></circle>
+  <circle cx="165.43" cy="108.66" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>7c757f2d-c176-4f94-a19b-54c39aa96b4d: Dice 0.9527, pólipo 4.36%</title></circle>
+  <circle cx="141.86" cy="129.41" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>7e90f931-2df9-4c21-a109-6f920043f860: Dice 0.9112, pólipo 2.66%</title></circle>
+  <circle cx="302.75" cy="95.84" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>83cac3ab-04c9-43b6-9567-610eeeada996: Dice 0.9783, pólipo 14.26%</title></circle>
+  <circle cx="139.13" cy="127.02" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>878548a4-5ef4-43c0-9562-da216a1fdadf: Dice 0.9160, pólipo 2.46%</title></circle>
+  <circle cx="166.06" cy="111.69" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>891b98a9-ec04-429c-89a9-80862dcc9f76: Dice 0.9466, pólipo 4.40%</title></circle>
+  <circle cx="231.81" cy="139.96" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>89a79812-a327-477d-aa2c-dbc8c22bc9af: Dice 0.8901, pólipo 9.14%</title></circle>
+  <circle cx="227.30" cy="98.18" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>8a320af6-094b-4870-89d0-a3d5c896668f: Dice 0.9736, pólipo 8.82%</title></circle>
+  <circle cx="622.10" cy="113.62" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>8a586e96-05bb-4fe5-8524-1d1221579bd2: Dice 0.9428, pólipo 37.29%</title></circle>
+  <circle cx="122.01" cy="114.75" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>8b5edcf8-c2d3-4ee8-a587-83940161dd0b: Dice 0.9405, pólipo 1.23%</title></circle>
+  <circle cx="226.30" cy="116.11" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>8d7b9172-1c71-4715-b726-5b700cb29fcf: Dice 0.9378, pólipo 8.75%</title></circle>
+  <circle cx="251.06" cy="104.22" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>8e3a2dc3-f640-4481-8e7d-356a282a741f: Dice 0.9616, pólipo 10.53%</title></circle>
+  <circle cx="187.33" cy="106.92" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>8edb3546-55a5-4b0f-8594-5525cde170b2: Dice 0.9562, pólipo 5.94%</title></circle>
+  <circle cx="662.58" cy="90.48" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>8f20d83d-d459-4035-a5ef-e7aae9cce960: Dice 0.9890, pólipo 40.21%</title></circle>
+  <circle cx="726.67" cy="96.23" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>906a3c79-da9c-474c-a49d-0373a2cbe277: Dice 0.9775, pólipo 44.83%</title></circle>
+  <circle cx="283.73" cy="99.22" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>918a3280-537c-48a4-a188-9cb47b2de330: Dice 0.9716, pólipo 12.89%</title></circle>
+  <circle cx="215.11" cy="101.51" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>968c5d22-d7f1-47bb-bded-993178401788: Dice 0.9670, pólipo 7.94%</title></circle>
+  <circle cx="613.13" cy="101.02" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>98edf9b5-4b7d-4449-ae00-bfa0a1ec76ff: Dice 0.9680, pólipo 36.64%</title></circle>
+  <circle cx="521.64" cy="94.69" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>9a02753d-763e-4bc2-912b-6396b9fad094: Dice 0.9806, pólipo 30.05%</title></circle>
+  <circle cx="160.65" cy="114.26" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>9d64113d-c312-4c30-b99f-55736567ce81: Dice 0.9415, pólipo 4.01%</title></circle>
+  <circle cx="121.86" cy="118.21" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>9f019d76-67f5-4df8-8a80-428af51d6183: Dice 0.9336, pólipo 1.22%</title></circle>
+  <circle cx="340.03" cy="97.06" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>9fa689f1-ea11-4d1a-80a9-83822c7bc5e4: Dice 0.9759, pólipo 16.95%</title></circle>
+  <circle cx="335.23" cy="94.96" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>a165c1c1-886b-45b1-b083-2c91ffba315e: Dice 0.9801, pólipo 16.60%</title></circle>
+  <circle cx="296.70" cy="95.76" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>a287cb06-2d82-4947-b9bc-5ab1ca45758c: Dice 0.9785, pólipo 13.82%</title></circle>
+  <circle cx="131.66" cy="199.63" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>a588eaef-e363-4f32-9269-da06d3bbd94f: Dice 0.7707, pólipo 1.92%</title></circle>
+  <circle cx="415.57" cy="125.69" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>a5de17d2-58c9-450f-bcd7-154752fdcfb9: Dice 0.9186, pólipo 22.40%</title></circle>
+  <circle cx="131.03" cy="287.46" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>a810b859-77c8-4d69-b53b-12d61c2eb5e2: Dice 0.5951, pólipo 1.88%</title></circle>
+  <circle cx="271.39" cy="124.95" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>a827b9a6-0bb0-4f2a-9f50-2969118981ab: Dice 0.9201, pólipo 12.00%</title></circle>
+  <circle cx="308.02" cy="96.63" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>a98591be-f75c-41eb-883b-286ce8ec1b97: Dice 0.9767, pólipo 14.64%</title></circle>
+  <circle cx="442.91" cy="136.01" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>aad08a6b-c8ec-4388-a543-00d550315c1d: Dice 0.8980, pólipo 24.37%</title></circle>
+  <circle cx="472.83" cy="137.87" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>abc3f5ce-d898-44d9-8d79-8e6842967c32: Dice 0.8943, pólipo 26.53%</title></circle>
+  <circle cx="278.67" cy="122.89" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>ad34c3f3-14e8-4f0e-8bce-daddac42e568: Dice 0.9242, pólipo 12.52%</title></circle>
+  <circle cx="496.31" cy="95.66" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>b05c07a4-bcaf-4d69-89bf-0228a02b80bb: Dice 0.9787, pólipo 28.22%</title></circle>
+  <circle cx="141.10" cy="159.99" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>b32ca1da-00b2-490e-b18a-bb8cbbf948e8: Dice 0.8500, pólipo 2.60%</title></circle>
+  <circle cx="305.54" cy="101.93" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>be2b6b44-d5dc-44ce-a0de-bdbe0a88068a: Dice 0.9661, pólipo 14.46%</title></circle>
+  <circle cx="282.63" cy="106.98" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>bf6e44f1-1f1c-4dbd-85d7-8a98279b5682: Dice 0.9560, pólipo 12.81%</title></circle>
+  <circle cx="139.34" cy="128.70" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>bfe9b1ad-ab1c-4f6b-a680-9944ed9a30ca: Dice 0.9126, pólipo 2.48%</title></circle>
+  <circle cx="744.97" cy="122.70" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>c01da268-aac5-46d7-8677-048ee181cef8: Dice 0.9246, pólipo 46.15%</title></circle>
+  <circle cx="473.48" cy="161.46" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>c1f938cc-d902-4ced-bbb5-fcdf3eb991d3: Dice 0.8471, pólipo 26.57%</title></circle>
+  <circle cx="222.09" cy="101.23" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>c251ef74-7172-4071-96c3-d96a18a456c2: Dice 0.9675, pólipo 8.44%</title></circle>
+  <circle cx="415.02" cy="100.32" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>c783b10b-e4ba-4ee4-9094-786ff0b6fa84: Dice 0.9694, pólipo 22.36%</title></circle>
+  <circle cx="154.38" cy="107.97" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>c7c5d68d-bf54-4f9e-8705-dce7d1c2fbdf: Dice 0.9541, pólipo 3.56%</title></circle>
+  <circle cx="196.68" cy="104.96" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>c875a002-a25d-4941-a3f0-f47c8c6696dc: Dice 0.9601, pólipo 6.61%</title></circle>
+  <circle cx="196.64" cy="98.43" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>c8ab7f47-024a-4306-a72c-15162a0c405f: Dice 0.9731, pólipo 6.61%</title></circle>
+  <circle cx="240.44" cy="102.77" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>c9b4dda9-2b1f-4c12-8008-a3ffa6d5fb53: Dice 0.9645, pólipo 9.77%</title></circle>
+  <circle cx="243.97" cy="95.48" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>cadc936c-2be0-45ad-a855-9b76293adc3c: Dice 0.9790, pólipo 10.02%</title></circle>
+  <circle cx="301.21" cy="125.26" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>cb5d75c8-a6c5-430c-95be-1c6934654263: Dice 0.9195, pólipo 14.15%</title></circle>
+  <circle cx="396.29" cy="93.33" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>cbadc5af-e028-4a62-9264-148bd3035958: Dice 0.9833, pólipo 21.01%</title></circle>
+  <circle cx="154.36" cy="111.89" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>ce9d3b20-3ff2-401e-aa95-ef37682db90d: Dice 0.9462, pólipo 3.56%</title></circle>
+  <circle cx="164.03" cy="105.78" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>d2e6be1d-a06e-43b4-8980-12b16f5f45e5: Dice 0.9584, pólipo 4.26%</title></circle>
+  <circle cx="262.97" cy="126.31" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>d980987d-ba36-4155-9cdb-3a519c55440a: Dice 0.9174, pólipo 11.39%</title></circle>
+  <circle cx="231.19" cy="96.71" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>d9e12995-94e5-45f1-930a-343aa2521d0d: Dice 0.9766, pólipo 9.10%</title></circle>
+  <circle cx="333.49" cy="96.49" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>da3c45f0-b80f-41fc-9aed-565b83524887: Dice 0.9770, pólipo 16.48%</title></circle>
+  <circle cx="341.94" cy="95.38" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>db440cc2-a0c0-44d8-8d35-3383778bff18: Dice 0.9792, pólipo 17.09%</title></circle>
+  <circle cx="141.84" cy="313.45" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>db50274a-e407-442c-bea7-b1a965449599: Dice 0.5431, pólipo 2.66%</title></circle>
+  <circle cx="512.52" cy="91.91" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>db71765c-2fca-48c1-9c57-4a9fc1c90002: Dice 0.9862, pólipo 29.39%</title></circle>
+  <circle cx="568.15" cy="92.39" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>e3102083-224a-4d1d-acee-9c67901c3c78: Dice 0.9852, pólipo 33.40%</title></circle>
+  <circle cx="268.03" cy="100.17" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>e36710ce-76a8-4fcb-b3d5-a330c079fe0e: Dice 0.9697, pólipo 11.76%</title></circle>
+  <circle cx="817.02" cy="109.49" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>e58fdb27-3c54-4bdb-bcc9-05be9d5d0092: Dice 0.9510, pólipo 51.35%</title></circle>
+  <circle cx="145.43" cy="107.22" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>e6a94743-2bfc-4ee4-b43d-86bacbcd2c2b: Dice 0.9556, pólipo 2.92%</title></circle>
+  <circle cx="187.60" cy="363.74" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>edc5abe4-8f92-449a-866d-535c3066a5c4: Dice 0.4425, pólipo 5.96%</title></circle>
+  <circle cx="515.50" cy="91.41" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>ef320d94-3ab8-4593-8d66-4c7767c164fa: Dice 0.9872, pólipo 29.60%</title></circle>
+  <circle cx="209.02" cy="119.44" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>f024121b-103a-4cb7-9109-1d36f032e388: Dice 0.9311, pólipo 7.50%</title></circle>
+  <circle cx="957.98" cy="103.33" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>f04a6bc5-00ca-465a-8aec-67cf09ab80b2: Dice 0.9633, pólipo 61.51%</title></circle>
+  <circle cx="190.55" cy="125.40" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>f178df62-474e-4a9d-922b-3c7f13f7e678: Dice 0.9192, pólipo 6.17%</title></circle>
+  <circle cx="330.72" cy="138.69" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>f1aaa858-4e16-40b7-98b9-0a9b73c29a7a: Dice 0.8926, pólipo 16.28%</title></circle>
+  <circle cx="288.64" cy="166.54" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>f3404fe2-b6ba-4c9d-a7d5-e44ac05b8757: Dice 0.8369, pólipo 13.24%</title></circle>
+  <circle cx="241.88" cy="101.47" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>f45f850b-1cfc-43cb-8735-3bc6364b4eea: Dice 0.9671, pólipo 9.87%</title></circle>
+  <circle cx="351.23" cy="107.52" r="5.5" fill="#e11d48" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>f7659585-d5fe-4b90-ac9b-75182ecc36fd: Dice 0.9550, pólipo 17.76%</title></circle>
+  <circle cx="273.28" cy="151.64" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>f77192a7-0a6e-438d-8821-58086e8a8478: Dice 0.8667, pólipo 12.14%</title></circle>
+  <circle cx="245.71" cy="97.45" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>f845295e-6b54-4677-bc6b-3b7756d67106: Dice 0.9751, pólipo 10.15%</title></circle>
+  <circle cx="164.46" cy="103.59" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>f91bfb82-dd41-48e9-824e-b8bbbc25ade2: Dice 0.9628, pólipo 4.29%</title></circle>
+  <circle cx="160.92" cy="229.32" r="5.5" fill="#2563eb" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>f92e56fe-6d79-4f9e-9495-e637b6b99ddb: Dice 0.7114, pólipo 4.03%</title></circle>
+  <circle cx="227.87" cy="104.99" r="5.5" fill="#7c3aed" fill-opacity="0.68" stroke="#ffffff" stroke-width="1"><title>fd9d587c-98d1-46f8-b8cb-3f9f61931656: Dice 0.9600, pólipo 8.86%</title></circle>
+  <circle cx="140" cy="655" r="7" fill="#2563eb"/>
+  <text x="154" y="660" class="legend">Pequeño (n=50, mediana 0.9411)</text>
+  <circle cx="470" cy="655" r="7" fill="#7c3aed"/>
+  <text x="484" y="660" class="legend">Mediano (n=50, mediana 0.9630)</text>
+  <circle cx="800" cy="655" r="7" fill="#e11d48"/>
+  <text x="814" y="660" class="legend">Grande (n=50, mediana 0.9608)</text>
+</svg>
